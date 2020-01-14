@@ -5,7 +5,7 @@
 1. Click the "Clone or Download" button from the github repository and copy the link
 2. In your IDE terminal, type the command "git clone 'example'" where example is the link cloned from github.
 
-<h2>When opening the project before you start coding:</h2>
+<h2>When opening the project and before you start coding:</h2>
 
 1. Open up your IDE's terminal
 2. Type the command "git pull" to update your code  with the master branch
