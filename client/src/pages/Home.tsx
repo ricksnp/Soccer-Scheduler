@@ -1,10 +1,9 @@
 import React from 'react';
-import {Calendar,TopNav} from '../components'
+import {Calendar} from '../components'
 
 const Home = ({}) => {
     return(
         <div>
-            <TopNav/>
             <Calendar/>
         </div>
     );

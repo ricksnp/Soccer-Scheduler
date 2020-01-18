@@ -10,18 +10,12 @@ const TopNav = ({}) =>{
     return(
 
         <Navbar bg="primary" variant="dark" expand="lg">
-            <NavLink to="/">
                 <Navbar.Brand>NELA Soccer Scheduler</Navbar.Brand>
-            </NavLink>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavLink to="/" activeStyle={{fontWeight:"bold"}}>
-                        <Nav.Link>Home</Nav.Link>
-                    </NavLink>
-                    <NavLink to="/scheduling" activeStyle={{fontWeight:"bold"}}>
-                        <Nav.Link>Scheduling</Nav.Link>
-                    </NavLink>
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="/scheduling">Scheduling</Nav.Link>
                 {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
