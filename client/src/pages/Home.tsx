@@ -1,10 +1,10 @@
 import React from 'react';
-import {Calendar,Navbar} from '../components'
+import {Calendar,TopNav} from '../components'
 
 const Home = ({}) => {
     return(
         <div>
-            <Navbar/>
+            <TopNav/>
             <Calendar/>
         </div>
     );

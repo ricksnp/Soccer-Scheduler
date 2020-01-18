@@ -1,5 +1,5 @@
 import Calendar from './Calendar';
-import Navbar from './Navbar';
+import TopNav from './TopNav';
 
 
-export {Calendar, Navbar};
+export {Calendar, TopNav};
