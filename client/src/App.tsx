@@ -9,6 +9,7 @@ function App() {
 			<Router>
 				<Route path="*" render={()=><Home/>}/>
 			</Router>
+			
 
 		</div>
 	);
