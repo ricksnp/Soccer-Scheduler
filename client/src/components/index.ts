@@ -1,6 +1,6 @@
 import Calendar from './Calendar';
 import TopNav from './TopNav';
-import CalendarOptions from './CalendarOptions';
+import CalendarFilter from './CalendarFilter';
 
 
-export {Calendar, TopNav, CalendarOptions};
+export {Calendar, TopNav, CalendarFilter};

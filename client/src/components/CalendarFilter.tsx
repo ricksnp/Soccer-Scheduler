@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
-import '../style/calendarOptions.css';
+import '../style/calendarFilter.css';
 
-const CalendarOptions = () => {
+const CalendarFilter = () => {
 
     const SelectStyles = {
         
@@ -41,4 +41,4 @@ const CalendarOptions = () => {
     );
 }
 
-export default CalendarOptions;
+export default CalendarFilter;
