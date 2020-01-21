@@ -1,0 +1,52 @@
+
+.login-form {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+.container {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display:grid;
+    grid-gap: 5px;
+    background-color: #007bff;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+}
+
+.input-container {
+    display:grid;
+    grid-template-columns: repeat( 3, 30% );
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.e {
+    margin-top: 10px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.login-input {
+    grid-column: 2 / 4;
+    border-radius: 5px;
+    border: 0px;
+    margin-right:5px;
+}
+
+
+.submit {
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    border: 0px;
+
+}
