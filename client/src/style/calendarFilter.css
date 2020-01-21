@@ -6,3 +6,16 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
+
+.select-school {
+    padding-right: 5px;
+}
+
+.select-level {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.select-team {
+    padding-left: 5px;
+}

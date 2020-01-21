@@ -4,26 +4,6 @@ import '../style/calendarFilter.css';
 
 const CalendarFilter = () => {
 
-    const SelectStyles = {
-        
-        menu: (provided: any, state: any) => ({
-            ...provided,
-            width: '100%',
-        }),
-
-        control: (provided: any, state: any) => ({
-            ...provided,
-            width: '100%',
-        }),
-
-        option: (provided: any, state: any) => ({
-            ...provided,
-            color: '#000000', 
-            justifyContent: "left",
-        })
-    }
-    
-
     const schools = [
         { label: "Neville High School", value: "neville high school" },
         { label: "West Monroe High School", value: "west monroe high school" },
@@ -31,12 +11,27 @@ const CalendarFilter = () => {
         { label: "Sterlington High School", value: "sterlington high school" }
     ];
 
+    const levels = [
+        { label: "Varsity", value: "v" },
+        { label: "Junior Varsity", value: "jv" }
+    ];
+
+    const teams = [
+        { label: "Boys", value: "b" },
+        { label: "Girls", value: "g" }
+    ];
+
     return(
         <div className="filter-bar">
-            <div className="select-container">
-                <Select options={schools} isMulti styles={SelectStyles} placeholder="Select school(s)" />
+            <div className="select-school">
+                <Select options={schools} isMulti placeholder="Select school(s)" />
             </div>
-            
+            <div className="select-level">
+                <Select options={levels} isMulti placeholder="Select level(s)" />
+            </div>
+            <div className="select-team">
+                <Select options={teams} isMulti placeholder="Select team(s)" />
+            </div>
         </div>
     );
 }
