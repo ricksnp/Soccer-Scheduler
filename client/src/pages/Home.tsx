@@ -1,7 +1,7 @@
 import React from 'react';
 import {Calendar} from '../components'
 
-const Home = ({}) => {
+const Home = () => {
     return(
         <div>
             <Calendar/>

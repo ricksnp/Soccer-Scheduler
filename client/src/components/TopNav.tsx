@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-const TopNav = ({}) =>{
+const TopNav = () =>{
     return(
 
         <Navbar bg="primary" variant="dark" expand="lg">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Scheduling = ({}) =>{
+const Scheduling = () =>{
     return(
         <div>
             This is the scheduling page

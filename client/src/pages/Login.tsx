@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import  '../style/login.css';
 
-const Login = ({}) =>{
+const Login = () =>{
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
