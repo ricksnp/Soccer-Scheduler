@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { EventInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
-import './main.scss';
+import '../style/gameCalendar.scss';
 
 
 
