@@ -1,5 +1,5 @@
-import Calendar from './Calendar';
+import GameCalendar from './GameCalendar';
 import TopNav from './TopNav';
 
 
-export {Calendar, TopNav};
+export {GameCalendar, TopNav};

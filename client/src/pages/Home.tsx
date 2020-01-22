@@ -1,10 +1,10 @@
 import React from 'react';
-import {Calendar} from '../components'
+import { GameCalendar } from '../components'
 
 const Home = () => {
     return(
         <div>
-            <Calendar/>
+            <GameCalendar />
         </div>
     );
 }
