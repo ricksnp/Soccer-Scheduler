@@ -1,2 +1,7 @@
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
+
+.game-cal{
+    height: auto!important;
+    overflow-y: auto;
+}

@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import  {Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import Modal from "react-bootstrap/Modal";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import '../style/gameCalendar.css'
+import '../style/gameCalendar.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Cal from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import '../style/gameCalendar.scss';
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+
+
+
 
 const localizer = momentLocalizer(moment);
 
 const GameCalendar = () => {
 
+  const [addGame, setAddGame] = useState(false);
   const [events, setEvents] = useState([
     {
       'title': 'All Day Event very long title',
@@ -28,13 +38,37 @@ const GameCalendar = () => {
     }
   ]);
 
+  const handleClick = (e: any) =>{
+    alert("clicked!");
+  }
+
   return(
-      <div className="game-cal">
+      /**<div className="game-cal">
+          <Modal show={false}>
+            dfsdfsdf
+          </Modal>
+
           <Calendar 
             localizer={localizer}
             events={events}
+            selectable
           />
-      </div>
+      </div>*/
+    <div className="game-cal">
+      <Modal show={false}>
+            dfsdfsdf
+          </Modal>
+      <Cal 
+        defaultView="dayGridMonth"
+        plugins={[dayGridPlugin, interactionPlugin]}  
+        dateClick={handleClick}
+        events={[
+          { title: 'event 1', date: '2020-04-01' },
+          { title: 'event 2', date: '2020-04-02' }
+        ]}
+      />
+    </div>
+
   );
 }
 
