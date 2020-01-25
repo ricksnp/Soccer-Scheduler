@@ -9,7 +9,7 @@ services:
             - "8080:8080"
         restart: always
         depends_on: 
-            -db 
+            - db 
         environment: 
             SPRING_DATASOURCE_URL : "jdbc:mysql://theprojectmysql.mysql.database.azure.com:3306/theprojectdb?useSSL=true&requireSSL=false"
             SPRING_DATASOURCE_USERNAME : supuser@theprojectmysql
