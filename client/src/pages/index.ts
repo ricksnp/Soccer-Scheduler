@@ -1,5 +1,5 @@
 import Home from './Home';
 import Scheduling from './Scheduling';
-import Login from './Login';
+import Login from '../user/login/Login';
 
-export {Home, Scheduling, Login}
+export { Home, Scheduling, Login };
