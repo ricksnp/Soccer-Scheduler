@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, withRouter, Switch, Router } from 'react-router-dom';
 
 import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
 
-import Login from '../user/login/Login';
-import Signup from '../user/signup/Signup';
-import Profile from '../user/profile/Profile';
-import AppHeader from '../common/AppHeader';
-import LoadingIndicator from '../common/LoadingIndicator';
+import {Login, Signup, Profile} from '../user';
+import {AppHeader,LoadingIndicator} from '../common';
 
 import { Layout, notification } from 'antd';
+import {Home} from '../pages';
+
+
 const { Content } = Layout;
 
 class App extends Component {
@@ -95,9 +95,10 @@ class App extends Component {
 
 				<Content className="app-content">
 					<div className="container">
+						{!this.state.isAuthenticated ?
 						<Switch>
-							<Route path="/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
-							<Route path="/signup" component={Signup} />
+							<Route exact path="/signup" component={Signup} />
+							<Route path="/" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
 							<Route
 								path="/users/:username"
 								render={(props) => (
@@ -109,6 +110,11 @@ class App extends Component {
 								)}
 							/>
 						</Switch>
+						:
+						<Switch>
+							<Route path="/" render={()=> <Home/> }/>
+						</Switch>
+					}
 					</div>
 				</Content>
 			</Layout>
