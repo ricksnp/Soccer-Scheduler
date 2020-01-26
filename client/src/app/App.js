@@ -5,11 +5,8 @@ import { Route, withRouter, Switch } from 'react-router-dom';
 import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
 
-import Login from '../user/login/Login';
-import Signup from '../user/signup/Signup';
-import Profile from '../user/profile/Profile';
-import AppHeader from '../common/AppHeader';
-import LoadingIndicator from '../common/LoadingIndicator';
+import {Login, Signup, Profile} from '../user';
+import {AppHeader,LoadingIndicator} from '../common';
 
 import { Layout, notification } from 'antd';
 const { Content } = Layout;
