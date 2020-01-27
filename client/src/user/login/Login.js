@@ -4,6 +4,7 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 import { ACCESS_TOKEN } from '../../constants';
 
+
 import { Form, Input, Button, Icon, notification } from 'antd';
 const FormItem = Form.Item;
 
@@ -17,6 +18,7 @@ class Login extends Component {
 					<AntWrappedLoginForm onLogin={this.props.onLogin} />
 				</div>
 			</div>
+
 		);
 	}
 }
@@ -40,13 +42,13 @@ class LoginForm extends Component {
 					.catch((error) => {
 						if (error.status === 401) {
 							notification.error({
-								message     : 'Online Match Sim App',
-								description : 'Your Username or Password is incorrect. Please try again!'
+								message: 'Online Match Sim App',
+								description: 'Your Username or Password is incorrect. Please try again!'
 							});
 						} else {
 							notification.error({
-								message     : 'Online Match Sim App',
-								description : error.message || 'Sorry! Something went wrong. Please try again!'
+								message: 'Online Match Sim App',
+								description: error.message || 'Sorry! Something went wrong. Please try again!'
 							});
 						}
 					});
@@ -60,7 +62,7 @@ class LoginForm extends Component {
 			<Form onSubmit={this.handleSubmit} className="login-form">
 				<FormItem>
 					{getFieldDecorator('usernameOrEmail', {
-						rules : [
+						rules: [
 							{ required: true, message: 'Please input your username or email!' }
 						]
 					})(
@@ -74,7 +76,7 @@ class LoginForm extends Component {
 				</FormItem>
 				<FormItem>
 					{getFieldDecorator('password', {
-						rules : [
+						rules: [
 							{ required: true, message: 'Please input your Password!' }
 						]
 					})(
