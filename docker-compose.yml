@@ -1,0 +1,55 @@
+version: '3.7'
+
+services: 
+    app-server:
+        build: 
+            context: onlinematchsim
+            dockerfile: Dockerfile
+        ports: 
+            - "8080:8080"
+        restart: always
+        depends_on: 
+            - db 
+        environment: 
+            SPRING_DATASOURCE_URL : "jdbc:mysql://theprojectmysql.mysql.database.azure.com:3306/theprojectdb?useSSL=true&requireSSL=false"
+            SPRING_DATASOURCE_USERNAME : supuser@theprojectmysql
+            SPRING_DATASOURCE_PASSWORD : Admin123*
+        networks: 
+            - backend
+            - frontend
+
+    app-client:
+        build:
+            context: client
+            dockerfile: Dockerfile
+            args: 
+                REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
+        ports: 
+            - "9090:80"
+        restart: always
+        depends_on: 
+            - app-server
+        networks:
+            - frontend
+
+    db:
+        image: mysql:5.7
+        ports: 
+            - "3306:3306"
+        restart: always
+        environment: 
+            MYSQL_DATABASE : theprojectdb
+            MYSQL_USER : supuser@theprojectmysql
+            MYSQL_PASSWORD: Admin123*
+            MYSQL_ROOT_PASSWORD: Admin123*
+        volumes:
+            - db-data:/var/lib/mysql
+        networks: 
+            - backend
+
+volumes:
+    db-data:
+
+networks: 
+    backend:
+    frontend: 
