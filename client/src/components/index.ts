@@ -1,5 +1,5 @@
-import GameCalendar from './GameCalendar';
 import TopNav from './TopNav';
+import CalendarController from './Calendar/CalendarController'
 
 
-export {GameCalendar, TopNav};
+export { TopNav, CalendarController };

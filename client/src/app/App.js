@@ -98,7 +98,7 @@ class App extends Component {
 						{!this.state.isAuthenticated ?
 						<Switch>
 							<Route exact path="/signup" component={Signup} />
-							<Route path="/" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
+							<Route path="/" render={(props) => <Home />} />
 							<Route
 								path="/users/:username"
 								render={(props) => (
