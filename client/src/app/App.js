@@ -5,11 +5,13 @@ import { Route, withRouter, Switch, Router } from 'react-router-dom';
 import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
 
-import {Login, Signup, Profile} from '../user';
-import {AppHeader,LoadingIndicator} from '../common';
+import { Login, Signup, Profile } from '../user';
+import { AppHeader, LoadingIndicator } from '../common';
 
 import { Layout, notification } from 'antd';
-import {Home} from '../pages';
+import { Home } from '../pages';
+
+import { MyModal } from '../components';
 
 
 const { Content } = Layout;
@@ -18,36 +20,36 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentUser     : null,
-			isAuthenticated : false,
-			isLoading       : false
+			currentUser: null,
+			isAuthenticated: false,
+			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
 		this.loadCurrentUser = this.loadCurrentUser.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 
 		notification.config({
-			placement : 'topRight',
-			top       : 70,
-			duration  : 3
+			placement: 'topRight',
+			top: 70,
+			duration: 3
 		});
 	}
 
 	loadCurrentUser() {
 		this.setState({
-			isLoading : true
+			isLoading: true
 		});
 		getCurrentUser()
 			.then((response) => {
 				this.setState({
-					currentUser     : response,
-					isAuthenticated : true,
-					isLoading       : false
+					currentUser: response,
+					isAuthenticated: true,
+					isLoading: false
 				});
 			})
 			.catch((error) => {
 				this.setState({
-					isLoading : false
+					isLoading: false
 				});
 			});
 	}
@@ -60,22 +62,22 @@ class App extends Component {
 		localStorage.removeItem(ACCESS_TOKEN);
 
 		this.setState({
-			currentUser     : null,
-			isAuthenticated : false
+			currentUser: null,
+			isAuthenticated: false
 		});
 
 		this.props.history.push(redirectTo);
 
 		notification[notificationType]({
-			message     : 'Online Match Simulator',
-			description : description
+			message: 'Online Match Simulator',
+			description: description
 		});
 	}
 
 	handleLogin() {
 		notification.success({
-			message     : 'Online Match Simulator',
-			description : "You're successfully logged in."
+			message: 'Online Match Simulator',
+			description: "You're successfully logged in."
 		});
 		this.loadCurrentUser();
 		this.props.history.push('/');
@@ -96,25 +98,25 @@ class App extends Component {
 				<Content className="app-content">
 					<div className="container">
 						{!this.state.isAuthenticated ?
-						<Switch>
-							<Route exact path="/signup" component={Signup} />
-							<Route path="/" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
-							<Route
-								path="/users/:username"
-								render={(props) => (
-									<Profile
-										isAuthenticated={this.state.isAuthenticated}
-										currentUser={this.state.currentUser}
-										{...props}
-									/>
-								)}
-							/>
-						</Switch>
-						:
-						<Switch>
-							<Route path="/" render={()=> <Home/> }/>
-						</Switch>
-					}
+							<Switch>
+								<Route exact path="/signup" component={Signup} />
+								<Route path="/" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
+								<Route
+									path="/users/:username"
+									render={(props) => (
+										<Profile
+											isAuthenticated={this.state.isAuthenticated}
+											currentUser={this.state.currentUser}
+											{...props}
+										/>
+									)}
+								/>
+							</Switch>
+							:
+							<Switch>
+								<Route path="/" render={() => <Home />} />
+							</Switch>
+						}
 					</div>
 				</Content>
 			</Layout>
