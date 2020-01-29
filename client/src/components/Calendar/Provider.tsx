@@ -11,12 +11,16 @@ type State = typeof initialState;
 
 type Action =
   | { type: 'ADD_GAME' }
+  | { type: 'CANCEL_ADD_GAME' }
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD_GAME': return {
       showAddGame: true
     };
+    case 'CANCEL_ADD_GAME': return {
+      showAddGame: false
+    }
     default: return state;
   }
 };
