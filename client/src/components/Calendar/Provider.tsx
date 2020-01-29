@@ -4,22 +4,35 @@ import React from 'react';
 const { createContext, useContext, useReducer } = React;
 
 const initialState = {
-  showAddGame: false
+  showAddGame: false,
+  showViewGame: false
 };
 
 type State = typeof initialState;
 
 type Action =
   | { type: 'ADD_GAME' }
-  | { type: 'CANCEL_ADD_GAME' }
+  | { type: 'CLOSE_ADD_GAME' }
+  | { type: 'VIEW_GAME' }
+  | { type: 'CLOSE_VIEW_GAME' }
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD_GAME': return {
-      showAddGame: true
+      showAddGame: true,
+      showViewGame: false
     };
-    case 'CANCEL_ADD_GAME': return {
-      showAddGame: false
+    case 'CLOSE_ADD_GAME': return {
+      showAddGame: false,
+      showViewGame: false
+    }
+    case 'VIEW_GAME': return {
+      showAddGame: false,
+      showViewGame: true
+    }
+    case 'CLOSE_VIEW_GAME': return {
+      showAddGame: false,
+      showViewGame: false
     }
     default: return state;
   }

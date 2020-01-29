@@ -26,6 +26,7 @@ const GameCalendar = (  ) => {
           { title: 'event 1', date: '2020-04-01' },
           { title: 'event 2', date: '2020-04-02' }
         ]}
+        eventClick={ () => dispatch({ type: 'VIEW_GAME' }) }
       />
       
     </div>
