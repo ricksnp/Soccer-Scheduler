@@ -1,6 +1,6 @@
-import Calendar from './Calendar';
+import GameCalendar from './GameCalendar';
 import TopNav from './TopNav';
 import MyModal from './Modal';
 
 
-export { Calendar, TopNav, MyModal };
+export { GameCalendar, TopNav, MyModal };
