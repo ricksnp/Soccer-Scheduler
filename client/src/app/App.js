@@ -21,7 +21,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: false,
+			isAuthenticated: true,
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
