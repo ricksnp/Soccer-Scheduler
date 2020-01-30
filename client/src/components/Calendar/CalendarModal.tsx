@@ -42,6 +42,7 @@ const CalendarModal = (  ) => {
                     return;
             }
 
+            //send to backend
             console.log("Received values of form: ", values);
 
             // @ts-ignore
@@ -51,7 +52,12 @@ const CalendarModal = (  ) => {
         }
 
         if(showViewGame) {
-            dispatch({ type: 'CLOSE_VIEW_GAME' });
+            dispatch({ type: 'EDIT_GAME' });
+        }
+
+        if(showEditGame) {
+            //Save edits
+            dispatch({ type: 'CLOSE_EDIT_GAME' });
         }
         
     }
@@ -62,7 +68,7 @@ const CalendarModal = (  ) => {
             closable 
             onCancel={ handleCancel }
             onOk={ handleOk }
-            okText={ showViewGame? 'Edit' : 'OK' }
+            okText={ showViewGame? 'Edit' : 'Submit' }
         >
             { showAddGame && <NewGameForm ref={ saveForm } /> }
             { showViewGame && <div>event info</div> }
