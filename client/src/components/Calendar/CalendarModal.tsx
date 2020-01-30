@@ -64,7 +64,7 @@ const CalendarModal = (  ) => {
 
     return(
         <Modal 
-            visible={visible} 
+            visible={ visible } 
             closable 
             onCancel={ handleCancel }
             onOk={ handleOk }

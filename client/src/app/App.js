@@ -19,7 +19,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser     : null,
-			isAuthenticated : false,
+			isAuthenticated : true,
 			isLoading       : false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -98,7 +98,7 @@ class App extends Component {
 						{!this.state.isAuthenticated ?
 						<Switch>
 							<Route exact path="/signup" component={Signup} />
-							<Route path="/" render={(props) => <Home />} />
+							<Route path="/" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
 							<Route
 								path="/users/:username"
 								render={(props) => (
