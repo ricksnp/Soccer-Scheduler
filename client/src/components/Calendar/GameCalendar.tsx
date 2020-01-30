@@ -7,11 +7,6 @@ import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 
 
-
-
-//const localizer = momentLocalizer(moment);
-
-
 const GameCalendar = (  ) => {
 
   const dispatch = useDispatch();

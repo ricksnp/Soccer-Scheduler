@@ -1,17 +1,16 @@
 import React from 'react';
 import GameCalendar from './GameCalendar';
-import AddGame from './AddGame';
+import CalendarModal from './CalendarModal';
 import { Provider } from './Provider';
-import ViewGame from './ViewGame';
 
 const CalendarController = () => {
+
 
     return(
         <div>
             <Provider>
                 <GameCalendar  />
-                <AddGame />
-                <ViewGame />
+                <CalendarModal />
             </Provider>
         </div>
     );

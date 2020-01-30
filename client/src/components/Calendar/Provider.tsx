@@ -5,7 +5,8 @@ const { createContext, useContext, useReducer } = React;
 
 const initialState = {
   showAddGame: false,
-  showViewGame: false
+  showViewGame: false,
+  showEditGame: false
 };
 
 type State = typeof initialState;
@@ -15,24 +16,40 @@ type Action =
   | { type: 'CLOSE_ADD_GAME' }
   | { type: 'VIEW_GAME' }
   | { type: 'CLOSE_VIEW_GAME' }
+  | { type: 'EDIT_GAME' }
+  | { type: 'CLOSE_EDIT_GAME' }
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD_GAME': return {
       showAddGame: true,
-      showViewGame: false
+      showViewGame: false,
+      showEditGame: false
     };
     case 'CLOSE_ADD_GAME': return {
       showAddGame: false,
-      showViewGame: false
+      showViewGame: false,
+      showEditGame: false
     }
     case 'VIEW_GAME': return {
       showAddGame: false,
-      showViewGame: true
+      showViewGame: true,
+      showEditGame: false
     }
     case 'CLOSE_VIEW_GAME': return {
       showAddGame: false,
-      showViewGame: false
+      showViewGame: false,
+      showEditGame: false
+    }
+    case 'EDIT_GAME': return {
+      showAddGame: false,
+      showViewGame: false,
+      showEditGame: true
+    }
+    case 'CLOSE_EDIT_GAME': return {
+      showAddGame: false,
+      showViewGame: false,
+      showEditGame: false
     }
     default: return state;
   }
