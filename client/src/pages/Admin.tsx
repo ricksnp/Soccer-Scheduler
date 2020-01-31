@@ -1,9 +1,10 @@
 import React from 'react';
+import {Header} from '../styling/PageStyles';
 
 const Admin = () => {
     return(
         <div>
-            testing
+            <Header>Needs Approving</Header>
         </div>
     );
 }
