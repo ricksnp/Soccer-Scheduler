@@ -1,6 +1,5 @@
-import GameCalendar from './GameCalendar';
 import TopNav from './TopNav';
-import MyModal from './Modal';
+import CalendarController from './Calendar/CalendarController'
 
 
-export { GameCalendar, TopNav, MyModal };
+export { TopNav, CalendarController };
