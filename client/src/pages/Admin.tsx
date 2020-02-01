@@ -1,12 +1,14 @@
 import React from 'react';
-import {Header} from '../styling/PageStyles';
+import {Header} from '../style/PageStyles';
 
 const Admin = () => {
+    console.log("ADMIN HAS LODADED");
+
+
     return(
-        <div>
-            <Header>Needs Approving</Header>
-        </div>
+        <div>LOOOOOOOOOOAAAAAAAAADDDDDDDD</div>
     );
+    
 }
 
 export default Admin;
