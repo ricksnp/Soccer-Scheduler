@@ -11,6 +11,8 @@ COPY .mvn .mvn
 # Copy the pom.xml file
 COPY pom.xml .
 
+RUN chmod +x mvnw
+
 # Build all the dependencies in preparation to go offline.
 # This is a separate step so the dependencies will be cached unless
 # the pom.xml file has changed.
@@ -33,4 +35,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.example.polls.PollsApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.java.project.onlinematchsim.Matchsim"]
