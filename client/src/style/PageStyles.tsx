@@ -3,9 +3,17 @@ import styled from 'styled-components';
 
 const Header = styled.div`
     font-weight: bold;
-    top: 50%;
+    padding-top:10vh;
+    font-size: 6vh;
     color:black;
+    text-decoration: underline;
 `;
 
+const SubHeader = styled.div`
+    font-size:3vh;
+    color: blue;
+    text-decoration: underline;
 
-export {Header} 
+`;
+
+export {Header, SubHeader} 
