@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GameCalendar from './GameCalendar';
 import CalendarModal from './CalendarModal';
-import { Provider } from './Provider';
+import { Provider, useDispatch } from './Provider';
 
 const CalendarController = () => {
+
+    
+    const dispatch = useDispatch();
+
+    const [clickedGame, setClickedGame] = useState();
 
 
     return(
         <div>
             <Provider>
-                <GameCalendar  />
+                <GameCalendar />
                 <CalendarModal />
             </Provider>
         </div>

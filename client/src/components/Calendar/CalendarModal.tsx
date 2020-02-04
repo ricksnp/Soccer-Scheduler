@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import NewGameForm from './NewGameForm';
+import EventDisplay from './EventDisplay';
 
 
 const CalendarModal = (  ) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
+    const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
@@ -71,8 +73,7 @@ const CalendarModal = (  ) => {
             okText={ showViewGame? 'Edit' : 'Submit' }
         >
             { showAddGame && <NewGameForm ref={ saveForm } /> }
-            { showViewGame && <div>event info</div> }
-            { showEditGame && <div>edit game</div> }
+            { showViewGame && <EventDisplay event={clickedEvent} /> }
         </Modal>
     );
 }
