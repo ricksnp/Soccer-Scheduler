@@ -9,10 +9,9 @@ import { Login, Signup, Profile } from '../user';
 import { AppHeader, LoadingIndicator } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home } from '../pages';
+import { Home, Admin } from '../pages';
 
 import { MyModal } from '../components';
-
 
 const { Content } = Layout;
 
@@ -21,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true,
+			isAuthenticated: true, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -79,6 +78,7 @@ class App extends Component {
 			message: 'Online Match Simulator',
 			description: "You're successfully logged in."
 		});
+
 		this.loadCurrentUser();
 		this.props.history.push('/');
 	}
@@ -89,11 +89,15 @@ class App extends Component {
 		}
 		return (
 			<Layout className="app-container">
-				<AppHeader
-					isAuthenticated={this.state.isAuthenticated}
-					currentUser={this.state.currentUser}
-					onLogout={this.handleLogout}
-				/>
+				{this.state.isAuthenticated ?
+					<AppHeader
+						isAuthenticated={this.state.isAuthenticated}
+						currentUser={this.state.currentUser}
+						onLogout={this.handleLogout}
+					/>
+					:
+					<></>
+				}
 
 				<Content className="app-content">
 					<div className="container">
@@ -114,7 +118,8 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
-								<Route path="/" render={() => <Home />} />
+								<Route path="/admin" render={() => <Admin />} />
+								<Route path="*" render={() => <Home />} />
 							</Switch>
 						}
 					</div>
