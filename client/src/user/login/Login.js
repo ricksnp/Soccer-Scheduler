@@ -13,7 +13,6 @@ const FormItem = Form.Item;
 class Login extends Component {
 	render() {
 		const AntWrappedLoginForm = Form.create()(LoginForm);
-
 		return (
 			<div className="login-container center-component">
 				<div className="auth-component">
