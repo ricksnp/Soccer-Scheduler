@@ -13,6 +13,7 @@ import { Home, Admin } from '../pages';
 
 import { MyModal } from '../components';
 
+
 const { Content } = Layout;
 
 class App extends Component {
@@ -78,7 +79,6 @@ class App extends Component {
 			message: 'Online Match Simulator',
 			description: "You're successfully logged in."
 		});
-
 		this.loadCurrentUser();
 		this.props.history.push('/');
 	}
@@ -87,18 +87,13 @@ class App extends Component {
 		if (this.state.isLoading) {
 			return <LoadingIndicator />;
 		}
-
 		return (
-			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : ''}`}>
-				{this.state.isAuthenticated ?
-					<AppHeader
-						isAuthenticated={this.state.isAuthenticated}
-						currentUser={this.state.currentUser}
-						onLogout={this.handleLogout}
-					/>
-					:
-					<></>
-				}
+			<Layout className="app-container">
+				<AppHeader
+					isAuthenticated={this.state.isAuthenticated}
+					currentUser={this.state.currentUser}
+					onLogout={this.handleLogout}
+				/>
 
 				<Content className="app-content">
 					<div className="container">

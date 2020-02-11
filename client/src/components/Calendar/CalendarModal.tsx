@@ -3,75 +3,76 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import NewGameForm from './NewGameForm';
 
-const CalendarModal = () => {
+
+const CalendarModal = (  ) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-    const [gameForm, setGameForm] = useState(React.createRef());
+    const [ gameForm, setGameForm ] = useState(React.createRef());
 
     const saveForm = (form: any) => {
         setGameForm(form);
     }
 
-    const handleCancel = () => {
-        if (showAddGame) {
+    const handleCancel = (  ) => {
+        if(showAddGame) {
             // @ts-ignore
             gameForm.resetFields();
             dispatch({ type: 'CLOSE_ADD_GAME' });
         }
 
-        if (showViewGame) {
+        if(showViewGame) {
             dispatch({ type: 'CLOSE_VIEW_GAME' });
         }
 
-        if (showEditGame) {
+        if(showEditGame) {
             dispatch({ type: 'CLOSE_VIEW_GAME' });
         }
-
+        
     }
 
-    const handleOk = () => {
-        if (showAddGame) {
+    const handleOk = (  ) => {
+        if(showAddGame) {
             // @ts-ignore
             gameForm.validateFields((err: any, values: any) => {
                 if (err) {
                     return;
-                }
+            }
 
-                //send to backend
-                console.log("Received values of form: ", values);
+            //send to backend
+            console.log("Received values of form: ", values);
 
-                // @ts-ignore
-                gameForm.resetFields();
-                dispatch({ type: 'CLOSE_ADD_GAME' })
+            // @ts-ignore
+            gameForm.resetFields();
+            dispatch({ type: 'CLOSE_ADD_GAME' })
             });
         }
 
-        if (showViewGame) {
+        if(showViewGame) {
             dispatch({ type: 'EDIT_GAME' });
         }
 
-        if (showEditGame) {
+        if(showEditGame) {
             //Save edits
             dispatch({ type: 'CLOSE_EDIT_GAME' });
         }
-
+        
     }
 
-    return (
-        <Modal
-            visible={visible}
-            closable
-            onCancel={handleCancel}
-            onOk={handleOk}
-            okText={showViewGame ? 'Edit' : 'Submit'}
+    return(
+        <Modal 
+            visible={ visible } 
+            closable 
+            onCancel={ handleCancel }
+            onOk={ handleOk }
+            okText={ showViewGame? 'Edit' : 'Submit' }
         >
-            {showAddGame && <NewGameForm ref={saveForm} />}
-            {showViewGame && <div>event info</div>}
-            {showEditGame && <div>edit game</div>}
+            { showAddGame && <NewGameForm ref={ saveForm } /> }
+            { showViewGame && <div>event info</div> }
+            { showEditGame && <div>edit game</div> }
         </Modal>
     );
 }

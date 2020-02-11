@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Icon, notification } from 'antd';
-import { Link } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-
 import { login } from '../../utility/APIUtility';
-import { ACCESS_TOKEN } from '../../constants';
-import footballLogo from '../../assets/stadium.svg';
-
 import './Login.css';
+import { Link } from 'react-router-dom';
+import { ACCESS_TOKEN } from '../../constants';
+
+
+import { Form, Input, Button, Icon, notification } from 'antd';
 const FormItem = Form.Item;
 
 class Login extends Component {
 	render() {
 		const AntWrappedLoginForm = Form.create()(LoginForm);
 		return (
-			<div className="login-container center-component">
-				<div className="auth-component">
-					<img src={footballLogo} alt="logo" />
-					<div className="login-content">
-						<AntWrappedLoginForm onLogin={this.props.onLogin} />
-					</div>
+			<div className="login-container">
+				<h1 className="page-title">Login</h1>
+				<div className="login-content">
+					<AntWrappedLoginForm onLogin={this.props.onLogin} />
 				</div>
-			</div >
+			</div>
+
 		);
 	}
 }
@@ -29,7 +26,6 @@ class Login extends Component {
 class LoginForm extends Component {
 	constructor(props) {
 		super(props);
-
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
@@ -62,7 +58,6 @@ class LoginForm extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
 		return (
 			<Form onSubmit={this.handleSubmit} className="login-form">
 				<FormItem>
@@ -71,9 +66,11 @@ class LoginForm extends Component {
 							{ required: true, message: 'Please input your username or email!' }
 						]
 					})(
-						<TextField
-							label="Username"
-							className="auth-inputs"
+						<Input
+							prefix={<Icon type="user" />}
+							size="large"
+							name="usernameOrEmail"
+							placeholder="Username or Email"
 						/>
 					)}
 				</FormItem>
@@ -83,16 +80,20 @@ class LoginForm extends Component {
 							{ required: true, message: 'Please input your Password!' }
 						]
 					})(
-						<TextField
+						<Input
+							prefix={<Icon type="lock" />}
+							size="large"
+							name="password"
 							type="password"
-							className="auth-inputs"
-							label="Password"
+							placeholder="Password"
 						/>
 					)}
 				</FormItem>
 				<FormItem>
-					<Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-					<p class="option-auth">Or <Link to="/signup">register now!</Link></p>
+					<Button type="primary" htmlType="submit" size="large" className="login-form-button">
+						Login
+					</Button>
+					Or <Link to="/signup">register now!</Link>
 				</FormItem>
 			</Form>
 		);
