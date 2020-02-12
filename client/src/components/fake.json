@@ -1,0 +1,14 @@
+{
+    "needsConfirming":[
+        {"id":0, "home": "West Monroe H.S.", "away": "Neville H.S.", "level":"Junior Varsity", "date": "2020-12-02", "time":"13:00", "location": "West Monroe High School", "status":"admin-confirm" },
+        {"id":1, "home": "Neville H.S.", "away": "Sterlington H.S.", "level":"Junior Varsity", "date": "2020-12-10", "time":"15:00", "location": "Neville High School", "status":"admin-confirm"}
+    ],
+    "scheduledGames":[
+        {"id":0, "home": "Sterlington H.S", "away": "Neville H.S.", "level":"Varsity", "date": "2020-11-15", "time":"17:00", "location": "Sterlington High School", "status":"scheduled"},
+        {"id":1, "home": "Airline H.S", "away": "West Monroe H.S.", "level":"Varsity", "date": "2020-11-20", "time":"17:30", "location": "Airline High School", "status":"scheduled"}
+    ],
+    "pendingGames":[
+        {"id":0, "home": "West Monroe H.S.", "away": "Sterlington H.S.", "level":"Varsity", "date": "2020-10-02", "time":"18:15", "location": "West Monroe High School", "status":"pending" },
+        {"id":1, "home": "West Monroe H.S.", "away": "Airline H.S.", "level":"Varsity", "date": "2020-10-15", "time":"16:45", "location": "West Monroe High School", "status":"pending" }
+    ]
+}

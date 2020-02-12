@@ -1,10 +1,11 @@
 import React from 'react';
-import {Calendar} from '../components'
+import { CalendarController } from '../components'
+import {Header} from '../style/PageStyles'
 
 const Home = () => {
     return(
         <div>
-            <Calendar/>
+            <CalendarController />
         </div>
     );
 }
