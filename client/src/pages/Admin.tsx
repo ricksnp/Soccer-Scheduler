@@ -54,7 +54,7 @@ const editGame = data.needsConfirming.forEach(({home,away,level,date,time,locati
                         
                         <div>
                              Home: {home} Away: {away} level: {level} Date: {date} Time: {time} Location: {location}
-                        </div>)} */}
+                    </div>)*/}
 
                     </Card>
                 }
