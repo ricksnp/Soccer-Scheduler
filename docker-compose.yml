@@ -9,11 +9,11 @@ services:
             - "8080:8080"
         restart: always
         depends_on: 
-            -db 
+            - db 
         environment: 
-            SPRING_DATASOURCE_URL : "jdbc:mysql://theprojectmysql.mysql.database.azure.com:3306/theprojectdb?useSSL=true&requireSSL=false"
-            SPRING_DATASOURCE_USERNAME : supuser@theprojectmysql
-            SPRING_DATASOURCE_PASSWORD : Admin123*
+            SPRING_DATASOURCE_URL : "jdbc:mysql://theprojectdb.cgwbqonltues.us-east-2.rds.amazonaws.com:3306"
+            SPRING_DATASOURCE_USERNAME : admin
+            SPRING_DATASOURCE_PASSWORD : Admin***
         networks: 
             - backend
             - frontend
@@ -39,9 +39,9 @@ services:
         restart: always
         environment: 
             MYSQL_DATABASE : theprojectdb
-            MYSQL_USER : supuser@theprojectmysql
-            MYSQL_PASSWORD: Admin123*
-            MYSQL_ROOT_PASSWORD: Admin123*
+            MYSQL_USER : admin
+            MYSQL_PASSWORD: Admin***
+            MYSQL_ROOT_PASSWORD: Admin***
         volumes:
             - db-data:/var/lib/mysql
         networks: 
