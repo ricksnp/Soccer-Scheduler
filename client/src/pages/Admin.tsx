@@ -38,7 +38,7 @@ const editGame = data.needsConfirming.forEach(({home,away,level,date,time,locati
             <SubHeader>New Games:</SubHeader>
 
             <Card
-                style={{ width: '100%' }}
+                style={{ width: '90%'}}
                 title="Needs Approval"
                 tabList={tabList}
                 activeTabKey={key}
