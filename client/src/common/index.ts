@@ -1,7 +1,7 @@
 import Navbar from './navbar';
-import LoadingIndicator from './LoadingIndicator.js';
-import NotFound from './NotFound.js';
+import LoadingIndicator from './loading';
+import notFound from './notFound';
 import PrivateRoute from './PrivateRoute.js';
-import ServerError from './ServerError.js';
+import ServerError from './serverError';
 
-export { Navbar, LoadingIndicator, NotFound, PrivateRoute, ServerError }
+export { Navbar, LoadingIndicator, notFound, PrivateRoute, ServerError }

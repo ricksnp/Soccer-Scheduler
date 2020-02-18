@@ -1,6 +1,5 @@
-import Login from './login/Login.js';
-import Profile from './profile/Profile.js'
-import Signup from './signup/Signup.js'
+import Login from './login';
+import Profile from './profile'
+import Signup from './signup'
 
-
-export {Login, Profile, Signup}
+export { Login, Profile, Signup }

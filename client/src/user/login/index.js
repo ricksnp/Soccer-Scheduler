@@ -7,7 +7,7 @@ import { login } from '../../utility/APIUtility';
 import { ACCESS_TOKEN } from '../../constants';
 import footballLogo from '../../assets/stadium.svg';
 
-import './Login.css';
+import './index.css';
 const FormItem = Form.Item;
 
 class Login extends Component {

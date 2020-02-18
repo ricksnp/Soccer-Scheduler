@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
 import { getUserProfile } from '../../utility/APIUtility';
-import LoadingIndicator from '../../common/LoadingIndicator.js';
-import './Profile.css';
-import NotFound from '../../common/NotFound';
-import ServerError from '../../common/ServerError';
+import { LoadingIndicator, notFound, ServerError } from '../../common';
+import './index.css';
 
 class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user      : null,
-			isLoading : false
+			user: null,
+			isLoading: false
 		};
 		this.loadUserProfile = this.loadUserProfile.bind(this);
 	}
 
 	loadUserProfile(username) {
 		this.setState({
-			isLoading : true
+			isLoading: true
 		});
 
 		getUserProfile(username)
 			.then((response) => {
 				this.setState({
-					user      : response,
-					isLoading : false
+					user: response,
+					isLoading: false
 				});
 			})
 			.catch((error) => {
 				if (error.status === 404) {
 					this.setState({
-						notFound  : true,
-						isLoading : false
+						notFound: true,
+						isLoading: false
 					});
 				} else {
 					this.setState({
-						serverError : true,
-						isLoading   : false
+						serverError: true,
+						isLoading: false
 					});
 				}
 			});
@@ -59,7 +57,7 @@ class Profile extends Component {
 		}
 
 		if (this.state.notFound) {
-			return <NotFound />;
+			return <notFound />;
 		}
 
 		if (this.state.serverError) {
@@ -67,7 +65,7 @@ class Profile extends Component {
 		}
 
 		const tabBarStyle = {
-			textAlign : 'center'
+			textAlign: 'center'
 		};
 
 		return (

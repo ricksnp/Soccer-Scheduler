@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import './NotFound.css';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 
-class NotFound extends Component {
+import './index.css';
+
+class notFound extends Component {
 	render() {
 		return (
 			<div className="page-not-found">
@@ -19,4 +20,4 @@ class NotFound extends Component {
 	}
 }
 
-export default NotFound;
+export default notFound;

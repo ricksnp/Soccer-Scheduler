@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Scheduling = () =>{
-    return(
-        <div>
+const Scheduling = () => {
+    return (
+        <>
             This is the scheduling page
-        </div>
+        </>
     );
 }
 

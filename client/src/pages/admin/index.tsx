@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Header, SubHeader } from '../style/PageStyles';
+import { Header, SubHeader } from '../../style/PageStyles';
 import { Card } from 'antd';
-import data from '../components/fake.json';
-import { PendingGames } from '../components'
+import data from '../../components/fake.json';
+import { PendingGames } from '../../components'
 
 
 const Admin = () => {
