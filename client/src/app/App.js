@@ -20,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true, //Change for Debugging
+			isAuthenticated: false, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -89,7 +89,7 @@ class App extends Component {
 		}
 
 		return (
-			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : ''}`}>
+			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : 'authenticated'}`}>
 				{this.state.isAuthenticated ?
 					<AppHeader
 						isAuthenticated={this.state.isAuthenticated}
