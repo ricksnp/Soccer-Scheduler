@@ -87,7 +87,6 @@ class App extends Component {
 		if (this.state.isLoading) {
 			return <LoadingIndicator />;
 		}
-
 		return (
 			<Layout className="app-container">
 				{this.state.isAuthenticated ?
