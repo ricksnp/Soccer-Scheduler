@@ -31,9 +31,9 @@ const GameCalendar = (  ) => {
         events={ getGames() }
         eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.level, calEvent.event.extendedProps.team] }) }
       />
-      
+
     </div>
-    
+
 
   );
 }

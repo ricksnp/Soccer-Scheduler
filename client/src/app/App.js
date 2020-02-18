@@ -6,7 +6,7 @@ import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
 
 import { Login, Signup, Profile } from '../user';
-import { AppHeader, LoadingIndicator } from '../common';
+import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
 import { Home, Admin } from '../pages';
@@ -20,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true, //Change for Debugging
+			isAuthenticated: false, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -87,10 +87,11 @@ class App extends Component {
 		if (this.state.isLoading) {
 			return <LoadingIndicator />;
 		}
+
 		return (
-			<Layout className="app-container">
+			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : 'authenticated'}`}>
 				{this.state.isAuthenticated ?
-					<AppHeader
+					<Navbar
 						isAuthenticated={this.state.isAuthenticated}
 						currentUser={this.state.currentUser}
 						onLogout={this.handleLogout}

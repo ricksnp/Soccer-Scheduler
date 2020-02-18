@@ -27,10 +27,10 @@ class MyModal extends React.Component {
 
     render() {
         return (
-            <div>
+            <>
                 <Button type="primary" onClick={this.showModal}>
                     Click For Game Options
-        </Button>
+                </Button>
                 <Modal
                     title="Game Options"
                     visible={this.state.visible}
@@ -41,7 +41,7 @@ class MyModal extends React.Component {
                     <p>Remove Game</p>
                     <p>View All Games</p>
                 </Modal>
-            </div>
+            </>
         );
     }
 }

@@ -17,21 +17,20 @@ const contentList = {
   tab2: <p>content2</p>,
 };
 
-
 class TabsCard extends React.Component {
   state = {
     key: 'tab1',
     noTitleKey: 'app',
   };
 
-  onTabChange = ({key, type}) => {
+  onTabChange = ({ key, type }) => {
     console.log(key, type);
     this.setState({ [type]: key });
   };
 
   render() {
     return (
-      <div>
+      <>
         <Card
           style={{ width: '100%' }}
           title="Card title"
@@ -44,7 +43,7 @@ class TabsCard extends React.Component {
         >
           {contentList[this.state.key]}
         </Card>
-      </div>
+      </>
     );
   }
 

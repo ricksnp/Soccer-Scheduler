@@ -1,0 +1,60 @@
+.login-container {
+	max-width: 420px;
+	margin: 0 auto;
+	margin: 0 auto;
+	margin-top: 80px;
+}
+
+.login-form-button {
+	width: 100%;
+}
+
+.auth-inputs label {
+	position: absolute !important;
+	color: white !important;
+}
+
+.auth-inputs input {
+	color: white !important;
+}
+
+.auth-inputs .MuiInput-underline:before {
+	border-bottom-color:rgba(255, 255, 255, 0.42) !important;
+}
+
+.ant-form-explain {
+	font-size: 10px !important;
+	text-align: center;
+	margin: 4px 0 0 0;
+}
+
+.option-auth {
+	color: white;
+	text-align: center;
+	margin: 8px 0 0 0;
+}
+
+.center-component {
+	margin-top: 0 !important;
+	height: 100vh !important;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-component {
+	border-radius: 8px;
+	padding: 30px 40px;
+	box-shadow: 8px 7px 12px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
+	background-color: #18181a;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-component img {
+	width: 150px;
+}
