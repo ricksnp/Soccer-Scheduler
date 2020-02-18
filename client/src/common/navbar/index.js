@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
-import footballLogo from '../assets/stadium.svg';
+import footballLogo from '../../assets/stadium.svg';
 
-import './AppHeader.css';
+import './index.css';
 
 const Header = Layout.Header;
 
@@ -26,8 +26,8 @@ class AppHeader extends Component {
 					</div>
 					<div class="menu-container">
 						<ul>
-							<li><Link to="/"><i className="fas fa-home"></i></Link></li>
-							<li><Link to="/admin"><i className="fas fa-user-shield"></i></Link></li>
+							<li><NavLink exact={true} activeClassName='is-active' to="/"><i className="fas fa-home"></i></NavLink></li>
+							<li><NavLink exact={true} activeClassName='is-active' to="/admin"><i className="fas fa-user-shield"></i></NavLink></li>
 							<li><i class="fas fa-calendar-check"></i></li>
 						</ul>
 						<ul class="logout-ul">

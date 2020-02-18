@@ -5,19 +5,19 @@ import { Provider, useDispatch } from './Provider';
 
 const CalendarController = () => {
 
-    
+
     const dispatch = useDispatch();
 
     const [clickedGame, setClickedGame] = useState();
 
 
-    return(
-        <div>
+    return (
+        <>
             <Provider>
                 <GameCalendar />
                 <CalendarModal />
             </Provider>
-        </div>
+        </>
     );
 }
 

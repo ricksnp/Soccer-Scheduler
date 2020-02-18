@@ -11,8 +11,9 @@ import {
 	PASSWORD_MIN_LENGTH,
 	PASSWORD_MAX_LENGTH
 } from '../../constants';
-import './Signup.css';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../utility/APIUtility';
+
+import './index.css';
 import footballLogo from '../../assets/stadium.svg';
 
 const FormItem = Form.Item;

@@ -53,6 +53,10 @@
 	color: #1976d2;
 }
 
+.sidebar-nav .is-active {
+	color: #1976d2;
+}
+
 .menu-container {
 	height: 100%;
 	display: flex; 
@@ -66,5 +70,4 @@
 	height: 100%;
 	min-height: 100vh;
 	margin-bottom: 50px;
-	margin-left: 10vw;
 }
