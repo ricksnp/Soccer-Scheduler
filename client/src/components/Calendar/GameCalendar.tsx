@@ -11,6 +11,8 @@ interface Props {
   handleEventClick: Function
 }
 
+//date with time
+
 const GameCalendar = (  ) => {
 
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const GameCalendar = (  ) => {
         }}
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}  
-        dateClick={ () => dispatch({ type: 'ADD_GAME' }) }
+        dateClick={ ( info ) => dispatch({ type: 'ADD_GAME', payload: info.dateStr }) }
         events={ getGames() }
         eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.level, calEvent.event.extendedProps.team] }) }
       />

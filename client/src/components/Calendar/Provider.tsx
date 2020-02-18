@@ -6,6 +6,7 @@ const { createContext, useContext, useReducer } = React;
 
 const initialState = {
   showAddGame: false,
+  addGameDate: "",
   showViewGame: false,
   showEditGame: false,
   clickedGame: []
@@ -14,7 +15,7 @@ const initialState = {
 type State = typeof initialState;
 
 type Action =
-  | { type: 'ADD_GAME' }
+  | { type: 'ADD_GAME', payload: string }
   | { type: 'CLOSE_ADD_GAME' }
   | { type: 'VIEW_GAME', payload: any }
   | { type: 'CLOSE_VIEW_GAME' }
@@ -25,36 +26,42 @@ const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD_GAME': return {
       showAddGame: true,
+      addGameDate: action.payload,
       showViewGame: false,
       showEditGame: false,
       clickedGame: []
     };
     case 'CLOSE_ADD_GAME': return {
       showAddGame: false,
+      addGameDate: "",
       showViewGame: false,
       showEditGame: false,
       clickedGame: []
     }
     case 'VIEW_GAME': return {
       showAddGame: false,
+      addGameDate: "",
       showViewGame: true,
       showEditGame: false,
       clickedGame: action.payload
     }
     case 'CLOSE_VIEW_GAME': return {
       showAddGame: false,
+      addGameDate: "",
       showViewGame: false,
       showEditGame: false,
       clickedGame: []
     }
     case 'EDIT_GAME': return {
       showAddGame: false,
+      addGameDate: "",
       showViewGame: false,
       showEditGame: true,
       clickedGame: []
     }
     case 'CLOSE_EDIT_GAME': return {
       showAddGame: false,
+      addGameDate: "",
       showViewGame: false,
       showEditGame: false,
       clickedGame: []
