@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Header, SubHeader} from '../style/PageStyles';
 import {Card} from 'antd';
 import data from '../components/fake.json';
-import {PendingGames} from '../components';
+import {PendingGames} from '../components'
 
 
 const Admin = () => {
@@ -25,6 +25,12 @@ const editGame = data.needsConfirming.forEach(({home,away,level,date,time,locati
           tab: 'Edited Games',
         },
       ];
+
+      
+      function onTabChange({key}:any) {
+          setKey(key)
+      }
+
 
     return(
         <div>

@@ -46,7 +46,7 @@
 
 .auth-component {
 	border-radius: 8px;
-	padding: 30px 40px;
+	padding: 20px 40px;
 	box-shadow: 8px 7px 12px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
 	background-color: #18181a;
 	display: flex;
@@ -56,5 +56,5 @@
 }
 
 .auth-component img {
-	width: 150px;
+	width: 100px;
 }

@@ -89,7 +89,7 @@ class App extends Component {
 		}
 
 		return (
-			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : ''}`}>
+			<Layout className="app-container">
 				{this.state.isAuthenticated ?
 					<AppHeader
 						isAuthenticated={this.state.isAuthenticated}
