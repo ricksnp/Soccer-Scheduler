@@ -6,7 +6,7 @@ import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
 
 import { Login, Signup, Profile } from '../user';
-import { AppHeader, LoadingIndicator } from '../common';
+import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
 import { Home, Admin } from '../pages';
@@ -91,7 +91,7 @@ class App extends Component {
 		return (
 			<Layout className={`app-container ${!this.state.isAuthenticated ? 'dark-background' : 'authenticated'}`}>
 				{this.state.isAuthenticated ?
-					<AppHeader
+					<Navbar
 						isAuthenticated={this.state.isAuthenticated}
 						currentUser={this.state.currentUser}
 						onLogout={this.handleLogout}

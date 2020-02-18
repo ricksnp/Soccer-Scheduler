@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
-import footballLogo from '../assets/stadium.svg';
+import footballLogo from '../../assets/stadium.svg';
 
-import './AppHeader.css';
+import './index.css';
 
 const Header = Layout.Header;
 

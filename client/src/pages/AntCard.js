@@ -17,7 +17,6 @@ const contentList = {
   tab2: <p>content2</p>,
 };
 
-
 class TabsCard extends React.Component {
   state = {
     key: 'tab1',

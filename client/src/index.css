@@ -20,6 +20,10 @@ code {
 	background-color: #1a1a1c !important;
 }
 
+/* If logged in, don't make it dark theme :asxcontent: */
+.authenticated {
+  background-color: #fff !important;
+}
 
 /* If logged in, add spacing for the navbar */
 .authenticated .app-content {
