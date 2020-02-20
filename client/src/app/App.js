@@ -20,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: false, //Change for Debugging
+			isAuthenticated: true, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -120,7 +120,7 @@ class App extends Component {
 							:
 							<Switch>
 								<Route path="/admin" render={() => <Admin />} />
-								<Route path="*" render={() => <Home />} />
+								<Route path="/" render={() => <Home />} />
 							</Switch>
 						}
 					</div>

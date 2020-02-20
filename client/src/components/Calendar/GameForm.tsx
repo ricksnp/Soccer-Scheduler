@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Select, Radio, TimePicker } from 'antd';
+import { useGlobalState } from './Provider';
 
 interface Props {
     form: any
@@ -9,6 +10,9 @@ interface Props {
 
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
+    const showAddGame = useGlobalState('showAddGame');
+    const addGameDate = useGlobalState('addGameDate');
+
 
     //for home/away team Select element
     const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
@@ -26,6 +30,7 @@ const CreateEditGame = ( props: Props ) => {
     return (
 
         <Form layout="vertical">
+            {showAddGame && addGameDate} 
             <Form.Item label="Home Team">
                 {getFieldDecorator('home-team', {
                     rules: [{ required: true, message: 'Select Home Team' }],

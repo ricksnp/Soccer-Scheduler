@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
-import NewGameForm from './NewGameForm';
+import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 
 const CalendarModal = () => {
@@ -71,7 +71,7 @@ const CalendarModal = () => {
             onOk={handleOk}
             okText={showViewGame ? 'Edit' : 'Submit'}
         >
-            { showAddGame && <NewGameForm ref={ saveForm } /> }
+            { showAddGame && <GameForm ref={ saveForm } /> }
             { showViewGame && <EventDisplay event={clickedEvent} /> }
         </Modal>
     );
