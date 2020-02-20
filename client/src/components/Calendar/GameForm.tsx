@@ -13,8 +13,6 @@ const CreateEditGame = ( props: Props ) => {
     const showAddGame = useGlobalState('showAddGame');
     const addGameDate = useGlobalState('addGameDate');
 
-    const [date, setDate] = useState(addGameDate);
-
     //for home/away team Select element
     const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
     const teamOptions = teams.map((team, i) => {
@@ -24,8 +22,6 @@ const CreateEditGame = ( props: Props ) => {
             </Option>
         );
     });
-
-    console.log("Date" + date);
     
     const { form } = props;
     const { getFieldDecorator } = form;
@@ -95,9 +91,11 @@ const CreateEditGame = ( props: Props ) => {
 
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
-                    initalValue: date
+                    initialValue: addGameDate
                 })(
-                    <></>
+                    <Radio.Group buttonStyle="solid">
+                        <Radio.Button value={addGameDate}>{addGameDate}</Radio.Button>
+                    </Radio.Group>
                 )}
             </Form.Item>
                 <Form.Item/>
