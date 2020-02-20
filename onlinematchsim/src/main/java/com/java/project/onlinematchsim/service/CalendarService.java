@@ -6,8 +6,10 @@ package com.java.project.onlinematchsim.service;
 import com.java.project.onlinematchsim.model.*;
 //import com.java.project.onlinematchsim.repos.UserRepository;
 import com.java.project.onlinematchsim.repos.GamesRepository;
+import com.java.project.onlinematchsim.security.UserPrincipal;
+import com.java.project.onlinematchsim.apiCalls.requestCalls.GameEntryResponse;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GamesEntryRequest;
-
+import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -50,6 +52,24 @@ public class CalendarService {
 		
 		
 	}
+	
+	public GameEntryResponse getGamesById(Long matchId, UserPrincipal currentuser)
+	{
+		GamesCalendar gamesCal = gamesRepository.findByMatchId(matchId).orElseThrow( () -> new ResourceNotFoundException("Game","id", matchId));
+		
+		
+		GameEntryResponse respo = new GameEntryResponse();
+		respo.setId(gamesCal.getMatchId());
+		respo.setAwayTeamName(gamesCal.getAwayTeamName());
+		respo.setDate(gamesCal.getDate());
+		respo.setGender(gamesCal.getGender());
+		respo.setHomeTeamName(gamesCal.getHomeTeamName());
+		respo.setTeamLevel(gamesCal.getTeamLevel());
+		respo.setLocation(gamesCal.getLocation());
+		return respo;
+	}
+	
+	
 	
 	
 }
