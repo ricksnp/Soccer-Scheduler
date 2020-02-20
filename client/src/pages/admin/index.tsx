@@ -34,8 +34,7 @@ const Admin = () => {
 
     return (
         <>
-            <Header>Needs Approval</Header>
-            <SubHeader>New Games:</SubHeader>
+            <Header>Admin Panel</Header>
 
             <Card
                 style={{ width: '90%' }}

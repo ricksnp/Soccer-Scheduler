@@ -13,6 +13,8 @@ interface Props {
 
 //date with time
 
+
+
 const GameCalendar = (  ) => {
 
   const dispatch = useDispatch();
@@ -21,9 +23,9 @@ const GameCalendar = (  ) => {
     <div className="game-cal">
       <Cal 
         header={{ 
-          left: 'dayGridMonth,dayGridWeek',
+          left: 'dayGridMonth,dayGridWeek,today',
           center: 'title',
-          right: 'today prev,next'
+          right: 'prev next'
         }}
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}  

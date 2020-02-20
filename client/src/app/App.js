@@ -120,7 +120,7 @@ class App extends Component {
 							:
 							<Switch>
 								<Route path="/admin" render={() => <Admin />} />
-								<Route path="*" render={() => <Home />} />
+								<Route path="/" render={() => <Home />} />
 							</Switch>
 						}
 					</div>

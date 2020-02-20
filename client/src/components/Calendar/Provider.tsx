@@ -93,6 +93,7 @@ export const Provider: React.ComponentType = ({ children }) => {
     return state[property]; // only one depth selector for comparison
   };
 
+  //getGames returns the json file of game information
   export const getGames = () => {
     return events.events;
   }
