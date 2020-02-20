@@ -11,7 +11,6 @@ interface Props {
   handleEventClick: Function
 }
 
-//date with time
 
 
 
@@ -35,6 +34,7 @@ const GameCalendar = (  ) => {
         eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start]}) }
       />
 
+      {console.log("Cal Games: " + JSON.parse(getGames()))}
     </div>
 
 

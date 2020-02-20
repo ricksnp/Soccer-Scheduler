@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import events from './events.json';
 import {postGames, apiGetGames} from '../../utility/APIGameControl';
+import NewGameForm from './NewGameForm.js';
 
 
 const { createContext, useContext, useReducer } = React;
@@ -100,32 +101,31 @@ export const Provider: React.ComponentType = ({ children }) => {
   //getGames returns the json file of game information
   export const getGames = () => {
 
+    let newGame:any = []
 
     if(apiGetGames() == null)
     {
       console.log("if: "+ apiGetGames());
-      return "";
+      newGame.push("no-schedule");
     }
     else{
       apiGetGames().then(games=>{
         console.log("HERE" + games);
-
-        const newGame = []
         
-        newGame[0] =
+        newGame.push(
         {
           title: games.homeTeamName + " vs " + games.awayTeamName,
           start: games.date.replace(" ", "T")
         
-      }
+        });
 
         // console.log("NewGame: " +newGame.title);
         // console.log("NewGame Date: " + newGame.start);
-        console.log(JSON.stringify(newGame));
-        return newGame;
+        console.log("newGame in Provider" + JSON.stringify(newGame));
       })
     }
 
+    return newGame
   }
 
   //puts home and away team together for fullcalendar to read title
