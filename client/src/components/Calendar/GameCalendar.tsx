@@ -56,7 +56,7 @@ const GameCalendar = (  ) => {
         plugins={[dayGridPlugin, interactionPlugin]}  
         dateClick={ ( info ) => dispatch({ type: 'ADD_GAME', payload: info.dateStr }) }
         events={events}
-        eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start]}) }
+        eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender]}) }
       />
 
     </div>
