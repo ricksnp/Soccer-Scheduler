@@ -23,13 +23,14 @@ const CreateEditGame = ( props: Props ) => {
         );
     });
     
+
     const { form } = props;
     const { getFieldDecorator } = form;
 
     return (
 
         <Form layout="vertical">
-            {showAddGame && addGameDate} 
+            {/*showAddGame && addGameDate*/} 
             <Form.Item label="Home Team">
                 {getFieldDecorator('homeTeamName', {
                     rules: [{ required: true, message: 'Select Home Team' }],
@@ -103,9 +104,9 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
                     rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: [addGameDate]
+                    initialValue: addGameDate
                 })(
-                    <Input />
+                    <Input disabled style={{width:"50%"}} />
                 )}
             </Form.Item>
                 <Form.Item/>

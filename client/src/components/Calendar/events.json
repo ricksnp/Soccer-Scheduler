@@ -1,18 +1,9 @@
 {
     "events": [
-        {
-            "title": "Neville High School vs West Monroe High School",
-            "start": "2020-02-15",
-            "location": "Neville",
-            "level": "varsity",
-            "team": "boys"
-        },
-        {
-            "title": "West Monroe High School vs Neville High School",
-            "start": "2020-02-20T20:00:00",
-            "location": "West Monroe",
-            "level": "varsity",
-            "team": "boys"
-        }
-    ]
+            {
+                "title": "NEW EVENT",
+                "start": "2020-02-18"
+           }
+
+        ]
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import events from './events.json';
 import {postGames, apiGetGames} from '../../utility/APIGameControl';
 
@@ -96,27 +96,61 @@ export const Provider: React.ComponentType = ({ children }) => {
     return state[property]; // only one depth selector for comparison
   };
 
+
   //getGames returns the json file of game information
   export const getGames = () => {
 
-    // apiGetGames()
-    //   .then((response)=>{
-    //     return response.json();
-    //   })
-    //   .catch((error) => {
-		// 		return error;
-    // 	});
-    
+
     if(apiGetGames() == null)
     {
       console.log("if: "+ apiGetGames());
-      return"";
+      return "";
     }
     else{
-      apiGetGames().then(reponse=>{
-        console.log(JSON.stringify(reponse.id));
-        return JSON.stringify(reponse.id);
+      apiGetGames().then(games=>{
+        console.log("HERE" + games);
+
+        const newGame = []
+        
+        newGame[0] =
+        {
+          title: games.homeTeamName + " vs " + games.awayTeamName,
+          start: games.date.replace(" ", "T")
+        
+      }
+
+        // console.log("NewGame: " +newGame.title);
+        // console.log("NewGame Date: " + newGame.start);
+        console.log(JSON.stringify(newGame));
+        return newGame;
       })
     }
-  
+
   }
+
+  //puts home and away team together for fullcalendar to read title
+  // //combines date & time for fullcalendar to read.
+  
+  // export const text = () => {
+
+
+  //   let formatted = [];
+
+  //   const games = getGames()
+  //   console.log("GAMES : " + games);
+
+  //   if(games != undefined)
+  //   {
+  //     const game =JSON.parse(games)
+
+  //     for(let i = 0; i < games.length; i++)
+  //     {
+  //       formatted.push({
+  //         title: game[i].homeTeamName + " vs " + game[i].awayTeamName,
+  //         start: game[i].date
+  //       });
+  //       console.log("formatted" + game[i].homeTeamName);
+  //     }
+  // }
+  //   return formatted;
+  // }
