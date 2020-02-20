@@ -97,3 +97,18 @@ export const Provider: React.ComponentType = ({ children }) => {
   export const getGames = () => {
     return events.events;
   }
+
+  //puts home and away team together for fullcalendar to read title
+  //combines date & time for fullcalendar to read.
+  
+  export const text = () => {
+    let formatted = [];
+    const games = getGames();
+    for(let i = 0; i < games.length; i++){
+      formatted.push({
+        title: games[i].home + " vs " + games[i].away,
+        start: games[i].date + "T" + games[i].time
+      });
+    }
+    return formatted;
+  }
