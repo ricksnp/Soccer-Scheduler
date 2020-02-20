@@ -45,5 +45,11 @@ public class CalendarController
 		return ResponseEntity.created(location).body(new ApiResponse(true, "Game Created Successfully"));
 	}
 	
+	@GetMapping("/{matchId}")
+	public GameEntryResponse getPollById(@CurrentUser UserPrincipal currentUser, @PathVariable Long matchId)
+	{
+		return calendarService.getGamesById(matchId, currentUser);
+	}
+	
 	
 }
