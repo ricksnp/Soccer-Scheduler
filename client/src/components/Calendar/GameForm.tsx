@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Select, Radio, TimePicker } from 'antd';
+import { Form, Select, Radio, TimePicker, Input } from 'antd';
 import { useGlobalState } from './Provider';
 
 interface Props {
@@ -32,7 +32,7 @@ const CreateEditGame = ( props: Props ) => {
         <Form layout="vertical">
             {showAddGame && addGameDate} 
             <Form.Item label="Home Team">
-                {getFieldDecorator('home-team', {
+                {getFieldDecorator('homeTeamName', {
                     rules: [{ required: true, message: 'Select Home Team' }],
                 })(
                     <Select showSearch >
@@ -41,7 +41,7 @@ const CreateEditGame = ( props: Props ) => {
                 )}
             </Form.Item>
             <Form.Item label="Away Team">
-                {getFieldDecorator('away-team', { 
+                {getFieldDecorator('awayTeamName', { 
                     rules: [{ required: true, message: 'Select Away Team' }],
                 })(
                     <Select showSearch >
@@ -50,7 +50,7 @@ const CreateEditGame = ( props: Props ) => {
                 )}
             </Form.Item>
             <Form.Item label="Level">
-                { getFieldDecorator('level', {
+                { getFieldDecorator('teamLevel', {
                     rules: [{ required: true }],
                 })(
                     <Radio.Group buttonStyle="solid">
@@ -60,7 +60,7 @@ const CreateEditGame = ( props: Props ) => {
                 ) }
             </Form.Item>
             <Form.Item label="Team">
-                    { getFieldDecorator( 'team', {
+                    { getFieldDecorator( 'gender', {
                         rules: [{ required: true }],
                     } )(
                         <Radio.Group buttonStyle="solid">
@@ -69,13 +69,36 @@ const CreateEditGame = ( props: Props ) => {
                         </Radio.Group>
                     ) }
             </Form.Item>
-            <Form.Item label="Time">
+            <Form.Item label="Location">
+                {getFieldDecorator('location', {
+                    rules: [{ required: true, message: 'Select Location' }],
+                })(
+                    <Input/>
+                )}
+            </Form.Item>
+            <Form.Item label="Date">
+                {getFieldDecorator('date', {
+                    rules: [{ required: true, message: 'Select Date' }],
+                })(
+                    <Input/>
+                )}
+            </Form.Item>
+            <Form.Item label="Status">
+                {getFieldDecorator('status', {
+                    rules: [{ required: true, message: 'Select Status' }],
+                })(
+                    <Input/>
+                )}
+            </Form.Item>
+            {/* <Form.Item label="Time">
                 { getFieldDecorator('time', {
                     rules: [{ required: true }],
                 })(
                     <TimePicker use12Hours format="h:mm a" />
                 ) }
-            </Form.Item>
+            </Form.Item> */}
+
+                {getFieldDecorator('date', addGameDate)}
         </Form>
       );
 };

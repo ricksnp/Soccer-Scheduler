@@ -3,6 +3,10 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
+import {postGames, getGames} from '../../utility/APIGameControl';
+
+
+
 
 const CalendarModal = () => {
     const showAddGame = useGlobalState('showAddGame');
@@ -11,6 +15,7 @@ const CalendarModal = () => {
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
+
 
     const [gameForm, setGameForm] = useState(React.createRef());
 
@@ -44,7 +49,10 @@ const CalendarModal = () => {
                 }
 
                 //send to backend
-                console.log("Received values of form: ", values);
+                postGames(values);
+                console.log(values);
+                //console.log("GAMES: " + getGames())
+
 
                 // @ts-ignore
                 gameForm.resetFields();

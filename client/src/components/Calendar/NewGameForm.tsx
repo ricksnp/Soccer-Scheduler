@@ -5,9 +5,46 @@ interface Props {
     form: any
 }
 
+interface Game {
+    homeTeamName:{
+        value: String
+    },
+    awayTeamName:{
+        value: String
+    },
+    date:{
+        value: String
+    },
+    gender:{
+        value: String
+    },
+    teamLevel:{
+        value: String
+    } 
+}
 
 
 const NewGame = ( props: Props ) => {
+
+    const newGame:Game = {
+        homeTeamName:{
+            value: ""
+        },
+        awayTeamName:{
+            value: ""
+        },
+        date:{
+            value: ""
+        },
+        gender:{
+            value: ""
+        },
+        teamLevel:{
+            value: ""
+        } 
+    }
+
+    
     const Option = Select.Option
 
     //for home/away team Select element
