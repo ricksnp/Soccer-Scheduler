@@ -1,6 +1,5 @@
 package com.java.project.onlinematchsim.apiCalls.requestCalls;
 
-import java.util.Date;
 
 import javax.validation.constraints.*;
 
@@ -13,7 +12,7 @@ public class GamesEntryRequest {
 	private String awayTeamName;
 	
 	@NotBlank
-	private Date date;
+	private String date;
 	
 	@NotBlank
 	private String location;
@@ -51,11 +50,11 @@ public class GamesEntryRequest {
 		this.awayTeamName = awayTeamName;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

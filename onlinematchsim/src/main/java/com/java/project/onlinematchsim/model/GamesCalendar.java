@@ -23,22 +23,22 @@ public class GamesCalendar
 	private String awayTeamName;
 	
 	@NotBlank
-	private Date date;
-	
+	private String date;
+
 	@NotBlank
 	private String location;
-	
+
 	@NotBlank
 	private String teamLevel;
-	
+
 	@NotBlank
 	private String gender;
-	
+
 	@NotBlank
 	private String status;
-	
+
 	public GamesCalendar(long matchId, String homeTeamName, String awayTeamName,
-			 Date date,  String location,  String teamLevel,  String gender) {
+			 String date,  String location,  String teamLevel,  String gender) {
 		super();
 		this.matchId = matchId;
 		this.homeTeamName = homeTeamName;
@@ -77,11 +77,11 @@ public class GamesCalendar
 		this.awayTeamName = awayTeamName;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

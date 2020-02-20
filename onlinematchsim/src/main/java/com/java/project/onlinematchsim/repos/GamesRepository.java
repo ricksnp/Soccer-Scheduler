@@ -4,10 +4,11 @@ import com.java.project.onlinematchsim.model.GamesCalendar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GamesRepository extends JpaRepository<GamesCalendar, Long> 
 {
-	List<GamesCalendar> findByMatchId(List<Long> matchId);
+	Optional<GamesCalendar> findByMatchId(Long matchId);
 	Boolean existsById(long id);
 }
