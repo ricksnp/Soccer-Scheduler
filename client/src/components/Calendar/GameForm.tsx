@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState}from 'react'
 import { Form, Select, Radio, TimePicker, Input } from 'antd';
 import { useGlobalState } from './Provider';
 
@@ -13,6 +13,7 @@ const CreateEditGame = ( props: Props ) => {
     const showAddGame = useGlobalState('showAddGame');
     const addGameDate = useGlobalState('addGameDate');
 
+    const [date, setDate] = useState(addGameDate);
 
     //for home/away team Select element
     const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
@@ -24,6 +25,7 @@ const CreateEditGame = ( props: Props ) => {
         );
     });
 
+    console.log("Date" + date);
     
     const { form } = props;
     const { getFieldDecorator } = form;
@@ -76,13 +78,6 @@ const CreateEditGame = ( props: Props ) => {
                     <Input/>
                 )}
             </Form.Item>
-            <Form.Item label="Date">
-                {getFieldDecorator('date', {
-                    rules: [{ required: true, message: 'Select Date' }],
-                })(
-                    <Input/>
-                )}
-            </Form.Item>
             <Form.Item label="Status">
                 {getFieldDecorator('status', {
                     rules: [{ required: true, message: 'Select Status' }],
@@ -98,7 +93,14 @@ const CreateEditGame = ( props: Props ) => {
                 ) }
             </Form.Item> */}
 
-                {getFieldDecorator('date', addGameDate)}
+            <Form.Item label="Date">
+                {getFieldDecorator('date', {
+                    initalValue: date
+                })(
+                    <></>
+                )}
+            </Form.Item>
+                <Form.Item/>
         </Form>
       );
 };
