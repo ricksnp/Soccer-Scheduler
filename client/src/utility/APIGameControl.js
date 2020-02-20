@@ -34,7 +34,7 @@ export function postGames(games) {
 
 export function apiGetGames() {
 	return request({
-		url    : API_BASE_URL + '/calendar/7',
+		url    : API_BASE_URL + '/calendar/9',
 		method : 'GET'
 	});
 

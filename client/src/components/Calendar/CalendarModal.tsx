@@ -49,7 +49,7 @@ const CalendarModal = () => {
                 }
 
                 //send to backend
-                //postGames(values);
+                postGames(values);
                 console.log("VALUES" + JSON.stringify(values));
                 //console.log("GAMES: " + getGames())
 
