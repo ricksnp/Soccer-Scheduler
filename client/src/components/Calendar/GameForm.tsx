@@ -1,5 +1,5 @@
 import React, {useState}from 'react'
-import { Form, Select, Radio, TimePicker, Input } from 'antd';
+import { Form, Select, Radio, TimePicker, Input, Checkbox } from 'antd';
 import { useGlobalState } from './Provider';
 
 interface Props {
@@ -25,10 +25,11 @@ const CreateEditGame = ( props: Props ) => {
         );
     });
 
-    console.log("Date" + date);
+    //console.log("Date" + date);
     
     const { form } = props;
     const { getFieldDecorator } = form;
+
     return (
 
         <Form layout="vertical">
@@ -93,11 +94,22 @@ const CreateEditGame = ( props: Props ) => {
                 ) }
             </Form.Item> */}
 
+            {/* <Form.Item label="Date">
+                {getFieldDecorator('date', {
+                    rules: [{ required: true, message: 'Select Status' }],
+                    initialValue: [date]
+                })(
+                    <Checkbox>{date}</Checkbox>
+                )}
+            </Form.Item> */}
+
+
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
-                    initalValue: date
+                    rules: [{ required: true, message: 'Select Status' }],
+                    initialValue: [date]
                 })(
-                    <></>
+                    <Input disabled/>
                 )}
             </Form.Item>
                 <Form.Item/>
