@@ -109,7 +109,7 @@ const CreateEditGame = ( props: Props ) => {
                     rules: [{ required: true, message: 'Select Status' }],
                     initialValue: [date]
                 })(
-                    <Input disabled/>
+                    <Input />
                 )}
             </Form.Item>
                 <Form.Item/>

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CalendarController } from '../../components'
 import { Header } from '../../style/PageStyles'
 
-const Home = () => {
+const Home = (isAuthenticated: any) => {
+
+    const [loggedin,setLogin] = useState(isAuthenticated)
+
     return (
         <>
-            <CalendarController />
+            <CalendarController/>
         </>
     );
 }

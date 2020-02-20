@@ -32,9 +32,10 @@ export function postGames(games) {
 	});
 }
 
-export function getGames() {
+export function apiGetGames() {
 	return request({
-		url    : API_BASE_URL + '/calendar',
+		url    : API_BASE_URL + '/calendar/6',
 		method : 'GET'
 	});
+
 }

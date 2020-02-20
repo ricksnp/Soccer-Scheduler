@@ -1,5 +1,6 @@
 import React from 'react';
 import events from './events.json';
+import {postGames, apiGetGames} from '../../utility/APIGameControl';
 
 
 const { createContext, useContext, useReducer } = React;
@@ -23,6 +24,8 @@ type Action =
   | { type: 'CLOSE_EDIT_GAME' }
 
 const reducer = (state: State, action: Action) => {
+
+
   switch (action.type) {
     case 'ADD_GAME': return {
       showAddGame: true,
@@ -95,5 +98,25 @@ export const Provider: React.ComponentType = ({ children }) => {
 
   //getGames returns the json file of game information
   export const getGames = () => {
-    return events.events;
+
+    // apiGetGames()
+    //   .then((response)=>{
+    //     return response.json();
+    //   })
+    //   .catch((error) => {
+		// 		return error;
+    // 	});
+    
+    if(apiGetGames() == null)
+    {
+      console.log("if: "+ apiGetGames());
+      return"";
+    }
+    else{
+      apiGetGames().then(reponse=>{
+        console.log(JSON.stringify(reponse.id));
+        return JSON.stringify(reponse.id);
+      })
+    }
+  
   }
