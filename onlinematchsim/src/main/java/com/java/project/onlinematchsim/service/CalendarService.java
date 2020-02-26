@@ -10,6 +10,8 @@ import com.java.project.onlinematchsim.security.UserPrincipal;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GameEntryResponse;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GamesEntryRequest;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
+
+import java.util.ArrayList;
 import java.util.List;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -69,9 +71,25 @@ public class CalendarService {
 		return respo;
 	}
 	
-	public List<GamesCalendar> getAllGames( UserPrincipal currentuser)
+	public List<GameEntryResponse> getAllGames( UserPrincipal currentuser)
 	{
-		return gamesRepository.findAll();
+		List<GamesCalendar> lii = gamesRepository.findAll();
+		List<GameEntryResponse> lii1 = new ArrayList<>();
+		GameEntryResponse respo = new GameEntryResponse();
+		for(GamesCalendar each : lii)
+		{
+			respo.setId(each.getMatchId());
+			respo.setAwayTeamName(each.getAwayTeamName());
+			respo.setDate(each.getDate());
+			respo.setGender(each.getGender());
+			respo.setHomeTeamName(each.getHomeTeamName());
+			respo.setTeamLevel(each.getTeamLevel());
+			respo.setLocation(each.getLocation());
+			lii1.add(respo);
+		}
+		return lii1;
+		
+		
 		
 	}
 	

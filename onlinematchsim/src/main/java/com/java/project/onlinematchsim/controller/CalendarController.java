@@ -47,7 +47,7 @@ public class CalendarController
 	}
 	
 	@GetMapping("/allgames")
-	public List<GamesCalendar> getAllGames(@CurrentUser UserPrincipal currentUser)
+	public List<GameEntryResponse> getAllGames(@CurrentUser UserPrincipal currentUser)
 	{
 		return calendarService.getAllGames(currentUser);
 	}
