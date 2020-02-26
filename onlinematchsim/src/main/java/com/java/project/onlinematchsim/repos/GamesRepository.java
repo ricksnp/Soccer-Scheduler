@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface GamesRepository extends JpaRepository<GamesCalendar, Long> 
 {
 	Optional<GamesCalendar> findByMatchId(Long matchId);
+	Optional<GamesCalendar> findAllGames(String name);
 	Boolean existsById(long id);
 }
 

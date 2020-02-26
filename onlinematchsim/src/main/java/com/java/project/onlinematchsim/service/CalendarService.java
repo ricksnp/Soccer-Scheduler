@@ -10,7 +10,7 @@ import com.java.project.onlinematchsim.security.UserPrincipal;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GameEntryResponse;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GamesEntryRequest;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
-
+import java.util.List;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +67,12 @@ public class CalendarService {
 		respo.setTeamLevel(gamesCal.getTeamLevel());
 		respo.setLocation(gamesCal.getLocation());
 		return respo;
+	}
+	
+	public List<GamesCalendar> getAllGames( UserPrincipal currentuser)
+	{
+		return gamesRepository.findAll();
+		
 	}
 	
 	
