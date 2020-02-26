@@ -16,15 +16,16 @@ function getGames(setEvents: any){
 
   apiGetGames().then(response =>{
     let games:any = []
-    
-    games.push({
-      title: response.homeTeamName + " vs " + response.awayTeamName,
-      start: response.date.replace(" ", "T"),
-      location: response.location,
-      teamLevel: response.teamLevel,
-      gender: response.gender
-    })
-
+    for(let i = 0; i < response.length; i++)
+    {
+      games.push({
+        title: response[i].homeTeamName + " vs " + response[i].awayTeamName,
+        start: response[i].date.replace(" ", "T"),
+        location: response[i].location,
+        teamLevel: response[i].teamLevel,
+        gender: response[i].gender
+      })
+    }
     setEvents(games);
  })
 
