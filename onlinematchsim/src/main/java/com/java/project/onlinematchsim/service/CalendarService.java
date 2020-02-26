@@ -75,9 +75,10 @@ public class CalendarService {
 	{
 		List<GamesCalendar> lii = gamesRepository.findAll();
 		List<GameEntryResponse> lii1 = new ArrayList<>();
-		GameEntryResponse respo = new GameEntryResponse();
+		GameEntryResponse respo;
 		for(GamesCalendar each : lii)
 		{
+			respo = new GameEntryResponse();
 			respo.setId(each.getMatchId());
 			respo.setAwayTeamName(each.getAwayTeamName());
 			respo.setDate(each.getDate());
