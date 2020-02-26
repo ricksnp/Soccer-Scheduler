@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
-import {postGames, getGames} from '../../utility/APIGameControl';
+import {postGames} from '../../utility/APIGameControl';
 
 
 
@@ -49,8 +49,8 @@ const CalendarModal = () => {
                 }
 
                 //send to backend
-                postGames(values);
-                console.log("VALUES" + values);
+                //postGames(values);
+                console.log("VALUES" + JSON.stringify(values));
                 //console.log("GAMES: " + getGames())
 
 

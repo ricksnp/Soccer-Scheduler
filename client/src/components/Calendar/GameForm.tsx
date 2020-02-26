@@ -1,5 +1,5 @@
 import React, {useState}from 'react'
-import { Form, Select, Radio, TimePicker, Input } from 'antd';
+import { Form, Select, Radio, TimePicker, Input, Checkbox } from 'antd';
 import { useGlobalState } from './Provider';
 
 interface Props {
@@ -13,8 +13,6 @@ const CreateEditGame = ( props: Props ) => {
     const showAddGame = useGlobalState('showAddGame');
     const addGameDate = useGlobalState('addGameDate');
 
-    const [date, setDate] = useState(addGameDate);
-
     //for home/away team Select element
     const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
     const teamOptions = teams.map((team, i) => {
@@ -24,15 +22,15 @@ const CreateEditGame = ( props: Props ) => {
             </Option>
         );
     });
-
-    console.log("Date" + date);
     
+
     const { form } = props;
     const { getFieldDecorator } = form;
+
     return (
 
         <Form layout="vertical">
-            {showAddGame && addGameDate} 
+            {/*showAddGame && addGameDate*/} 
             <Form.Item label="Home Team">
                 {getFieldDecorator('homeTeamName', {
                     rules: [{ required: true, message: 'Select Home Team' }],
@@ -93,11 +91,22 @@ const CreateEditGame = ( props: Props ) => {
                 ) }
             </Form.Item> */}
 
+            {/* <Form.Item label="Date">
+                {getFieldDecorator('date', {
+                    rules: [{ required: true, message: 'Select Status' }],
+                    initialValue: [date]
+                })(
+                    <Checkbox>{date}</Checkbox>
+                )}
+            </Form.Item> */}
+
+
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
-                    initalValue: date
+                    rules: [{ required: true, message: 'Select Status' }],
+                    initialValue: addGameDate
                 })(
-                    <></>
+                    <Input disabled style={{width:"50%"}} />
                 )}
             </Form.Item>
                 <Form.Item/>

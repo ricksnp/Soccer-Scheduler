@@ -8,7 +8,7 @@ import { Provider, useDispatch } from './Provider';
 
 //CalendarController controls all aspects of the control,
 // it returns the Provider, GameCalendar, and Calendar Modal
-const CalendarController = () => {
+const CalendarController = (loggedin: any) => {
 
 
     const dispatch = useDispatch();
