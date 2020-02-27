@@ -29,3 +29,19 @@ code {
 .authenticated .app-content {
   margin-left: 190px;
 }
+
+
+@media (max-width: 1024px) {
+	.authenticated .app-content {
+    margin: 0 auto;
+    width: 90vw;
+  }
+  
+  .game-cal {
+    margin: 0;
+  }
+
+  .fc-toolbar {
+    flex-direction: column-reverse; 
+  }
+}

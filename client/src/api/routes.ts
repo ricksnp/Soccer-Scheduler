@@ -2,8 +2,8 @@ let URL = "http://localhost:8080";
 
 const API = {
 
-    login: URL + '/loign'
+    login: URL + '/login'
 
 }
 
-export {URL, API}
+export { URL, API }
