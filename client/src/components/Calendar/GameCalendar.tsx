@@ -6,30 +6,31 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
+import {getScheduledGames} from '../Games';
 
 
 interface Props {
   handleEventClick: Function
 }
 
-function getGames(setEvents: any){
+// function getGames(setEvents: any){
 
-  apiGetGames().then(response =>{
-    let games:any = []
-    for(let i = 0; i < response.length; i++)
-    {
-      games.push({
-        title: response[i].homeTeamName + " vs " + response[i].awayTeamName,
-        start: response[i].date.replace(" ", "T"),
-        location: response[i].location,
-        teamLevel: response[i].teamLevel,
-        gender: response[i].gender
-      })
-    }
-    setEvents(games);
- })
+//   apiGetGames().then(response =>{
+//     let games:any = []
+//     for(let i = 0; i < response.length; i++)
+//     {
+//       games.push({
+//         title: response[i].homeTeamName + " vs " + response[i].awayTeamName,
+//         start: response[i].date.replace(" ", "T"),
+//         location: response[i].location,
+//         teamLevel: response[i].teamLevel,
+//         gender: response[i].gender
+//       })
+//     }
+//     setEvents(games);
+//  })
 
-}
+// }
 
 
 const GameCalendar = (  ) => {
@@ -40,8 +41,8 @@ const GameCalendar = (  ) => {
 
   if(counter <= 0)
   {
+    getScheduledGames(setEvents);
     setCounter(counter + 1);
-    getGames(setEvents);
   }
 
 
