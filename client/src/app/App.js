@@ -9,7 +9,7 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home, Admin } from '../pages';
+import { Home, Admin, NewAdmin } from '../pages';
 
 import { MyModal } from '../components';
 
@@ -119,7 +119,7 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
-								<Route path="/admin" render={() => <Admin />} />
+								<Route path="/admin" render={() => <NewAdmin />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
 						}
