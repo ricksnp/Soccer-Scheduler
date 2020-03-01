@@ -14,6 +14,10 @@ const EventDisplay = ( props: Props ) => {
     return(
         <div className="view-event-container">
             <div className="view-event-item title-item">Title: {props.event[0].toString()}</div>
+            <div>Time: {props.event[1].toString()}</div>
+            <div>Location: {props.event[2].toString()}</div>
+            <div>Level: {props.event[3].toString()}</div>
+            <div>gender: {props.event[4].toString()}</div>
         </div>
     );
 }

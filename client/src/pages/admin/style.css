@@ -1,0 +1,54 @@
+.assigner-top-bar {
+    margin: 0 auto;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    flex-wrap: wrap;
+    margin: 50px auto 40px auto;
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid black;
+}
+
+.assignor-table {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.addAssignor-title {
+    text-align: center;
+    font-size: 20px;
+}
+
+.assigner-top-bar button i {
+    margin-right: 10px;
+}
+
+.assigner-top-bar h2 {
+    font-size: 2vw;
+}
+
+.addAssignor-form {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-edit, .btn-delete{
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.btn-edit {
+    margin-right: 25px !important;
+}
+
+.addAssignor-form .MuiTextField-root {
+    margin-bottom: 15px !important;
+}
+
+.MuiTableRow-head .MuiTableCell-head {
+    font-weight: bold !important;
+}

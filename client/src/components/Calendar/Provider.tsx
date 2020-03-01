@@ -117,7 +117,7 @@ export const Provider: React.ComponentType = ({ children }) => {
           title: games.homeTeamName + " vs " + games.awayTeamName,
           start: games.date.replace(" ", "T")
         
-      }
+      } 
 
         // console.log("NewGame: " +newGame.title);
         // console.log("NewGame Date: " + newGame.start);

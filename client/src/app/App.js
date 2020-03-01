@@ -9,8 +9,8 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home, Admin, NewAdmin } from '../pages';
-
+import { Home, Assignor, Admin, NewAdmin} from '../pages';
+import {Games} from '../components/APIGameControls/Games';
 import { MyModal } from '../components';
 
 const { Content } = Layout;
@@ -20,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true, //Change for Debugging
+			isAuthenticated: false, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -118,10 +118,13 @@ class App extends Component {
 								/>
 							</Switch>
 							:
+							<Games>
 							<Switch>
-								<Route path="/admin" render={() => <NewAdmin />} />
+									<Route path="/assignor" render={() => <NewAdmin />} />
+									<Route path="/admin" render={() => <Admin />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
+							</Games>
 						}
 					</div>
 				</Content>

@@ -7,12 +7,12 @@ import GameCard from './GameCard';
 //sorts pending games based on status
 function sortGames (games: any) {
     let edit = [];
-    let newGames = [];
+    let newGames: any = [];
     for ( let i = 0; i < games.length; i++ ) {
-        if ( games[i].status.includes('Edit') )
-            edit.push(games[i]);
-        else
-            newGames.push(games[i]);
+    
+         edit.push(games[i]);
+         //console.log("GAMES: " + games[i]);
+
     }
 
     return { "edited": edit, "new": newGames }

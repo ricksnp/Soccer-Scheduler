@@ -5,20 +5,26 @@ import { ReactComponent } from '*.svg';
 
 //const [res, setRes] = useState();
 
+async function getGames(getResponse: any){
+
+    apiGetGames().then(response =>{
+       getResponse(JSON.stringify(response));
+    })
+
+}
 
 const initialState = {
     name:"",
-    response:  apiGetGames().then(response =>{
-        return(response);
-    })
+    response: ""
+
 }
 
 type Action =
-  | { type: 'ScheduledGames', payload: any }
-  | { type: 'CoachSchedule', payload: any}
-  | { type: 'AdminPending', payload: any }
-  | { type: 'CoachPending', payload: any }
-  | { type: 'GetEdit', payload: any }
+  | { type: 'ScheduledGames'}
+  | { type: 'CoachSchedule'}
+  | { type: 'AdminPending' }
+  | { type: 'CoachPending'}
+  | { type: 'GetEdit'}
 
 type State = typeof initialState;
 
@@ -27,23 +33,19 @@ const reducer = (state: State, action: Action) => {
     switch(action.type){
         case 'ScheduledGames':
             return{
-                name: "",
                 response: getScheduledGames()
             };
         case 'CoachSchedule':
             return{
-                name: "",
-                response: getCoachSchedule()
+                response: getCoachSchedule(initialState.name)
             };
         case 'AdminPending':
             return{
-                name: action.payload,
-                response: getCoachPending(name)
+                response: getCoachPending(initialState.name)
             };
         case 'CoachPending':
             return{
-                name: action.payload,
-                response: getCoachPending(name)
+                response: getCoachPending(initialState.name)
             }
             
         default: return state;
@@ -53,19 +55,35 @@ const reducer = (state: State, action: Action) => {
 const stateCtx = createContext(initialState);
 const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);
 
-// export const Games: React.ComponentType= ({children}) =>{
+export const Games: React.ComponentType= ({children}, user) =>{
 
-//     // const [state, dispatch] = useReducer(reducer, initialState);
-//     //     return(
+    initialState.name = "West Monroe";
 
-//     // <dispatchCtx.Games value={dispatch}>
-//     // <stateCtx.Games value={state}>
-//     //     {children}
-//     // </stateCtx.Games>
-//     // </dispatchCtx.Games>
+    const [response, getResponse] = useState("null");
+    const [counter, setCounter] = useState(0);
+
+    if(counter === 0)
+    {
+        getGames(getResponse);
+        setCounter(counter + 1);
+    }
+
+    initialState.response = response;
+
+    console.log("Init Response: " + initialState.response)
+
+    //@ts-ignore
+    const [state, dispatch] = useReducer(reducer, initialState);
+        return(
+
+    <dispatchCtx.Provider value={dispatch}>
+    <stateCtx.Provider value={state}>
+        {children}
+    </stateCtx.Provider>
+    </dispatchCtx.Provider>
     
-//     );
-// }
+    );
+}
 
 export const useDispatch = () => {
     return useContext(dispatchCtx);
@@ -113,7 +131,7 @@ getCoachSchedule reads through the JSON data in the "getgames" API call
 @param setSchedule hook function to be set to the array
 @param name the coaches school name
 */
-export const getCoachSchedule = () =>{
+export const getCoachSchedule = (name: any) =>{
 
     const res: any = initialState.response;
     
@@ -151,6 +169,9 @@ getCoachPending reads through the JSON data in the "getgames" API call
 export const getCoachPending = (name:String) =>{
 
     const res: any = initialState.response;
+
+
+    console.log("INitial res" + res);
 
     let pending = [];
 

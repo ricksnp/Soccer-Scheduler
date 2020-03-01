@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import games from './gm.json';
+import { useGlobalState, useDispatch } from '../../components/APIGameControls/Games';
 
 
 
@@ -10,7 +11,20 @@ const NewAdmin = () =>{
 
     //holds list of json file fames
     const gameList = games.games;
+    const [apiGames, setGames] = useState("");
     const [user, setUser] = useState("coach");
+    const response = useGlobalState("response");
+    
+    console.log("NewAdmin RESPONSE" + response);
+
+    const dispatch= useDispatch();
+
+    // | { type: 'ScheduledGames', payload: any }
+    // | { type: 'CoachSchedule', payload: any}
+    // | { type: 'AdminPending', payload: any }
+    // | { type: 'CoachPending', payload: any }
+    // | { type: 'GetEdit', payload: any }
+
 
     //for testing purposes
     const onClick = () => {
@@ -29,9 +43,14 @@ const NewAdmin = () =>{
 
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
         if (user === "coach") {
-            for ( let i = 0; i < gameList.length; i++ ) {
-                if ( (gameList[i].status === "coachPending" || gameList[i].status === "awayEdit" ) && (gameList[i].home === "West Monroe H.S." || gameList[i].away === "West Monroe H.S.") )
-                    pending.push(gameList[i]);
+            let count = 0;
+            if (count >0)
+            {
+                dispatch({type: "CoachPending"});
+                count +=1;
+            }
+            for ( let i = 0; i < response.length; i++ ) {
+                    pending.push(response[i]);
             }
         } 
         // if user isn't coach, find games where status == assognorpending || assignoredit
@@ -64,6 +83,7 @@ const NewAdmin = () =>{
     //map game categories to be displayed (pending games v scheduled games)
     const displayCards = categories.map((categoryName, i) => {
         return(
+            
             <CategoryCard 
                 category={categoryName} 
                 games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } />

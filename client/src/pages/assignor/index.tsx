@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Header, SubHeader } from '../../style/PageStyles';
-import { Card } from 'antd';
+import { Card } from '../../../node_modules/antd';
 import data from '../../components/fake.json';
 import { PendingGames } from '../../components'
 
 
-const Admin = () => {
+const Assignor = () => {
 
     const [key, setKey] = useState("new");
 
@@ -34,7 +34,7 @@ const Admin = () => {
 
     return (
         <>
-            <Header>Admin Panel</Header>
+            <Header>Assignor Panel</Header>
 
             <Card
                 style={{ width: '90%' }}
@@ -54,4 +54,4 @@ const Admin = () => {
 
 }
 
-export default Admin;
+export default Assignor;
