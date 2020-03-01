@@ -3,10 +3,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
-import {postGames} from '../../utility/APIGameControl';
-
-
-
+import { postGames } from '../../utility/APIGameControl';
 
 const CalendarModal = () => {
     const showAddGame = useGlobalState('showAddGame');
@@ -79,8 +76,8 @@ const CalendarModal = () => {
             onOk={handleOk}
             okText={showViewGame ? 'Edit' : 'Submit'}
         >
-            { showAddGame && <GameForm ref={ saveForm } /> }
-            { showViewGame && <EventDisplay event={clickedEvent} /> }
+            {showAddGame && <GameForm ref={saveForm} />}
+            {showViewGame && <EventDisplay event={clickedEvent} />}
         </Modal>
     );
 }

@@ -67,7 +67,11 @@ class AppHeader extends Component {
 									<i className="fas fa-user-shield"></i>
 								</NavLink>
 							</li>
-							<li><i class="fas fa-calendar-check"></i></li>
+							<li>
+								<NavLink exact={true} activeClassName='is-active' to="/assignor">
+									<i class="fas fa-calendar-check"></i>
+								</NavLink>
+							</li>
 						</ul>
 						<ul class="logout-ul">
 							<li onClick={this.actionLogout}><i class="fas fa-sign-out-alt"></i></li>

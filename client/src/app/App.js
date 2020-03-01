@@ -9,7 +9,7 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home, Admin } from '../pages';
+import { Home, Assignor, Admin } from '../pages';
 
 import { MyModal } from '../components';
 
@@ -20,7 +20,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true, //Change for Debugging
+			isAuthenticated: false, //Change for Debugging
 			isLoading: false
 		};
 		this.handleLogout = this.handleLogout.bind(this);
@@ -119,6 +119,7 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
+								<Route path="/assignor" render={() => <Assignor />} />
 								<Route path="/admin" render={() => <Admin />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
