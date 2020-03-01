@@ -1,16 +1,80 @@
-import React, {useState}from 'react';
-import {apiGetGames} from '../utility/APIGameControl';
+import React, {useState, createContext, useReducer, useContext}from 'react';
+import {apiGetGames} from '../../utility/APIGameControl';
+import { ReactComponent } from '*.svg';
 
 
 //const [res, setRes] = useState();
 
-const apiCall= () => {
 
-    apiGetGames().then(response =>{
+const initialState = {
+    name:"",
+    response:  apiGetGames().then(response =>{
         return(response);
     })
-
 }
+
+type Action =
+  | { type: 'ScheduledGames', payload: any }
+  | { type: 'CoachSchedule', payload: any}
+  | { type: 'AdminPending', payload: any }
+  | { type: 'CoachPending', payload: any }
+  | { type: 'GetEdit', payload: any }
+
+type State = typeof initialState;
+
+const reducer = (state: State, action: Action) => {
+
+    switch(action.type){
+        case 'ScheduledGames':
+            return{
+                name: "",
+                response: getScheduledGames()
+            };
+        case 'CoachSchedule':
+            return{
+                name: "",
+                response: getCoachSchedule()
+            };
+        case 'AdminPending':
+            return{
+                name: action.payload,
+                response: getCoachPending(name)
+            };
+        case 'CoachPending':
+            return{
+                name: action.payload,
+                response: getCoachPending(name)
+            }
+            
+        default: return state;
+    };
+};
+
+const stateCtx = createContext(initialState);
+const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);
+
+// export const Games: React.ComponentType= ({children}) =>{
+
+//     // const [state, dispatch] = useReducer(reducer, initialState);
+//     //     return(
+
+//     // <dispatchCtx.Games value={dispatch}>
+//     // <stateCtx.Games value={state}>
+//     //     {children}
+//     // </stateCtx.Games>
+//     // </dispatchCtx.Games>
+    
+//     );
+// }
+
+export const useDispatch = () => {
+    return useContext(dispatchCtx);
+  };
+  
+  export const useGlobalState = <K extends keyof State>(property: K) => {
+    const state = useContext(stateCtx);
+    return state[property]; // only one depth selector for comparison
+  };
 
 
 /*
@@ -18,9 +82,9 @@ getScheduledGames reads through the JSON data in the "getgames" API call
     and creates an array compatabile with full calendar
 @param setEvents is a hook function to be set to the array
 */
-export const getScheduledGames = (setEvents: any) =>{
+export const getScheduledGames = () =>{
 
-    const res:any = apiCall();
+const res: any = initialState.response;
 
 let games:any = [];
 
@@ -38,7 +102,7 @@ for(let i = 0; i < res.length; i++)
     }
 }
 
-setEvents(games);
+    return(games);
 
 }
 
@@ -49,9 +113,9 @@ getCoachSchedule reads through the JSON data in the "getgames" API call
 @param setSchedule hook function to be set to the array
 @param name the coaches school name
 */
-export const getCoachSchedule = (setSchedule: any,name:any) =>{
+export const getCoachSchedule = () =>{
 
-    const res:any = apiCall();
+    const res: any = initialState.response;
     
     let games:any = [];
     
@@ -71,7 +135,7 @@ export const getCoachSchedule = (setSchedule: any,name:any) =>{
         }
     }
     
-    setSchedule(games);
+    return(games);
     
 }
     
@@ -84,9 +148,9 @@ getCoachPending reads through the JSON data in the "getgames" API call
 @param setPending hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getCoachPending = (setPending:any, name: any) =>{
+export const getCoachPending = (name:String) =>{
 
-    const res:any = apiCall();
+    const res: any = initialState.response;
 
     let pending = [];
 
@@ -106,7 +170,7 @@ export const getCoachPending = (setPending:any, name: any) =>{
         }
     }
     
-    setPending(pending);
+    return(pending);
 
 }
 
@@ -117,9 +181,9 @@ getAdminPending reads through the JSON data in the "getgames" API call
     pages to show all the games that need their approval
 @param setAssignorPending hook function to be set to the array
 */
-export const getAdminPending = (setAssignorPending:any) =>{
+export const getAdminPending = () =>{
 
-    const res:any = apiCall();
+    const res: any = initialState.response;
 
     let pending = [];
 
@@ -139,7 +203,7 @@ export const getAdminPending = (setAssignorPending:any) =>{
         }
     }
     
-    setAssignorPending(pending);
+    return(pending);
 
 }
 
@@ -151,9 +215,9 @@ getEdit reads through the JSON data in the "getgames" API call
 @param setEdit hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getEdit = (setEdit:any, name:any) =>{
+export const getEdit = (name:String) =>{
 
-    const res:any = apiCall();
+    const res: any = initialState.response;
     let edited = [];
 
     for(let i = 0; i < res.length; i++)
@@ -184,7 +248,7 @@ export const getEdit = (setEdit:any, name:any) =>{
         }
     }
     
-    setEdit(edited);
+    return(edited);
 
 }
 

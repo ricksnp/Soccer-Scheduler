@@ -126,31 +126,4 @@ export const Provider: React.ComponentType = ({ children }) => {
       })
     }
 
-  }
-
-  //puts home and away team together for fullcalendar to read title
-  // //combines date & time for fullcalendar to read.
-  
-  // export const text = () => {
-
-
-  //   let formatted = [];
-
-  //   const games = getGames()
-  //   console.log("GAMES : " + games);
-
-  //   if(games != undefined)
-  //   {
-  //     const game =JSON.parse(games)
-
-  //     for(let i = 0; i < games.length; i++)
-  //     {
-  //       formatted.push({
-  //         title: game[i].homeTeamName + " vs " + game[i].awayTeamName,
-  //         start: game[i].date
-  //       });
-  //       console.log("formatted" + game[i].homeTeamName);
-  //     }
-  // }
-  //   return formatted;
-  // }
+}
