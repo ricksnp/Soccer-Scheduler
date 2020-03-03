@@ -14,16 +14,10 @@ const NewAdmin = () =>{
     const [apiGames, setGames] = useState("");
     const [user, setUser] = useState("coach");
     const response = useGlobalState("response");
-    
+    const [count, setCount] = useState(0);
     console.log("NewAdmin RESPONSE" + response);
 
     const dispatch= useDispatch();
-
-    // | { type: 'ScheduledGames', payload: any }
-    // | { type: 'CoachSchedule', payload: any}
-    // | { type: 'AdminPending', payload: any }
-    // | { type: 'CoachPending', payload: any }
-    // | { type: 'GetEdit', payload: any }
 
 
     //for testing purposes
@@ -42,15 +36,15 @@ const NewAdmin = () =>{
         let pending: any = [];
 
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
-        if (user === "coach") {
-            let count = 0;
-            if (count >0)
-            {
-                dispatch({type: "CoachPending"});
-                count +=1;
-            }
+        if (user === "coach" && count == 0) {
+
+            dispatch({type: "CoachPending"});
+            setCount(count + 1);
+            console.log("COUNT: " + count)
+
             for ( let i = 0; i < response.length; i++ ) {
                     pending.push(response[i]);
+                    console.log("Pending coach games" + response[i])
             }
         } 
         // if user isn't coach, find games where status == assognorpending || assignoredit
@@ -83,10 +77,15 @@ const NewAdmin = () =>{
     //map game categories to be displayed (pending games v scheduled games)
     const displayCards = categories.map((categoryName, i) => {
         return(
+            <>
             
-            <CategoryCard 
+            {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
+            {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
+            {/* <CategoryCard 
                 category={categoryName} 
-                games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } />
+                games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } /> */}
+
+            </>
         );
     });
     
@@ -95,7 +94,7 @@ const NewAdmin = () =>{
         <div>
             <Header>Game Manager</Header>
             <button onClick={onClick}>toggle role</button>
-
+            {console.log("USER ROLE: " + user)}
             {displayCards}
         </div>
     );
