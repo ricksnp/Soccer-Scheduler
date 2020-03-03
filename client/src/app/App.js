@@ -119,6 +119,7 @@ class App extends Component {
 							</Switch>
 							:
 							<Games>
+								{console.log.currentUser}
 							<Switch>
 									<Route path="/assignor" render={() => <NewAdmin />} />
 									<Route path="/admin" render={() => <Admin />} />

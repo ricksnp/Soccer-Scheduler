@@ -44,6 +44,7 @@ const reducer = (state: State, action: Action) => {
                 response: getCoachPending(initialState.name)
             };
         case 'CoachPending':
+            console.log("here");
             return{
                 response: getCoachPending(initialState.name)
             }
@@ -170,6 +171,7 @@ export const getCoachPending = (name:String) =>{
 
     const res: any = initialState.response;
 
+    console.log("hometeamename " + name);
 
     console.log("INitial res" + res);
 
@@ -186,11 +188,12 @@ export const getCoachPending = (name:String) =>{
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
+                status: res[i].status,
                 gender: res[i].gender
             })
         }
     }
-    
+    console.log("getCoachPending return: " + JSON.stringify(pending))
     return(pending);
 
 }
