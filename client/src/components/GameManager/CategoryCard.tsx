@@ -11,7 +11,7 @@ function sortGames (games: any) {
     for ( let i = 0; i < games.length; i++ ) {
     
          edit.push(games[i]);
-         console.log("GAMES: " + JSON.stringify(games[i]));
+         console.log("GAMES: " + games[i]);
 
     }
 

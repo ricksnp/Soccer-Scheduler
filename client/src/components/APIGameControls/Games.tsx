@@ -5,11 +5,12 @@ import { ReactComponent } from '*.svg';
 
 //const [res, setRes] = useState();
 
-async function getGames(getResponse: any){
+async function getGames (getResponse: any) {
 
-    apiGetGames().then(response =>{
-       getResponse(JSON.stringify(response));
-    })
+        await apiGetGames().then(response =>{
+            getResponse(response);
+        })
+
 
 }
 
@@ -32,6 +33,7 @@ const reducer = (state: State, action: Action) => {
 
     switch(action.type){
         case 'ScheduledGames':
+            console.log("HERE!!!!");
             return{
                 response: getScheduledGames()
             };
@@ -44,7 +46,6 @@ const reducer = (state: State, action: Action) => {
                 response: getCoachPending(initialState.name)
             };
         case 'CoachPending':
-            console.log("here");
             return{
                 response: getCoachPending(initialState.name)
             }
@@ -53,35 +54,40 @@ const reducer = (state: State, action: Action) => {
     };
 };
 
+
 const stateCtx = createContext(initialState);
 const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);
 
-export const Games: React.ComponentType= ({children}, user) =>{
+export const Games:React.ComponentType= ({children}, user) =>{
+
 
     initialState.name = "West Monroe";
 
-    const [response, getResponse] = useState("null");
+    const [response, getResponse] = useState("NULL");
     const [counter, setCounter] = useState(0);
+
 
     if(counter === 0)
     {
         getGames(getResponse);
         setCounter(counter + 1);
+    
     }
-
-    initialState.response = response;
-
-    console.log("Init Response: " + initialState.response)
 
     //@ts-ignore
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    state.response = response;
+
+    console.log("GAMES RESPONSE: " + state.response)
+
         return(
 
-    <dispatchCtx.Provider value={dispatch}>
-    <stateCtx.Provider value={state}>
-        {children}
-    </stateCtx.Provider>
-    </dispatchCtx.Provider>
+        <dispatchCtx.Provider value={dispatch}>
+        <stateCtx.Provider value={state}>
+            {children}
+        </stateCtx.Provider>
+        </dispatchCtx.Provider>
     
     );
 }
@@ -106,6 +112,8 @@ export const getScheduledGames = () =>{
 const res: any = initialState.response;
 
 let games:any = [];
+
+    console.log("INSIDE SCHEDULEDGAMESFUNCTION")
 
 for(let i = 0; i < res.length; i++)
 {

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import games from './gm.json';
 import { useGlobalState, useDispatch } from '../../components/APIGameControls/Games';
 
 
-
-
 const NewAdmin = () =>{
+
 
     //holds list of json file fames
     const gameList = games.games;
@@ -15,7 +14,8 @@ const NewAdmin = () =>{
     const [user, setUser] = useState("coach");
     const response = useGlobalState("response");
     const [count, setCount] = useState(0);
-    console.log("NewAdmin RESPONSE" + response);
+
+    console.log("NewAdmin RESPONSE:" + response);
 
     const dispatch= useDispatch();
 
@@ -26,6 +26,7 @@ const NewAdmin = () =>{
             setUser("assignor")    
         :
             setUser("coach")
+
     }
 
     //list of categories to display
@@ -36,12 +37,14 @@ const NewAdmin = () =>{
         let pending: any = [];
 
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
-        if (user === "coach" && count == 0) {
+        if (user === "coach") {
 
-            dispatch({type: "CoachPending"});
-            setCount(count + 1);
-            console.log("COUNT: " + count)
-
+            if(count === 0)
+            {
+                dispatch({type: "CoachPending"});
+                setCount(count + 1);
+                console.log("COUNT: " + count)
+            }
             for ( let i = 0; i < response.length; i++ ) {
                     pending.push(response[i]);
                     console.log("Pending coach games" + response[i])
@@ -60,10 +63,19 @@ const NewAdmin = () =>{
     //store list of scheduled games based on user roll -- same as pending, different status requirements
     const scheduledGames = () => {
         let scheduled: any = [];
-        if ( user === "coach" ){
-            for ( let i = 0; i < gameList.length; i++ ) {
-                if ( gameList[i].status === "scheduled" && (gameList[i].home === "West Monroe H.S." || gameList[i].away === "West Monroe H.S.") )
-                    scheduled.push(gameList[i]);
+        if ( user === "coach" )
+        {
+            if(count === 0 )
+            {
+                dispatch({type: "ScheduledGames"});
+                console.log("Scheduled Response: " + response)
+                setCount(count + 1);
+                console.log("COUNT: " + count)
+            }
+            for ( let i = 0; i < gameList.length; i++ ) 
+            {
+                    scheduled.push(response[i]);
+                    console.log("Scheduled Game: " + response[i])
             }
         } else {
             for ( let i = 0; i < gameList.length; i++ ) {
