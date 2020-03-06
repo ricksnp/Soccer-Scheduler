@@ -9,7 +9,7 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home, Assignor, Admin } from '../pages';
+import { Home, Assignor, Admin, Coach } from '../pages';
 
 import { MyModal } from '../components';
 
@@ -18,11 +18,13 @@ const { Content } = Layout;
 class App extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			currentUser: null,
 			isAuthenticated: false, //Change for Debugging
 			isLoading: false
 		};
+
 		this.handleLogout = this.handleLogout.bind(this);
 		this.loadCurrentUser = this.loadCurrentUser.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
@@ -99,7 +101,6 @@ class App extends Component {
 					:
 					<></>
 				}
-
 				<Content className="app-content">
 					<div className="container">
 						{!this.state.isAuthenticated ?
@@ -121,6 +122,7 @@ class App extends Component {
 							<Switch>
 								<Route path="/assignor" render={() => <Assignor />} />
 								<Route path="/admin" render={() => <Admin />} />
+								<Route path="/coach" render={() => <Coach />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
 						}

@@ -59,7 +59,7 @@ class AppHeader extends Component {
 						<ul>
 							<li>
 								<NavLink exact={true} activeClassName='is-active' to="/">
-									<i className="fas fa-home"></i>
+									<i class="far fa-calendar-alt"></i>
 								</NavLink>
 							</li>
 							<li>
@@ -68,8 +68,13 @@ class AppHeader extends Component {
 								</NavLink>
 							</li>
 							<li>
+								<NavLink exact={true} activeClassName='is-active' to="/coach">
+									<i class="far fa-edit"></i>
+								</NavLink>
+							</li>
+							<li>
 								<NavLink exact={true} activeClassName='is-active' to="/assignor">
-									<i class="fas fa-calendar-check"></i>
+									<i class="fas fa-futbol"></i>
 								</NavLink>
 							</li>
 						</ul>
