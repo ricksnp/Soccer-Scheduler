@@ -1,6 +1,7 @@
-import React, {useState, createContext, useReducer, useContext}from 'react';
+import React, {useState, createContext, useReducer, useContext, useEffect}from 'react';
 import {apiGetGames} from '../../utility/APIGameControl';
 import { ReactComponent } from '*.svg';
+import { render } from '@testing-library/react';
 
 
 //const [res, setRes] = useState();
@@ -58,26 +59,29 @@ const reducer = (state: State, action: Action) => {
 const stateCtx = createContext(initialState);
 const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);
 
-export const Games:React.ComponentType= ({children}, user) =>{
+
+export const Games:React.ComponentType= ({children}, games) =>{
 
 
     initialState.name = "West Monroe";
 
+    console.log("APP.js GAMES: " + JSON.stringify(games))
+
     const [response, getResponse] = useState("NULL");
     const [counter, setCounter] = useState(0);
 
-
     if(counter === 0)
     {
-        getGames(getResponse);
-        setCounter(counter + 1);
+        getGames(getResponse)
+        setCounter(counter + 1)
     
     }
 
     //@ts-ignore
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    state.response = response;
+    state.response = JSON.stringify(games);
+    initialState.response = JSON.stringify(games);
 
     console.log("GAMES RESPONSE: " + state.response)
 
@@ -110,6 +114,8 @@ getScheduledGames reads through the JSON data in the "getgames" API call
 export const getScheduledGames = () =>{
 
 const res: any = initialState.response;
+
+console.log("RES!!!!!!!!!!!!: " + res)
 
 let games:any = [];
 

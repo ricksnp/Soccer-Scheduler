@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import games from './gm.json';
@@ -7,18 +7,19 @@ import { useGlobalState, useDispatch } from '../../components/APIGameControls/Ga
 
 const NewAdmin = () =>{
 
-
     //holds list of json file fames
     const gameList = games.games;
     const [apiGames, setGames] = useState("");
     const [user, setUser] = useState("coach");
     const response = useGlobalState("response");
     const [count, setCount] = useState(0);
+    const [newRes,setRes] = useState("NULL");
+    const [newPen, setPending] = useState("");
+    const [newSched, setSched] = useState("");
 
     console.log("NewAdmin RESPONSE:" + response);
 
     const dispatch= useDispatch();
-
 
     //for testing purposes
     const onClick = () => {
@@ -57,7 +58,7 @@ const NewAdmin = () =>{
                     pending.push(gameList[i]);
             }
         }
-        return pending;
+        return pending
     }
 
     //store list of scheduled games based on user roll -- same as pending, different status requirements
@@ -83,22 +84,25 @@ const NewAdmin = () =>{
                     scheduled.push(gameList[i]);
             }
         }
-        return scheduled;
+        return scheduled
     }
+
 
     //map game categories to be displayed (pending games v scheduled games)
     const displayCards = categories.map((categoryName, i) => {
-        return(
-            <>
-            
-            {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
-            {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
-            {/* <CategoryCard 
-                category={categoryName} 
-                games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } /> */}
 
-            </>
-        );
+            return(
+                <>
+                {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
+                {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
+
+
+                {/* <CategoryCard 
+                    category={categoryName} 
+                    games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } /> */}
+                    </>
+
+            );
     });
     
 

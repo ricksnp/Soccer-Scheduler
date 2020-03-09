@@ -26,7 +26,7 @@ interface Props {
 const CategoryCard = ( props: Props ) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = props.category === 'Pending Approval'?
+    const gamesList = props.category === 'Pending Approval' ?
          sortGames(props.games)
     :
         props.games;
