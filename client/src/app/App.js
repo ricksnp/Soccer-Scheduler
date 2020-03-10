@@ -9,15 +9,12 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-<<<<<<< HEAD
 import { Home, Assignor, Admin, NewAdmin} from '../pages';
 import {Games} from '../components/APIGameControls/Games';
 import {apiGetGames} from '../utility/APIGameControl';
-=======
 import { Home, Assignor, Admin, Coach } from '../pages';
 
 import { MyModal } from '../components';
->>>>>>> b2db8c6abc46a954f8dc5109c9a78fc2236783d8
 
 const { Content } = Layout;
 
