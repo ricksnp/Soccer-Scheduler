@@ -45,3 +45,17 @@ code {
     flex-direction: column-reverse; 
   }
 }
+
+
+/*eawea */
+.btns-aprove {
+  margin-left: auto;
+}
+
+.btns-aprove button {
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-flex;
+  justify-content: center;
+  margin-left: 15px
+}

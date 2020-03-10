@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -45,10 +46,10 @@ public class CalendarController
 		return ResponseEntity.created(location).body(new ApiResponse(true, "Game Created Successfully"));
 	}
 	
-	@GetMapping("/{matchId}")
-	public GameEntryResponse getPollById(@CurrentUser UserPrincipal currentUser, @PathVariable Long matchId)
+	@GetMapping("/allgames")
+	public List<GameEntryResponse> getAllGames(@CurrentUser UserPrincipal currentUser)
 	{
-		return calendarService.getGamesById(matchId, currentUser);
+		return calendarService.getAllGames(currentUser);
 	}
 	
 	

@@ -11,6 +11,8 @@ import com.java.project.onlinematchsim.apiCalls.requestCalls.GameEntryResponse;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.GamesEntryRequest;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,29 @@ public class CalendarService {
 		respo.setTeamLevel(gamesCal.getTeamLevel());
 		respo.setLocation(gamesCal.getLocation());
 		return respo;
+	}
+	
+	public List<GameEntryResponse> getAllGames( UserPrincipal currentuser)
+	{
+		List<GamesCalendar> lii = gamesRepository.findAll();
+		List<GameEntryResponse> lii1 = new ArrayList<>();
+		GameEntryResponse respo;
+		for(GamesCalendar each : lii)
+		{
+			respo = new GameEntryResponse();
+			respo.setId(each.getMatchId());
+			respo.setAwayTeamName(each.getAwayTeamName());
+			respo.setDate(each.getDate());
+			respo.setGender(each.getGender());
+			respo.setHomeTeamName(each.getHomeTeamName());
+			respo.setTeamLevel(each.getTeamLevel());
+			respo.setLocation(each.getLocation());
+			lii1.add(respo);
+		}
+		return lii1;
+		
+		
+		
 	}
 	
 	

@@ -1,11 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.java.project.onlinematchsim.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.332 s <<< FAILURE! - in com.java.project.onlinematchsim.DemoApplicationTests
-contextLoads  Time elapsed: 0 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'calendarController': Unsatisfied dependency expressed through field 'gamesRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gamesRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Failed to create query for method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List)! Operator SIMPLE_PROPERTY on matchId requires a scalar argument, found interface java.util.List in method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List).
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gamesRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Failed to create query for method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List)! Operator SIMPLE_PROPERTY on matchId requires a scalar argument, found interface java.util.List in method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List).
-Caused by: java.lang.IllegalArgumentException: Failed to create query for method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List)! Operator SIMPLE_PROPERTY on matchId requires a scalar argument, found interface java.util.List in method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List).
-Caused by: java.lang.IllegalStateException: Operator SIMPLE_PROPERTY on matchId requires a scalar argument, found interface java.util.List in method public abstract java.util.List com.java.project.onlinematchsim.repos.GamesRepository.findByMatchId(java.util.List).
-
+<<<<<<< HEAD
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.951 s - in com.java.project.onlinematchsim.DemoApplicationTests
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.671 s - in com.java.project.onlinematchsim.DemoApplicationTests
+>>>>>>> 37768203dcba8b0175f6a14608e52f343fe0026b

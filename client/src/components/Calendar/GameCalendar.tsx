@@ -50,9 +50,12 @@ const GameCalendar = (  ) => {
     <div className="game-cal">
       <Cal 
         header={{ 
-          left: 'dayGridMonth,dayGridWeek,today',
+          left: 'dayGridMonth,dayGridWeek,dayGridDay,today',
           center: 'title',
-          right: 'prev next'
+          right: 'prev next',
+        }}
+        footer={{
+          center: 'prev next'
         }}
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}  

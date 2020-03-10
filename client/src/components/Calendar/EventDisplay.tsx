@@ -8,7 +8,7 @@ interface Props {
 const EventDisplay = ( props: Props ) => {
     
 
-    const events = useGlobalState('clickedGame');
+    //const events = useGlobalState('clickedGame');
 
 
     return(
