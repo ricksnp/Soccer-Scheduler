@@ -26,11 +26,9 @@ const Assignor = () => {
         },
     ];
 
-
     function onTabChange({ key }: any) {
         setKey(key)
     }
-
 
     return (
         <>
@@ -38,15 +36,15 @@ const Assignor = () => {
 
             <Card
                 style={{ width: '90%' }}
-                title="Needs Approval"
+                // title="Needs Approval"
                 tabList={tabList}
                 activeTabKey={key}
                 onTabChange={key => {
                     setKey(key);
                 }}
             >
-                {key == "new" && <PendingGames gameType={key} />}
-                {key == "edit" && <PendingGames gameType={key} />}
+                {key === "new" && <PendingGames gameType={key} />}
+                {key === "edit" && <PendingGames gameType={key} />}
 
             </Card>
         </>
