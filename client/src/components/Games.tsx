@@ -2,14 +2,16 @@ import React, {useState}from 'react';
 import {apiGetGames} from '../utility/APIGameControl';
 
 
-const [res, setRes] = useState();
+//const [res, setRes] = useState();
 
 const apiCall= () => {
 
+    let x:any  = [];
     apiGetGames().then(response =>{
-        setRes(response);
+        x = response;
     })
 
+    return x;
 }
 
 
@@ -20,7 +22,7 @@ getScheduledGames reads through the JSON data in the "getgames" API call
 */
 export const getScheduledGames = (setEvents: any) =>{
 
-apiCall();
+const res = apiCall();
 
 let games:any = [];
 
@@ -51,7 +53,7 @@ getCoachSchedule reads through the JSON data in the "getgames" API call
 */
 export const getCoachSchedule = (setSchedule: any,name:any) =>{
 
-    apiCall();
+    const res = apiCall();
     
     let games:any = [];
     
@@ -85,8 +87,7 @@ getCoachPending reads through the JSON data in the "getgames" API call
 @param name the name of the coaches team
 */
 export const getCoachPending = (setPending:any, name: any) =>{
-
-    apiCall();
+    const res = apiCall();
 
     let pending = [];
 
@@ -119,7 +120,7 @@ getAdminPending reads through the JSON data in the "getgames" API call
 */
 export const getAdminPending = (setAssignorPending:any) =>{
 
-    apiCall();
+    const res = apiCall();
 
     let pending = [];
 
@@ -153,7 +154,7 @@ getEdit reads through the JSON data in the "getgames" API call
 */
 export const getEdit = (setEdit:any, name:any) =>{
 
-    apiCall();
+    const res = apiCall();
 
     let edited = [];
 

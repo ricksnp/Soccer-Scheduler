@@ -51,12 +51,15 @@ class  App extends Component{
 					isAuthenticated: true,
 					isLoading: false
 				});
+
+				console.log("USER = " + JSON.stringify(this.state.currentUser))
 			})
 			.catch((error) => {
 				this.setState({
 					isLoading: false
 				});
 			});
+
 	}
 
 	async componentDidMount() {
@@ -134,7 +137,6 @@ class  App extends Component{
 							</Switch>
 							:
 							<Games games={this.state.games}>
-								{console.log.currentUser}
 							<Switch>
 								<Route path="/assignor" render={() => <Assignor />} />
 								<Route path="/admin" render={() => <Admin />} />
