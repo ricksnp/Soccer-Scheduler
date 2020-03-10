@@ -51,7 +51,10 @@ const GameCalendar = (  ) => {
         header={{ 
           left: 'dayGridMonth,dayGridFiveDay,today',
           center: 'title',
-          right: 'prev next'
+          right: 'prev next',
+        }}
+        footer={{
+          center: 'prev next'
         }}
         views={{
           dayGridFiveDay: {

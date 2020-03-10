@@ -1,0 +1,10 @@
+{
+        "games" :[
+        {"id":0, "home": "West Monroe H.S.", "away": "Neville H.S.", "level":"Junior Varsity", "date": "2020-02-02", "time":"13:00", "location": "West Monroe High School", "status":"assignorPending" },
+        {"id":1, "home": "Neville H.S.", "away": "Sterlington H.S.", "level":"Junior Varsity", "date": "2020-02-10", "time":"15:00", "location": "Neville High School", "status":"assignorEdit"},
+        {"id":0, "home": "Sterlington H.S", "away": "Neville H.S.", "level":"Varsity", "date": "2020-02-15", "time":"17:00", "location": "Sterlington High School", "status":"scheduled"},
+        {"id":1, "home": "Airline H.S", "away": "West Monroe H.S.", "level":"Varsity", "date": "2020-02-20", "time":"17:30", "location": "Airline High School", "status":"scheduled"},
+        {"id":0, "home": "West Monroe H.S.", "away": "Sterlington H.S.", "level":"Varsity", "date": "2020-02-28", "time":"18:15", "location": "West Monroe High School", "status":"coachPending" },
+        {"id":1, "home": "West Monroe H.S.", "away": "Airline H.S.", "level":"Varsity", "date": "2020-02-7", "time":"16:45", "location": "West Monroe High School", "status":"awayEdit" }
+    ] 
+}

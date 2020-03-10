@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import events from './events.json';
 import {postGames, apiGetGames} from '../../utility/APIGameControl';
-import NewGameForm from './NewGameForm.js';
 
 
 const { createContext, useContext, useReducer } = React;
@@ -101,56 +100,30 @@ export const Provider: React.ComponentType = ({ children }) => {
   //getGames returns the json file of game information
   export const getGames = () => {
 
-    let newGame:any = []
 
     if(apiGetGames() == null)
     {
       console.log("if: "+ apiGetGames());
-      newGame.push("no-schedule");
+      return "";
     }
     else{
       apiGetGames().then(games=>{
         console.log("HERE" + games);
+
+        const newGame = []
         
-        newGame.push(
+        newGame[0] =
         {
           title: games.homeTeamName + " vs " + games.awayTeamName,
           start: games.date.replace(" ", "T")
         
-        });
+      } 
 
         // console.log("NewGame: " +newGame.title);
         // console.log("NewGame Date: " + newGame.start);
-        console.log("newGame in Provider" + JSON.stringify(newGame));
+        console.log(JSON.stringify(newGame));
+        return newGame;
       })
     }
 
-    return newGame
-  }
-
-  //puts home and away team together for fullcalendar to read title
-  // //combines date & time for fullcalendar to read.
-  
-  // export const text = () => {
-
-
-  //   let formatted = [];
-
-  //   const games = getGames()
-  //   console.log("GAMES : " + games);
-
-  //   if(games != undefined)
-  //   {
-  //     const game =JSON.parse(games)
-
-  //     for(let i = 0; i < games.length; i++)
-  //     {
-  //       formatted.push({
-  //         title: game[i].homeTeamName + " vs " + game[i].awayTeamName,
-  //         start: game[i].date
-  //       });
-  //       console.log("formatted" + game[i].homeTeamName);
-  //     }
-  // }
-  //   return formatted;
-  // }
+}

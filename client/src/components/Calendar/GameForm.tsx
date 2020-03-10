@@ -6,7 +6,7 @@ interface Props {
     form: any
 }
 
-
+//if "other", school is not in disctrict, make new field appear to type in school
 
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
@@ -76,9 +76,10 @@ const CreateEditGame = ( props: Props ) => {
                     <Input/>
                 )}
             </Form.Item>
-            <Form.Item label="Status">
+            <Form.Item label="Status" style={ {display: "none"} } >
                 {getFieldDecorator('status', {
                     rules: [{ required: true, message: 'Select Status' }],
+                    initialValue: "coachPending"
                 })(
                     <Input/>
                 )}

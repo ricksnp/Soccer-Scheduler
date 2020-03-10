@@ -11,9 +11,9 @@ import { Provider, useDispatch } from './Provider';
 const CalendarController = (loggedin: any) => {
 
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
-    const [clickedGame, setClickedGame] = useState();
+    //const [clickedGame, setClickedGame] = useState();
 
 
     return (
