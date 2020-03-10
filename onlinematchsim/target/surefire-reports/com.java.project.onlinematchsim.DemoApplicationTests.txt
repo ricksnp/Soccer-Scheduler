@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.java.project.onlinematchsim.DemoApplicationTests
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.951 s - in com.java.project.onlinematchsim.DemoApplicationTests
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.671 s - in com.java.project.onlinematchsim.DemoApplicationTests
+>>>>>>> 37768203dcba8b0175f6a14608e52f343fe0026b
