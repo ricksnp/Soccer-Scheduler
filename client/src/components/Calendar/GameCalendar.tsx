@@ -49,9 +49,16 @@ const GameCalendar = (  ) => {
     <div className="game-cal">
       <Cal 
         header={{ 
-          left: 'dayGridMonth,dayGridWeek,today',
+          left: 'dayGridMonth,dayGridFiveDay,today',
           center: 'title',
           right: 'prev next'
+        }}
+        views={{
+          dayGridFiveDay: {
+            type: 'dayGridWeek',
+            duration: { days: 5 },
+            buttonText: '5-day'
+          }
         }}
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}  
