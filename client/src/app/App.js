@@ -9,7 +9,6 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { Home, Assignor, Admin, NewAdmin} from '../pages';
 import {Games} from '../components/APIGameControls/Games';
 import {apiGetGames} from '../utility/APIGameControl';
 import { Home, Assignor, Admin, Coach } from '../pages';
@@ -137,14 +136,9 @@ class  App extends Component{
 							<Games games={this.state.games}>
 								{console.log.currentUser}
 							<Switch>
-<<<<<<< HEAD
-									<Route path="/assignor" render={() => <NewAdmin />} />
-									<Route path="/admin" render={() => <Admin />} />
-=======
 								<Route path="/assignor" render={() => <Assignor />} />
 								<Route path="/admin" render={() => <Admin />} />
 								<Route path="/coach" render={() => <Coach />} />
->>>>>>> b2db8c6abc46a954f8dc5109c9a78fc2236783d8
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
 							</Games>
