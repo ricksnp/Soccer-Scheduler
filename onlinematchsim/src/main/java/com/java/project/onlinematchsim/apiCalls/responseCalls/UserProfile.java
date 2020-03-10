@@ -6,15 +6,28 @@ public class UserProfile {
     private Long id;
     private String username;
     private String name;
+    private String role;
 
-    public UserProfile(Long id, String username, String name)
+    public UserProfile(Long id, String username, String name, String role)
     {
         this.id = id;
         this.username = username;
         this.name = name;
+        this.role = role;
     }
+    
+    
+    public String getRole() {
+		return role;
+	}
 
-    public Long getId() {
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	public Long getId() {
         return this.id;
     }
 
