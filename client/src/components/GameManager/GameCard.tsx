@@ -14,6 +14,8 @@ const GameCard = ( props: Props ) => {
 
     const game = props.game
 
+    console.log("GAME CARD= " + props.game)
+
     return(
         props.game === undefined ?
         <>THERE ARE NO GAMES </>

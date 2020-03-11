@@ -6,11 +6,11 @@ import GameCard from './GameCard';
 
 //sorts pending games based on status
 function sortGames (games: any) {
-    let edit = [];
+    let edit:any = [];
     let newGames: any = [];
     for ( let i = 0; i < games.length; i++ ) {
     
-         edit.push(games[i]);
+         newGames.push(games[i]);
          console.log("GAMES: " + games[i]);
 
     }
@@ -40,7 +40,7 @@ const CategoryCard = ( props: Props ) => {
             setKey("new");
     }
 
-
+    console.log("CategiryCard Props = " + JSON.stringify(props));
     //if current category is pending approval, add tabs to category card
     const tabList = props.category === "Pending Approval" ?
         [

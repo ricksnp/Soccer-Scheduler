@@ -10,7 +10,6 @@ import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
 import { Home, Assignor, Admin, NewAdmin} from '../pages';
-import {Games} from '../components/APIGameControls/Games';
 import {apiGetGames} from '../utility/APIGameControl';
 
 const { Content } = Layout;
@@ -63,8 +62,8 @@ class  App extends Component{
 				games: response
 			});
 		})
-		
-		console.log("MOUNT GAMES: " + JSON.stringify(this.state.games));
+
+		console.log("CURRENT USER + "+ JSON.stringify(this.state.currentUser))
 	}
 
 
@@ -130,14 +129,11 @@ class  App extends Component{
 								/>
 							</Switch>
 							:
-							<Games games={this.state.games}>
-								{console.log.currentUser}
 							<Switch>
 									<Route path="/assignor" render={() => <NewAdmin />} />
 									<Route path="/admin" render={() => <Admin />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
-							</Games>
 						}
 					</div>
 				</Content>
