@@ -10,6 +10,7 @@ public class GameEntryResponse {
 	private String teamLevel;
 	private String gender;
 	private String location;
+	private String status;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	
@@ -55,6 +56,12 @@ public class GameEntryResponse {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

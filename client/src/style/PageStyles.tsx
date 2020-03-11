@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 const Header = styled.div`
     font-weight: bold;
-    padding-top:10vh;
-    font-size: 6vh;
+    font-size: 4vh;
     color:black;
     text-decoration: underline;
 `;
@@ -15,5 +14,6 @@ const SubHeader = styled.div`
     text-decoration: underline;
 
 `;
+
 
 export {Header, SubHeader} 

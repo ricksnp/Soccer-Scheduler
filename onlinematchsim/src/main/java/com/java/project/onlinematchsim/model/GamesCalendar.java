@@ -38,7 +38,7 @@ public class GamesCalendar
 	private String status;
 
 	public GamesCalendar(long matchId, String homeTeamName, String awayTeamName,
-			 String date,  String location,  String teamLevel,  String gender) {
+			 String date,  String location,  String teamLevel,  String gender, String status) {
 		super();
 		this.matchId = matchId;
 		this.homeTeamName = homeTeamName;
@@ -47,6 +47,7 @@ public class GamesCalendar
 		this.location = location;
 		this.teamLevel = teamLevel;
 		this.gender = gender;
+		this.status = status;
 	}
 
 	public GamesCalendar() {

@@ -73,7 +73,7 @@ class AppHeader extends Component {
 								</NavLink>
 							</li>
 							<li>
-								<NavLink exact={true} activeClassName='is-active' to="/assignor">
+								<NavLink exact={true} activeClassName='is-active' to="/GameManager">
 									<i class="fas fa-futbol"></i>
 								</NavLink>
 							</li>

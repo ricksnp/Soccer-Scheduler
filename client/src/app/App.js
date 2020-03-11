@@ -9,9 +9,8 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import {Games} from '../components/APIGameControls/Games';
 import {apiGetGames} from '../utility/APIGameControl';
-import { Home, Assignor, Admin, Coach } from '../pages';
+import { Home, Assignor, Admin, Coach, NewAdmin} from '../pages';
 
 import { MyModal } from '../components';
 
@@ -70,8 +69,8 @@ class  App extends Component{
 				games: response
 			});
 		})
-		
-		console.log("MOUNT GAMES: " + JSON.stringify(this.state.games));
+
+		console.log("CURRENT USER + "+ JSON.stringify(this.state.currentUser))
 	}
 
 
@@ -136,14 +135,12 @@ class  App extends Component{
 								/>
 							</Switch>
 							:
-							<Games games={this.state.games}>
 							<Switch>
-								<Route path="/assignor" render={() => <Assignor />} />
-								<Route path="/admin" render={() => <Admin />} />
-								<Route path="/coach" render={() => <Coach />} />
+									<Route path="/GameManager" render={() => <NewAdmin user={this.state.user} />} />
+									<Route path="/admin" render={() => <Admin />} />
+									<Route path="/coach" render={() => <Coach />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
-							</Games>
 						}
 					</div>
 				</Content>
