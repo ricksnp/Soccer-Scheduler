@@ -84,22 +84,6 @@ const CreateEditGame = ( props: Props ) => {
                     <Input/>
                 )}
             </Form.Item>
-            {/* <Form.Item label="Time">
-                { getFieldDecorator('time', {
-                    rules: [{ required: true }],
-                })(
-                    <TimePicker use12Hours format="h:mm a" />
-                ) }
-            </Form.Item> */}
-
-            {/* <Form.Item label="Date">
-                {getFieldDecorator('date', {
-                    rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: [date]
-                })(
-                    <Checkbox>{date}</Checkbox>
-                )}
-            </Form.Item> */}
 
 
             <Form.Item label="Date">

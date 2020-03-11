@@ -3,6 +3,7 @@ import { Card } from 'antd';
 import { Header, SubHeader } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
+import AddGames from './AddGames';
 
 
 const Empty = styled.div`
@@ -63,6 +64,10 @@ const CategoryCard = ( props: Props ) => {
             {
                 key: "scheduled",
                 tab: "Scheduled Games",
+            },
+            {
+                key: "add",
+                tab: "Add Games"
             }
         ]
 
@@ -113,7 +118,8 @@ const CategoryCard = ( props: Props ) => {
                     {listEdit}
                     </>
                 }
-                {key === "scheduled" && listScheduled}   
+                {key === "scheduled" && listScheduled}
+                {key === "add" && <AddGames/>}   
         </Card>
     );
 
