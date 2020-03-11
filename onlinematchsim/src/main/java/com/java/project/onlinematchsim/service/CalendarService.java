@@ -86,6 +86,7 @@ public class CalendarService {
 			respo.setHomeTeamName(each.getHomeTeamName());
 			respo.setTeamLevel(each.getTeamLevel());
 			respo.setLocation(each.getLocation());
+			respo.setStatus(each.getStatus());
 			lii1.add(respo);
 		}
 		return lii1;
