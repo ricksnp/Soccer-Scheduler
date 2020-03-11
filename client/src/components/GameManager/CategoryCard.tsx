@@ -54,7 +54,7 @@ const CategoryCard = ( props: Props ) => {
     // }
 
     //if current category is pending approval, add tabs to category card
-    const tabList = props.category === "Pending Approval" ?
+    const tabList = 
         [
             {
                 key: 'pending',
@@ -65,8 +65,6 @@ const CategoryCard = ( props: Props ) => {
                 tab: "Scheduled Games",
             }
         ]
-    :
-        [];
 
     //contains list of new games or message
     const listNew = gamesList.new.length === 0 ?
@@ -112,7 +110,6 @@ const CategoryCard = ( props: Props ) => {
                     <Header>New Games</Header>
                     {listNew}
                     <Header>Edited Games</Header>
-                    {console.log("LISTEDIT: " + listEdit)}
                     {listEdit}
                     </>
                 }

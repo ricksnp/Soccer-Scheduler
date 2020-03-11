@@ -35,8 +35,6 @@ const NewAdmin = (userInfo: User) =>{
     const [counter, setCounter] = useState(0);
     const [newResponse, setNew] = useState(initialResponse);
 
-    console.log("NewAdmin RESPONSE:" + newResponse);
-
 
     if(counter == 0)
     {
@@ -81,10 +79,6 @@ const NewAdmin = (userInfo: User) =>{
                     })
                 }
             }
-
-            console.log("newResponse =" + newResponse[0].status);
-            console.log("Pending =" + pending);
-
         } 
         // if user isn't coach, find games where status == assognorpending || assignoredit
         else {
@@ -97,7 +91,6 @@ const NewAdmin = (userInfo: User) =>{
                 }
             }
         }
-        console.log("Pending = " + pending)
         return pending
     }
 
