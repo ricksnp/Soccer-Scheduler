@@ -2,24 +2,50 @@ import React, { useState, useEffect} from 'react';
 import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import games from './gm.json';
-import { useGlobalState, useDispatch } from '../../components/APIGameControls/Games';
+import {apiGetGames} from '../../utility/APIGameControl';
+import { getGames } from '../../components/Calendar/Provider';
 
+
+async function getNewGames (setNew: any) {
+
+        await apiGetGames().then(response =>{
+          setNew(response);
+        })
+}
 
 const NewAdmin = () =>{
+
+    const initialResponse: any= [{
+        status: "null",
+        homeTeamName: "null",
+        awayTeamName: "null",
+        matchid: "null",
+        date: "null",
+        location: "null",
+        teamLevel: "null",
+        gender: "null"
+}]
 
     //holds list of json file fames
     const gameList = games.games;
     const [apiGames, setGames] = useState("");
     const [user, setUser] = useState("coach");
-    const response = useGlobalState("response");
     const [count, setCount] = useState(0);
     const [newRes,setRes] = useState("NULL");
-    const [newPen, setPending] = useState("");
+    const [newPen, setPending] = useState(initialResponse);
     const [newSched, setSched] = useState("");
+    const [counter, setCounter] = useState(0);
+    const [newResponse, setNew] = useState(initialResponse);
 
-    console.log("NewAdmin RESPONSE:" + response);
+    console.log("NewAdmin RESPONSE:" + newResponse);
 
-    const dispatch= useDispatch();
+
+    if(counter == 0)
+    {
+        getNewGames(setNew);
+        setCounter(counter + 1);
+    }
+
 
     //for testing purposes
     const onClick = () => {
@@ -40,16 +66,26 @@ const NewAdmin = () =>{
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
         if (user === "coach") {
 
-            if(count === 0)
+            for(let i = 0; i < newResponse.length; i++)
             {
-                dispatch({type: "CoachPending"});
-                setCount(count + 1);
-                console.log("COUNT: " + count)
+                if(newResponse[i].status == "coachPending" && newResponse[i].homeTeamName == "West Monroe")
+                {
+                    pending.push({
+                        id: newResponse[i].matchid,
+                        home: newResponse[i].homeTeamName,
+                        away: newResponse[i].awayTeamName,
+                        start: newResponse[i].date.replace(" ", "T"),
+                        location: newResponse[i].location,
+                        teamLevel: newResponse[i].teamLevel,
+                        status: newResponse[i].status,
+                        gender: newResponse[i].gender
+                    })
+                }
             }
-            for ( let i = 0; i < response.length; i++ ) {
-                    pending.push(response[i]);
-                    console.log("Pending coach games" + response[i])
-            }
+
+            console.log("newResponse =" + newResponse[0].status);
+            console.log("Pending =" + pending);
+
         } 
         // if user isn't coach, find games where status == assognorpending || assignoredit
         else {
@@ -58,6 +94,7 @@ const NewAdmin = () =>{
                     pending.push(gameList[i]);
             }
         }
+        console.log("Pending = " + pending)
         return pending
     }
 
@@ -68,15 +105,11 @@ const NewAdmin = () =>{
         {
             if(count === 0 )
             {
-                dispatch({type: "ScheduledGames"});
-                console.log("Scheduled Response: " + response)
                 setCount(count + 1);
                 console.log("COUNT: " + count)
             }
             for ( let i = 0; i < gameList.length; i++ ) 
             {
-                    scheduled.push(response[i]);
-                    console.log("Scheduled Game: " + response[i])
             }
         } else {
             for ( let i = 0; i < gameList.length; i++ ) {
@@ -93,15 +126,16 @@ const NewAdmin = () =>{
 
             return(
                 <>
-                {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
-                {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
-
-
-                {/* <CategoryCard 
-                    category={categoryName} 
-                    games={ categoryName === 'Pending Approval'? pendingGames() : scheduledGames() } /> */}
+                {newResponse.status ==  "null" ? 
+                
+                <div>NULL</div>
+                : 
+                    <>
+                    {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
+                    {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
                     </>
-
+            }
+            </>
             );
     });
     
