@@ -130,7 +130,7 @@ class  App extends Component{
 							</Switch>
 							:
 							<Switch>
-									<Route path="/assignor" render={() => <NewAdmin />} />
+									<Route path="/assignor" render={() => <NewAdmin user={this.state.user} />} />
 									<Route path="/admin" render={() => <Admin />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>

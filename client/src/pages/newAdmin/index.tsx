@@ -12,8 +12,11 @@ async function getNewGames (setNew: any) {
           setNew(response);
         })
 }
-
-const NewAdmin = () =>{
+interface User {
+    name: string,
+    role: string
+}
+const NewAdmin = (userInfo: User) =>{
 
     const initialResponse: any= [{
         status: "null",
@@ -24,16 +27,11 @@ const NewAdmin = () =>{
         location: "null",
         teamLevel: "null",
         gender: "null"
-}]
+    }]
 
     //holds list of json file fames
     const gameList = games.games;
-    const [apiGames, setGames] = useState("");
     const [user, setUser] = useState("coach");
-    const [count, setCount] = useState(0);
-    const [newRes,setRes] = useState("NULL");
-    const [newPen, setPending] = useState(initialResponse);
-    const [newSched, setSched] = useState("");
     const [counter, setCounter] = useState(0);
     const [newResponse, setNew] = useState(initialResponse);
 
@@ -44,6 +42,7 @@ const NewAdmin = () =>{
     {
         getNewGames(setNew);
         setCounter(counter + 1);
+        setUser("ROLE_USER")
     }
 
 
@@ -52,7 +51,7 @@ const NewAdmin = () =>{
         user === "coach" ? 
             setUser("assignor")    
         :
-            setUser("coach")
+            setUser("ROLE_USER")
 
     }
 
@@ -64,11 +63,11 @@ const NewAdmin = () =>{
         let pending: any = [];
 
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
-        if (user === "coach") {
+        if (user === "ROLE_USER") {
 
             for(let i = 0; i < newResponse.length; i++)
             {
-                if(newResponse[i].status == "coachPending" && newResponse[i].homeTeamName == "West Monroe")
+                if((newResponse[i].status == "coachPending" || newResponse[i].status.includes("Edit")) && newResponse[i].homeTeamName == "West Monroe")
                 {
                     pending.push({
                         id: newResponse[i].matchid,
@@ -91,7 +90,11 @@ const NewAdmin = () =>{
         else {
             for ( let i = 0; i < gameList.length; i++ ) {
                 if ( gameList[i].status === "assignorPending" || gameList[i].status === "assignorEdit" )
+                {
+                    
                     pending.push(gameList[i]);
+
+                }
             }
         }
         console.log("Pending = " + pending)
@@ -103,19 +106,27 @@ const NewAdmin = () =>{
         let scheduled: any = [];
         if ( user === "coach" )
         {
-            if(count === 0 )
+            for ( let i = 0; i < newResponse.length; i++ ) 
             {
-                setCount(count + 1);
-                console.log("COUNT: " + count)
+                if(newResponse[i].status == "scheduled" && newResponse[i].homeTeamName == "West Monroe")
+                {
+                    scheduled.push({
+                        id: newResponse[i].matchid,
+                        home: newResponse[i].homeTeamName,
+                        away: newResponse[i].awayTeamName,
+                        start: newResponse[i].date.replace(" ", "T"),
+                        location: newResponse[i].location,
+                        teamLevel: newResponse[i].teamLevel,
+                        status: newResponse[i].status,
+                        gender: newResponse[i].gender
+                    })
+                }
             }
-            for ( let i = 0; i < gameList.length; i++ ) 
-            {
-            }
-        } else {
-            for ( let i = 0; i < gameList.length; i++ ) {
-                if ( gameList[i].status === "scheduled" )
-                    scheduled.push(gameList[i]);
-            }
+        // } else {
+        //     for ( let i = 0; i < gameList.length; i++ ) {
+        //         if ( gameList[i].status === "scheduled" )
+        //             scheduled.push(gameList[i]);
+        //     }
         }
         return scheduled
     }
@@ -128,11 +139,11 @@ const NewAdmin = () =>{
                 <>
                 {newResponse.status ==  "null" ? 
                 
-                <div>NULL</div>
+                <div>There Are No Games</div>
                 : 
                     <>
-                    {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} games={pendingGames()}/>}
-                    {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>}
+                    {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} editGames={pendingGames()} scheduledGames={scheduledGames()}/>}
+                    {/* {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>} */}
                     </>
             }
             </>
@@ -142,7 +153,6 @@ const NewAdmin = () =>{
 
     return(
         <div>
-            <Header>Game Manager</Header>
             <button onClick={onClick}>toggle role</button>
             {console.log("USER ROLE: " + user)}
             {displayCards}
