@@ -38,7 +38,7 @@ public class CalendarController
 	
 	
 	@PostMapping
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<?> registerGames(@Valid @RequestBody GamesEntryRequest gameReq)
 	{
 		GamesCalendar gamesCalendar = calendarService.createGame(gameReq);
