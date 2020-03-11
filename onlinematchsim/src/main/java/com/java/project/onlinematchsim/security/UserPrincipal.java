@@ -37,7 +37,7 @@ public class UserPrincipal implements UserDetails
         this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.authorities = authorities;
         this.role = role;
     }
@@ -63,11 +63,11 @@ public class UserPrincipal implements UserDetails
 
     
     public String getRoles() {
-		return roles;
+		return role;
 	}
 
 	public void setRoles(String roles) {
-		this.roles = roles;
+		this.role = roles;
 	}
 
 	public Long getId() {
