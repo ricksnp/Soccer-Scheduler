@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
 import {Select, Form,} from 'antd';
+import {isMobile} from "react-device-detect";
+import styled from 'styled-components';
+import EditModal from '../../pages/coach/components/editModal';
+
+
+
 
 const Filter = ({setFilter}: any) =>
 {
@@ -20,10 +26,17 @@ const Filter = ({setFilter}: any) =>
         setFilter(values);
     }
 
-    const layout = {
-        labelCol: { span: 1 },
-        wrapperCol: { span: 8 },
-      };
+    const layout = 
+        isMobile ? 
+        {   
+            labelCol: {span: 3},
+            wrapperCol: {span: 10}
+        }
+        :
+        {
+            labelCol: { span: 1 },
+            wrapperCol: { span: 8 },
+        }
 
 
 

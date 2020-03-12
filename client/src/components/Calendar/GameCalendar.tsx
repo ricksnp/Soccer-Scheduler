@@ -6,15 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames } from '../Games';
-import {
-  BrowserView,
-  MobileView,
-  isBrowser,
-  isMobile,
-  withOrientationChange,
-  IOSView
-} from "react-device-detect";
+import { getScheduledGames, getCoachPending } from '../Games';
+import {isBrowser, isMobile} from "react-device-detect";
 
 
 interface Props {
@@ -65,22 +58,31 @@ const GameCalendar = ({filter}:any) => {
     <div className="game-cal">
       {console.log(isBrowser)}
       <Cal
-        header={isBrowser ? {
-          left: 'dayGridMonth,dayGridFiveDay,today',
-          center: 'title',
-          right: 'prev next',
+        header={isBrowser ? 
+          {
+            left: 'dayGridMonth,dayGridFiveDay,dayGridDay',
+            center: 'title',
+            right: 'prev next, today',
+          }
+
+          : 
+          {
+            center: 'dayGridMonth,dayGridFiveDay,dayGridDay     today',
+            left: 'title',
+            right: ''
+          }
         }
 
-          : {
-            left: 'dayGridMonth,dayGridFiveDay,today',
-            center: 'title',
-            right: ''
-          }}
 
-
-        footer={isMobile ? {
-          center: 'prev next'
-        } : {}}
+        footer={
+          isMobile ? 
+          {
+            center: 'prev next',
+            left:'today'
+          } 
+          : 
+          {}
+        }
         views={{
           dayGridFiveDay: {
             type: 'dayGridWeek',
@@ -88,7 +90,7 @@ const GameCalendar = ({filter}:any) => {
             buttonText: '5-day'
           }
         }}
-        defaultView="dayGridMonth"
+        defaultView={isMobile ? "dayGridFiveDay": "dayGridMonth"}
         plugins={[dayGridPlugin, interactionPlugin]}
         dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
         events={events}
