@@ -7,7 +7,7 @@ import AddGames from './AddGames';
 
 
 const Empty = styled.div`
-    font-size:3vh;
+    font-size:2vw;
     text-align:center;
 `;
 
@@ -104,7 +104,7 @@ const CategoryCard = ( props: Props ) => {
     return(
         <Card
             style={{ width: '90%'}}
-            headStyle={{fontSize: "5vh",color:"red"}}
+            headStyle={{fontSize: "3vw",color:"red"}}
             title={"Game Manager"}
             tabList={tabList}
             activeTabKey={key}

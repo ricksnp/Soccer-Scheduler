@@ -8,19 +8,15 @@ import { Provider, useDispatch } from './Provider';
 
 //CalendarController controls all aspects of the control,
 // it returns the Provider, GameCalendar, and Calendar Modal
-const CalendarController = (loggedin: any) => {
+const CalendarController = () => {
 
-
-    //const dispatch = useDispatch();
-
-    //const [clickedGame, setClickedGame] = useState();
-
+    const [filter, setFilter] = useState("All")
 
     return (
         <>
             <Provider>
-                <Filter/>
-                <GameCalendar />
+                <Filter setFilter={setFilter}/>
+                <GameCalendar filter={filter} />
                 <CalendarModal />
             </Provider>
         </>

@@ -29,7 +29,6 @@ const NewAdmin = (userInfo: User) =>{
         gender: "null"
     }]
 
-    //holds list of json file fames
     const gameList = games.games;
     const [user, setUser] = useState("coach");
     const [counter, setCounter] = useState(0);
@@ -146,7 +145,7 @@ const NewAdmin = (userInfo: User) =>{
 
     return(
         <div>
-            <button onClick={onClick}>toggle role</button>
+            {/* <button onClick={onClick}>toggle role</button> */}
             {console.log("USER ROLE: " + user)}
             {displayCards}
         </div>

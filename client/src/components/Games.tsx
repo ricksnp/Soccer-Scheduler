@@ -2,17 +2,6 @@ import React, {useState}from 'react';
 import {apiGetGames} from '../utility/APIGameControl';
 
 
-//const [res, setRes] = useState();
-
-const apiCall= () => {
-
-    let x:any  = [];
-    apiGetGames().then(response =>{
-        x = response;
-    })
-
-    return x;
-}
 
 
 /*
@@ -20,9 +9,9 @@ getScheduledGames reads through the JSON data in the "getgames" API call
     and creates an array compatabile with full calendar
 @param setEvents is a hook function to be set to the array
 */
-export const getScheduledGames = (setEvents: any) =>{
+export const getScheduledGames = (apiCall:any , setEvents: any) =>{
 
-const res = apiCall();
+const res = apiCall;
 
 let games:any = [];
 
@@ -51,9 +40,9 @@ getCoachSchedule reads through the JSON data in the "getgames" API call
 @param setSchedule hook function to be set to the array
 @param name the coaches school name
 */
-export const getCoachSchedule = (setSchedule: any,name:any) =>{
+export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
 
-    const res = apiCall();
+    const res = apiCall;
     
     let games:any = [];
     
@@ -83,19 +72,24 @@ export const getCoachSchedule = (setSchedule: any,name:any) =>{
 getCoachPending reads through the JSON data in the "getgames" API call
     and creates an array of objects to be read on the Coaches scheduling 
     pages to show all of their pending games
+@param apiCall the JSON the api call returns
 @param setPending hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getCoachPending = (setPending:any, name: any) =>{
-    const res = apiCall();
-
+export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
+    
+    const res = apiCall;
+    console.log("RES" + res);
     let pending = [];
 
     for(let i = 0; i < res.length; i++)
     {
-        if(res[i].status == "coachPending" && res[i].homeTeamName.equals(name))
+        console.log("First Index" + res[0]+ " " + res[0])
+        if(res[i].status == "coachPending" && res[i].homeTeamName == name)
         {
+            console.log("IN IF")
             pending.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].matchid,
                 home: res[i].homeTeamName,
                 away: res[i].awayTeamName,
@@ -106,6 +100,9 @@ export const getCoachPending = (setPending:any, name: any) =>{
             })
         }
     }
+
+    console.log("Pending" + pending)
+    console.log("IN PENDING")
     
     setPending(pending);
 
@@ -118,9 +115,9 @@ getAdminPending reads through the JSON data in the "getgames" API call
     pages to show all the games that need their approval
 @param setAssignorPending hook function to be set to the array
 */
-export const getAdminPending = (setAssignorPending:any) =>{
+export const getAdminPending = (apiCall: any,setAssignorPending:any) =>{
 
-    const res = apiCall();
+    const res = apiCall;
 
     let pending = [];
 
@@ -152,9 +149,9 @@ getEdit reads through the JSON data in the "getgames" API call
 @param setEdit hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getEdit = (setEdit:any, name:any) =>{
+export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
 
-    const res = apiCall();
+    const res = apiCall;
 
     let edited = [];
 

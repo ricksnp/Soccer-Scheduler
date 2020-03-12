@@ -4,7 +4,6 @@ import { Header } from '../../style/PageStyles'
 
 const Home = (isAuthenticated: any) => {
 
-    const [loggedin,setLogin] = useState(isAuthenticated)
 
     return (
         <>

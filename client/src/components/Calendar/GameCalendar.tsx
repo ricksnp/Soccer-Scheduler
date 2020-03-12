@@ -5,44 +5,51 @@ import Cal from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import { apiGetGames } from '../../utility/APIGameControl';
-import {getScheduledGames} from '../Games';
+import {getScheduledGames, getCoachPending} from '../Games';
+import {apiGetGames} from '../../utility/APIGameControl'
 
 
 interface Props {
   handleEventClick: Function
 }
 
-// function getGames(setEvents: any){
+const getGames = (setApi: any) => {
 
-//   apiGetGames().then(response =>{
-//     let games:any = []
-//     for(let i = 0; i < response.length; i++)
-//     {
-//       games.push({
-//         title: response[i].homeTeamName + " vs " + response[i].awayTeamName,
-//         start: response[i].date.replace(" ", "T"),
-//         location: response[i].location,
-//         teamLevel: response[i].teamLevel,
-//         gender: response[i].gender
-//       })
-//     }
-//     setEvents(games);
-//  })
+  apiGetGames().then(response =>{
+   setApi(response);
+})
 
-// }
+}
 
-
-const GameCalendar = (  ) => {
+const GameCalendar = ({filter}:any) => {
 
   const dispatch = useDispatch();
-  const [events, setEvents] = useState();
+  const [events, setEvents] = useState('null');
+  const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
+  const [prevFilter,setPrev] = useState("All");
 
-  if(counter <= 0)
-  {
-    getScheduledGames(setEvents);
-    setCounter(counter + 1);
+  if(counter == 0)
+  { 
+    getGames(setApi)
+
+    if(api != "null")
+    {
+      if(filter === "All")
+      {
+        getScheduledGames(api, setEvents);
+        console.log("All Events=" + events)
+        setPrev(filter);
+        
+      }
+      else
+      {
+        getCoachPending(api,setEvents,filter)
+        console.log("Pending Events=" + events)
+        setPrev(filter);
+      }
+    }
+      setCounter(counter + 1);
   }
 
 
@@ -70,6 +77,13 @@ const GameCalendar = (  ) => {
         events={events}
         eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender]}) }
       />
+
+      {//Conditional rendering with filter hook is used to force rerender when state changes
+        filter == "All" ?
+        <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
+        :
+        <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
+      }
 
     </div>
 
