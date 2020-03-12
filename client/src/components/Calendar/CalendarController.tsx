@@ -10,7 +10,8 @@ import { Provider, useDispatch } from './Provider';
 // it returns the Provider, GameCalendar, and Calendar Modal
 const CalendarController = () => {
 
-    const [filter, setFilter] = useState("All")
+    //intital state must be "Scheduled" or else everything breaks
+    const [filter, setFilter] = useState("Scheduled")
 
     return (
         <>

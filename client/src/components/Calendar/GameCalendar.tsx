@@ -28,7 +28,7 @@ const GameCalendar = ({filter}:any) => {
   const [events, setEvents] = useState('null');
   const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
-  const [prevFilter,setPrev] = useState("All");
+  const [prevFilter,setPrev] = useState("Scheduled");
 
   if(counter == 0)
   { 
@@ -98,7 +98,7 @@ const GameCalendar = ({filter}:any) => {
       />
 
       {//Conditional rendering with filter hook is used to force rerender when state changes
-        filter == "All" ?
+        filter == "Scheduled" ?
         <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
         :
         <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
