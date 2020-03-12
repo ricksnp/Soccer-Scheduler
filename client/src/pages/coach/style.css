@@ -52,3 +52,36 @@
 .MuiTableRow-head .MuiTableCell-head {
     font-weight: bold !important;
 }
+
+@media (max-width: 1000px) {
+    .MuiTableRow-root .MuiTableCell-root:last-child {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .MuiTableRow-root .MuiTableCell-root:last-child button:first-child {
+        margin-right: 0 !important;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .MuiTableRow-root .MuiTableCell-root:nth-child(1),
+    .MuiTableRow-head .MuiTableCell-head:nth-child(1),
+    .MuiTableRow-root .MuiTableCell-root:nth-child(5),
+    .MuiTableRow-head .MuiTableCell-head:nth-child(5) {
+        display: none;
+    }
+
+    .assigner-top-bar h2 {
+        font-size: 4vw !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .MuiTableRow-root .MuiTableCell-root:nth-child(2),
+    .MuiTableRow-head .MuiTableCell-head:nth-child(2) {
+        display: none;
+    }
+}

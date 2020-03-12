@@ -1,4 +1,4 @@
-import React, { Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import './App.css';
 import { Route, withRouter, Switch, Router } from 'react-router-dom';
 
@@ -9,20 +9,20 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import {apiGetGames} from '../utility/APIGameControl';
-import { Home, Assignor, Admin, Coach, NewAdmin} from '../pages';
+import { apiGetGames } from '../utility/APIGameControl';
+import { Home, Assignor, Admin, Coach, NewAdmin } from '../pages';
 
 import { MyModal } from '../components';
 
 const { Content } = Layout;
 
-class  App extends Component{
+class App extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			currentUser: null,
-			isAuthenticated: false, //Change for Debugging
+			isAuthenticated: true, //Change for Debugging
 			isLoading: false,
 			games: null
 		};
@@ -63,14 +63,14 @@ class  App extends Component{
 
 	async componentDidMount() {
 		this.loadCurrentUser();
-		
-		await apiGetGames().then(response =>{
-            this.setState({
+
+		await apiGetGames().then(response => {
+			this.setState({
 				games: response
 			});
 		})
 
-		console.log("CURRENT USER + "+ JSON.stringify(this.state.currentUser))
+		console.log("CURRENT USER + " + JSON.stringify(this.state.currentUser))
 	}
 
 
@@ -136,9 +136,9 @@ class  App extends Component{
 							</Switch>
 							:
 							<Switch>
-									<Route path="/GameManager" render={() => <NewAdmin user={this.state.user} />} />
-									<Route path="/admin" render={() => <Admin />} />
-									<Route path="/coach" render={() => <Coach />} />
+								<Route path="/GameManager" render={() => <NewAdmin user={this.state.user} />} />
+								<Route path="/admin" render={() => <Admin />} />
+								<Route path="/coach" render={() => <Coach />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />
 							</Switch>
 						}
