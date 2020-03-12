@@ -62,8 +62,9 @@ const NewAdmin = (userInfo: User) => {
 
             for (let i = 0; i < newResponse.length; i++) {
                 if ((newResponse[i].status == "coachPending" || newResponse[i].status.includes("Edit")) && newResponse[i].homeTeamName == "West Monroe") {
+
                     pending.push({
-                        id: newResponse[i].matchid,
+                        id: newResponse[i].id,
                         home: newResponse[i].homeTeamName,
                         away: newResponse[i].awayTeamName,
                         start: newResponse[i].date.replace(" ", "T"),
@@ -94,6 +95,7 @@ const NewAdmin = (userInfo: User) => {
         if (user === "coach") {
             for (let i = 0; i < newResponse.length; i++) {
                 if (newResponse[i].status == "scheduled" && newResponse[i].homeTeamName == "West Monroe") {
+
                     scheduled.push({
                         id: newResponse[i].matchid,
                         home: newResponse[i].homeTeamName,

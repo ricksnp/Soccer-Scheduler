@@ -31,7 +31,6 @@ const AddGames = () => {
 
     const [gameCount, setCount] = useState(4);
     
-
     return(
       <>
         <Card>
@@ -45,7 +44,6 @@ const AddGames = () => {
                     {teamOptions}
                 </Select>
             </Form.Item>
-      {console.log(isIPad13)}
             <Form.Item 
                 label="Time"
                 required

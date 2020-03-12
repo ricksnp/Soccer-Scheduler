@@ -4,12 +4,30 @@ import { Header, SubHeader } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGames from './AddGames';
+import {isMobile} from 'react-device-detect'
 
 
 const Empty = styled.div`
+    @media only screen and (max-width: 768px){
+        font-size: 8vw;
+    }
+    @media only screen and (min-width: 1200px){
+        font-size: 2vw;
+    }
     font-size:2vw;
     text-align:center;
 `;
+
+const Headstyle = isMobile ?  
+    {
+        fontSize: "9vw",
+        color:"red"
+    }
+    :
+    {
+        fontSize: "3vw",
+        color:"red"
+    }
 
 //sorts pending games based on status
 function sortGames (games: any) {
@@ -83,7 +101,7 @@ const CategoryCard = ( props: Props ) => {
     
     //contains list of edited games or message
     const listEdit = gamesList.edited.length  === 0?
-        <Empty>No games have been edited</Empty>
+        <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
             return(
@@ -104,7 +122,8 @@ const CategoryCard = ( props: Props ) => {
     return(
         <Card
             style={{ width: '90%'}}
-            headStyle={{fontSize: "3vw",color:"red"}}
+            // bodyStyle={{background: "#5cdbd3"}}
+            headStyle={Headstyle}
             title={"Game Manager"}
             tabList={tabList}
             activeTabKey={key}

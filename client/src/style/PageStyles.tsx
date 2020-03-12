@@ -4,10 +4,10 @@ import styled from 'styled-components';
 const Header = styled.div`
     font-weight: bold;
     @media only screen and (max-width: 768px){
-        font-size: 20vw;
+        font-size: 8vw;
     }
-    @media only screen and (max-width: 1200px){
-        font-size: 4vw;
+    @media only screen and (min-width: 1200px){
+        font-size: 2vw;
     }
     color:black;
     text-decoration: underline;

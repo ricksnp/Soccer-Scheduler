@@ -12,7 +12,7 @@ const Filter = ({setFilter}: any) =>
 
 
     const Option = Select.Option
-    const teams: Array<string> = [ "Scheduled", "Neville", "West Monroe", "Ouachita" ]
+    const teams: Array<string> = [ "Your Games", "Scheduled", "Neville", "West Monroe", "Ouachita" ]
     
     const teamOptions = teams.map((team, i) => {
         return (
@@ -43,7 +43,7 @@ const Filter = ({setFilter}: any) =>
     return(
         <Form {...layout}>
             <Form.Item label="Filter">
-                <Select showSearch onChange={handleChange} placeholder={"Scheduled"}>
+                <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
                     {teamOptions}
                 </Select>
             </Form.Item>

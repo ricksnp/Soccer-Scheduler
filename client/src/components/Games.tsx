@@ -48,6 +48,42 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
+        if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled" || res[i].status == "coachPending") && 
+            (res[i].homeTeamName == name || res[i].awayTeamName == name))
+        {
+            games.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+                status: res[i].status
+            })
+        }
+    }
+    
+    setSchedule(games);
+    
+}
+
+
+
+/*
+getTeamSchedule reads through the JSON data in the API call
+    and creates an array of objects to be used by the CalendarFilter, shows another
+    coaches games that have made it to the schedule. 
+@param apiCall the JSON data to be sorted
+@param setSchedule hook function to be set to the array
+@param name the coaches school name
+*/
+export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
+
+    const res = apiCall;
+    
+    let games:any = [];
+    
+    for(let i = 0; i < res.length; i++)
+    {
         if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled") && 
             (res[i].homeTeamName == name || res[i].awayTeamName == name))
         {
@@ -65,8 +101,6 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     setSchedule(games);
     
 }
-    
-
 
 /*
 getCoachPending reads through the JSON data in the "getgames" API call

@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getCoachPending } from '../Games';
+import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
 import {isBrowser, isMobile} from "react-device-detect";
 
 
@@ -22,13 +22,21 @@ const getGames = (setApi: any) => {
 
 }
 
+const user = {
+  role: "USER_ROLE",
+  team: "West Monroe"
+}
+
+
 const GameCalendar = ({filter}:any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
   const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
-  const [prevFilter,setPrev] = useState("Scheduled");
+  const [prevFilter,setPrev] = useState("Your Games");
+
+
 
   if(counter == 0)
   { 
@@ -36,21 +44,34 @@ const GameCalendar = ({filter}:any) => {
 
     if(api != "null")
     {
-      if(filter === "All")
+
+      if(filter == "Scheduled")
       {
-        getScheduledGames(api, setEvents);
-        console.log("All Events=" + events)
-        setPrev(filter);
-        
+        getScheduledGames(api, setEvents)
+        console.log("getScheduledGames")
       }
-      else
+      else if(filter == "Your Games" || filter == user.team)
       {
-        getCoachPending(api,setEvents,filter)
-        console.log("Pending Events=" + events)
-        setPrev(filter);
+        if(user.role == "USER_ROLE")
+        {
+          getCoachSchedule(api, setEvents, user.team)
+          console.log("getCoachSchedule")
+        }
+        else
+        {
+          //TODO ADMIN STUFF
+        }
       }
+      else //for games of specific teams that is not the suer
+      {
+        getTeamSchedule(api,setEvents, filter)
+        console.log("getTeamSchedule")
+      }
+
+
+    setPrev(filter);
+    setCounter(counter + 1);
     }
-      setCounter(counter + 1);
   }
 
 
@@ -98,7 +119,7 @@ const GameCalendar = ({filter}:any) => {
       />
 
       {//Conditional rendering with filter hook is used to force rerender when state changes
-        filter == "Scheduled" ?
+        filter == "Your Games" ?
         <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
         :
         <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
