@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from './Provider';
 import '../../style/gameCalendar.css';
 import Cal from '@fullcalendar/react';
@@ -6,7 +6,15 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import {getScheduledGames} from '../Games';
+import { getScheduledGames } from '../Games';
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+  withOrientationChange,
+  IOSView
+} from "react-device-detect";
 
 
 interface Props {
@@ -33,30 +41,38 @@ interface Props {
 // }
 
 
-const GameCalendar = (  ) => {
+const GameCalendar = () => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState();
   const [counter, setCounter] = useState(0);
 
-  if(counter <= 0)
-  {
+  if (counter <= 0) {
     getScheduledGames(setEvents);
     setCounter(counter + 1);
   }
 
 
-  return(
+  return (
     <div className="game-cal">
-      <Cal 
-        header={{ 
+      {console.log(isBrowser)}
+      <Cal
+        header={isBrowser ? {
           left: 'dayGridMonth,dayGridFiveDay,today',
           center: 'title',
           right: 'prev next',
-        }}
-        footer={{
+        }
+
+          : {
+            left: 'dayGridMonth,dayGridFiveDay,today',
+            center: 'title',
+            right: ''
+          }}
+
+
+        footer={isMobile ? {
           center: 'prev next'
-        }}
+        } : {}}
         views={{
           dayGridFiveDay: {
             type: 'dayGridWeek',
@@ -65,10 +81,10 @@ const GameCalendar = (  ) => {
           }
         }}
         defaultView="dayGridMonth"
-        plugins={[dayGridPlugin, interactionPlugin]}  
-        dateClick={ ( info ) => dispatch({ type: 'ADD_GAME', payload: info.dateStr }) }
+        plugins={[dayGridPlugin, interactionPlugin]}
+        dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
         events={events}
-        eventClick={ (calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender]}) }
+        eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender] })}
       />
 
     </div>
