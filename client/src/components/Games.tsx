@@ -19,12 +19,23 @@ for(let i = 0; i < res.length; i++)
 {
     if(res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled")
     {
+
+        let color;
+        if(res[i].status === "scheduled")
+            color = '#78e388';
+        else if (res[i].status === "moved")
+            color = '#adadad';
+        else if (res[i].status === 'cancelled')
+            color = '#ff5757';
+
         games.push({
             title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
             start: res[i].date.replace(" ", "T"),
             location: res[i].location,
             teamLevel: res[i].teamLevel,
-            gender: res[i].gender
+            gender: res[i].gender,
+            color: color,
+            textColor: 'black'
         })
     }
 }
@@ -51,13 +62,26 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
         if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled" || res[i].status == "coachPending") && 
             (res[i].homeTeamName == name || res[i].awayTeamName == name))
         {
+
+            let color;
+            if(res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+            else if (res[i].status === 'coachPending')
+                color = '#fdff87';
+
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
                 gender: res[i].gender,
-                status: res[i].status
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
             })
         }
     }
@@ -87,13 +111,23 @@ export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
         if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled") && 
             (res[i].homeTeamName == name || res[i].awayTeamName == name))
         {
+            let color;
+            if(res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
                 gender: res[i].gender,
-                status: res[i].status
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
             })
         }
     }

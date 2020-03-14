@@ -5,13 +5,45 @@ import Filter from './Filter';
 import { Provider, useDispatch } from './Provider';
 import styled from 'styled-components';
 
-const Box = styled.span`
+
+const Scheduled = styled.span`
 float: left;
-height: 20px;
-width: 20px;
-margin-bottom: 15px;
-border: 1px solid black;
-background: #1976d2
+color: black;
+font-weight: bolder;
+padding: 2px;
+margin-right: 5px;
+border-radius: 5px;
+background: #78e388
+`;
+
+const Pending = styled.span`
+float: left;
+color: black;
+font-weight: bolder;
+padding: 2px;
+margin-right: 5px;
+border-radius: 5px;
+background: #fdff87
+`;
+
+const Cancelled = styled.span`
+float: left;
+color: black;
+font-weight: bolder;
+padding: 2px;
+margin-right: 5px;
+border-radius: 5px;
+background: #ff5757
+`;
+
+const Moved = styled.span`
+float: left;
+color: black;
+font-weight: bolder;
+padding: 2px;
+margin-right: 5px;
+border-radius: 5px;
+background: #adadad
 `;
 
 
@@ -27,8 +59,15 @@ const CalendarController = () => {
         <>
             <Provider>
                 <Filter setFilter={setFilter}/>
-                <div><Box></Box>=Pending Game</div>
+
+                <Scheduled>Scheduled Game</Scheduled>
+                <Pending>Pending Game</Pending> 
+                <Cancelled>Cancelled Game</Cancelled>
+                <Moved>Moved Game</Moved>
+                
+
                 <GameCalendar filter={filter} />
+
                 <CalendarModal />
             </Provider>
         </>

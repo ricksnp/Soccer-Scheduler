@@ -81,7 +81,7 @@ const GameCalendar = ({filter}:any) => {
       <Cal
         header={isBrowser ? 
           {
-            left: 'dayGridMonth,dayGridFiveDay,dayGridDay',
+            left: 'dayGridMonth,dayGridWeek,dayGridDay',
             center: 'title',
             right: 'prev next, today',
           }

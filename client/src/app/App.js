@@ -22,7 +22,7 @@ class App extends Component {
 
 		this.state = {
 			currentUser: null,
-			isAuthenticated: true, //Change for Debugging
+			isAuthenticated: false, //Change for Debugging
 			isLoading: false,
 			games: null
 		};
