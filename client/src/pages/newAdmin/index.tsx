@@ -128,8 +128,12 @@ const NewAdmin = (userInfo: User) => {
                     <div>There Are No Games</div>
                     :
                     <>
-                        {categoryName == 'Pending Approval' && <CategoryCard category={categoryName} editGames={pendingGames()} scheduledGames={scheduledGames()} />}
-                        {/* {categoryName == 'Scheduled Games' && <CategoryCard category={categoryName} games={scheduledGames()}/>} */}
+                        {categoryName == 'Pending Approval' && 
+                            <CategoryCard 
+                                category={categoryName} 
+                                editGames={pendingGames()} 
+                                scheduledGames={scheduledGames()}
+                            />}
                     </>
                 }
             </>
@@ -139,7 +143,6 @@ const NewAdmin = (userInfo: User) => {
 
     return (
         <div>
-            {/* <button onClick={onClick}>toggle role</button> */}
             {console.log("USER ROLE: " + user)}
             {displayCards}
         </div>

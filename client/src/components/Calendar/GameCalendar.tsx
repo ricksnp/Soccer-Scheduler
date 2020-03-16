@@ -99,7 +99,7 @@ const GameCalendar = ({filter}:any) => {
           isMobile ? 
           {
             center: 'prev next',
-            left:'today'
+            left:''
           } 
           : 
           {}

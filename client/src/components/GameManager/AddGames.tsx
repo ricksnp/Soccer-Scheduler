@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
 import {Form, Input, Select, TimePicker, Button, DatePicker, Radio, Card} from 'antd';
-import { MinusCircleOutline, PlusOutline } from '@ant-design/icons';
 import {isMobile, isIPad13} from "react-device-detect";
+import styled from 'styled-components';
+
+
+const Wrapper = styled.div`
+    @media only screen and (max-width: 768px){
+    }
+    @media only screen and (min-width: 1200px){
+        width:50%
+    }
+`;
+
 
 const layout = 
   isMobile ?
@@ -9,7 +19,7 @@ const layout =
       {wrapperCol: { span: 14 },
       labelCol: { span: 12 }}
     :
-      {labelCol: { span: 2 },
+      {labelCol: { span: 4 },
       wrapperCol: { span: 5 }}
     
   
@@ -25,16 +35,13 @@ const layout =
       );
   });
 
-
   
 const AddGames = () => {
 
-    const [gameCount, setCount] = useState(4);
     
     return(
-      <>
+      <Wrapper>
         <Card>
-        <Form name="AddGames">
             <Form.Item 
                 label="Away Team"
                 required
@@ -90,10 +97,8 @@ const AddGames = () => {
 
             </Form.Item>
 
-        </Form>
         </Card>
-        <Button type="primary">Add Another Game</Button>
-      </>
+      </Wrapper>
     );
 }
 
