@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import { Header, SubHeader } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
-import AddGames from './AddGames';
+import AddGameController from './AddGameController'
 import {isMobile} from 'react-device-detect'
 
 
@@ -138,7 +138,7 @@ const CategoryCard = ( props: Props ) => {
                     </>
                 }
                 {key === "scheduled" && listScheduled}
-                {key === "add" && <AddGames/>}   
+                {key === "add" && <AddGameController/>}   
         </Card>
     );
 
