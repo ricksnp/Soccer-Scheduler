@@ -79,6 +79,7 @@ const GameCalendar = ({filter}:any) => {
     <div className="game-cal">
       {console.log(isBrowser)}
       <Cal
+        eventLimit = {true}
         header={isBrowser ? 
           {
             left: 'dayGridMonth,dayGridWeek,dayGridDay',
@@ -108,7 +109,11 @@ const GameCalendar = ({filter}:any) => {
           dayGridFiveDay: {
             type: 'dayGridWeek',
             duration: { days: 5 },
-            buttonText: '5-day'
+            buttonText: '5-day',
+            eventLimit: 10
+          },
+          dayGridMonth: {
+            eventLimit: 3
           }
         }}
         defaultView={isMobile ? "dayGridFiveDay": "dayGridMonth"}

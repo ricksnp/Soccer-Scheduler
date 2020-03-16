@@ -59,12 +59,12 @@ const CalendarController = () => {
         <>
             <Provider>
                 <Filter setFilter={setFilter}/>
-
-                <Scheduled>Scheduled Game</Scheduled>
-                <Pending>Pending Game</Pending> 
-                <Cancelled>Cancelled Game</Cancelled>
-                <Moved>Moved Game</Moved>
-                
+                <div>
+                    <Scheduled>Scheduled Game</Scheduled>
+                    <Pending>Pending Game</Pending> 
+                    <Cancelled>Cancelled Game</Cancelled>
+                    <Moved>Moved Game</Moved>
+                </div>
 
                 <GameCalendar filter={filter} />
 
