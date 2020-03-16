@@ -60,7 +60,7 @@ const PendingGames = ({ gameType }: any) => {
     return (
         <>
             {
-                gameType == "new" ?
+                gameType === "new" ?
                     newGames
                     :
                     editGame
