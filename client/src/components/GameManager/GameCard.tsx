@@ -2,6 +2,13 @@ import React from 'react';
 import { Card, Button} from 'antd';
 import styled from 'styled-components';
 
+const Wrapper = styled.div`
+border:"10px" 
+border-color:"black"
+
+`;
+
+
 const Title = styled.span`
 font-weight: bold;
 `;
@@ -12,7 +19,8 @@ const Div = styled.div`
 `;
 
 interface Props {
-    game: any
+    game: any,
+    index: any
 }
 
 const handleConfirm = (game: any) =>{
@@ -36,6 +44,13 @@ const handleDelete = (game: any) =>{
 const GameCard = ( props: Props ) => {
 
     const game = props.game
+
+    let color = "white";
+
+    if(props.index % 2 == 0)
+    {
+        color = "grey"
+    }
 
     return(
         props.game === undefined ?

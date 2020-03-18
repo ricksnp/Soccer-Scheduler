@@ -3,6 +3,7 @@ import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
+import { getCoachPending } from '../../components/Games';
 
 
 async function getNewGames(setNew: any) {
@@ -16,6 +17,7 @@ interface User {
     role: string
 }
 const NewAdmin = (userInfo: User) => {
+
 
     const initialResponse: any = [{
         status: "null",
@@ -32,7 +34,9 @@ const NewAdmin = (userInfo: User) => {
     const [user, setUser] = useState("coach");
     const [counter, setCounter] = useState(0);
     const [newResponse, setNew] = useState(initialResponse);
-
+    const [newPending, setPending] = useState(initialResponse);
+    const [flag, setflag] = useState(false);
+ 
 
     if (counter == 0) {
         getNewGames(setNew);
@@ -54,61 +58,35 @@ const NewAdmin = (userInfo: User) => {
     const categories = ['Pending Approval', 'Scheduled Games'];
 
     //store list of pending games based on user role
-    const pendingGames = () => {
-        let pending: any = [];
-
+    const pendingGames = () => 
+    {
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
-        if (user === "ROLE_USER") {
-
-            for (let i = 0; i < newResponse.length; i++) {
-                if ((newResponse[i].status == "coachPending" || newResponse[i].status.includes("Edit")) && newResponse[i].homeTeamName == "West Monroe") {
-
-                    pending.push({
-                        id: newResponse[i].id,
-                        home: newResponse[i].homeTeamName,
-                        away: newResponse[i].awayTeamName,
-                        start: newResponse[i].date.replace(" ", "T"),
-                        location: newResponse[i].location,
-                        teamLevel: newResponse[i].teamLevel,
-                        status: newResponse[i].status,
-                        gender: newResponse[i].gender
-                    })
-                }
+        if (user === "ROLE_USER") 
+        {
+            console.log("COUNTER:" + counter);
+    
+            if(newResponse[0].status != 'null' && counter < 2)
+            {
+                getCoachPending(newResponse, setPending, "West Monroe")
+                setCounter(counter + 1)
+                console.log("Current" + JSON.stringify(newPending))
             }
         }
         // if user isn't coach, find games where status == assognorpending || assignoredit
         else {
-            //for (let i = 0; i < gameList.length; i++) {
-            //if (gameList[i].status === "assignorPending" || gameList[i].status === "assignorEdit") {
 
-            //  pending.push(gameList[i]);
 
-            // }
-            //}
         }
-        return pending
+        console.log(JSON.stringify("NEWPENDING " + JSON.stringify(newPending)))
+        return newPending
     }
 
     //store list of scheduled games based on user roll -- same as pending, different status requirements
     const scheduledGames = () => {
         let scheduled: any = [];
         if (user === "coach") {
-            for (let i = 0; i < newResponse.length; i++) {
-                if (newResponse[i].status == "scheduled" && newResponse[i].homeTeamName == "West Monroe") {
-
-                    scheduled.push({
-                        id: newResponse[i].matchid,
-                        home: newResponse[i].homeTeamName,
-                        away: newResponse[i].awayTeamName,
-                        start: newResponse[i].date.replace(" ", "T"),
-                        location: newResponse[i].location,
-                        teamLevel: newResponse[i].teamLevel,
-                        status: newResponse[i].status,
-                        gender: newResponse[i].gender
-                    })
-                }
-            }
-            // } else {
+            
+                // } else {
             //     for ( let i = 0; i < gameList.length; i++ ) {
             //         if ( gameList[i].status === "scheduled" )
             //             scheduled.push(gameList[i]);
@@ -128,7 +106,8 @@ const NewAdmin = (userInfo: User) => {
                     <div>There Are No Games</div>
                     :
                     <>
-                        {categoryName == 'Pending Approval' && 
+                    {console.log("INPENDING" + newPending) }
+                        {categoryName == 'Pending Approval' &&
                             <CategoryCard 
                                 category={categoryName} 
                                 editGames={pendingGames()} 

@@ -2,8 +2,6 @@ import React, {useState}from 'react';
 import {apiGetGames} from '../utility/APIGameControl';
 
 
-
-
 /*
 getScheduledGames reads through the JSON data in the "getgames" API call
     and creates an array compatabile with full calendar
@@ -147,13 +145,15 @@ getCoachPending reads through the JSON data in the "getgames" API call
 export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
     
     const res = apiCall;
-    console.log("RES" + res);
+    console.log("RES" + JSON.stringify(res))
+    console.log("NAME" + name)
+
     let pending = [];
 
     for(let i = 0; i < res.length; i++)
     {
-        console.log("First Index" + res[0]+ " " + res[0])
-        if(res[i].status == "coachPending" && res[i].homeTeamName == name)
+
+        if(res[i].status == "coachPending" && res[i].awayTeamName == name)
         {
             console.log("IN IF")
             pending.push({
@@ -164,14 +164,14 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
-                gender: res[i].gender
+                gender: res[i].gender,
+                status: res[i].status
             })
         }
     }
-
-    console.log("Pending" + pending)
-    console.log("IN PENDING")
     
+    console.log("Games Pending!!!!!!!!!!!!!" + JSON.stringify(pending))
+
     setPending(pending);
 
 }

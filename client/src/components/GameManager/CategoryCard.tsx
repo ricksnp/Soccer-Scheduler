@@ -30,20 +30,25 @@ const Headstyle = isMobile ?
     }
 
 //sorts pending games based on status
-function sortGames (games: any) {
+function sortGames (games: any) 
+{
     let edit:any = [];
     let newGames: any = [];
+
+    console.log("CategoryCard" + JSON.stringify(games))
     for ( let i = 0; i < games.length; i++ ) {
     
         if(games[i].status === "coachPending")
         {
-        
+            console.log("GamesList" + games[i])
             newGames.push(games[i]);
             
         }
-        else if(games[i].status.includes("Edit") )
+        else if(games[i] != undefined)
         {
-            edit.push(games[i])
+            if(games[i].status.includes("Edit") )
+            {edit.push(games[i])}
+            
         } 
 
     }
@@ -60,7 +65,10 @@ interface Props {
 const CategoryCard = ( props: Props ) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = sortGames(props.editGames);
+    console.log("editGames" + props.editGames)
+    const gamesList = props.editGames == undefined ? props.editGames : sortGames(props.editGames)
+    
+    //sortGames(props.editGames);
     
 
     const [key, setKey] = useState("pending");
@@ -90,32 +98,33 @@ const CategoryCard = ( props: Props ) => {
         ]
 
     //contains list of new games or message
-    const listNew = gamesList.new.length === 0 ?
+    const listNew = gamesList === undefined ?
        <Empty> No new games have been created</Empty>
     :
         gamesList.new.map((game: any, i: any) => {
+
             return(
-                <GameCard game={game} />
+                <GameCard game={game} index={i}/>
             );
         })
     
     //contains list of edited games or message
-    const listEdit = gamesList.edited.length  === 0?
+    const listEdit = gamesList  ===  undefined?
         <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
             return(
-                <GameCard game={game} />
+                <GameCard game={game} index={i}/>
             );
         })
 
     //contains list of scheduled games
-    const listScheduled =  props.scheduledGames.length === 0 ?
+    const listScheduled =  props.scheduledGames === undefined ?
         <Empty>No games have been scheduled</Empty>
     :
         props.scheduledGames.map((game: any, i: any) => {
             return(
-                <GameCard game={game} />
+                <GameCard game={game} index={i}/>
             );
         })
 
