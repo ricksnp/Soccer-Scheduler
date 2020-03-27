@@ -1,8 +1,12 @@
 package com.java.project.onlinematchsim.apiCalls.requestCalls;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class UpdateGameResponse {
 	private Long id;
 	private String status;
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Long getId() {
 		return id;
 	}
