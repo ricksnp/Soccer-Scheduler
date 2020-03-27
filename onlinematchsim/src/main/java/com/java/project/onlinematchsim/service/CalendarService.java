@@ -90,9 +90,15 @@ public class CalendarService {
 			lii1.add(respo);
 		}
 		return lii1;
-		
-		
-		
+					
+	}
+	
+	public GamesCalendar updateGame(Long matchId, GamesEntryRequest gameEntryRequest)
+	{
+		GamesCalendar gamesCal = gamesRepository.findByMatchId(matchId).orElseThrow( () -> new ResourceNotFoundException("Game","id", matchId));
+		gamesCal.setMatchId(matchId);
+		gamesCal.setStatus(gameEntryRequest.getStatus());
+		return gamesRepository.save(gamesCal);
 	}
 	
 	

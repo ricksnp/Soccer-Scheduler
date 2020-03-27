@@ -52,5 +52,14 @@ public class CalendarController
 		return calendarService.getAllGames(currentUser);
 	}
 	
+	@PostMapping("/updategames")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<?> updateGames( @CurrentUser UserPrincipal currentUser, @Valid @RequestBody GamesEntryRequest gameReq, @PathVariable Long matchId)
+	{
+		GamesCalendar gamesCalendar = calendarService.updateGame(matchId, gameReq);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendar.getMatchId()).toUri();
+		return ResponseEntity.created(location).body(new ApiResponse(true, "Games Updated Successfully"));
+	}
+	
 	
 }
