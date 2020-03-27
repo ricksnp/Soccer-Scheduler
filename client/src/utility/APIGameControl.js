@@ -39,3 +39,13 @@ export function apiGetGames() {
 	});
 
 }
+
+export function apiUpdateGame(game){
+	return request({
+		url    : API_BASE_URL + '/calendar/updategames',
+		method : 'POST',
+		body   : JSON.stringify(game)
+	});
+
+
+}

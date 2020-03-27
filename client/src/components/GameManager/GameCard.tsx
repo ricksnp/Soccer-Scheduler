@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button} from 'antd';
 import styled from 'styled-components';
+import {apiUpdateGame} from '../../utility/APIGameControl'
 
 const Wrapper = styled.div`
 border:"10px" 
@@ -25,7 +26,15 @@ interface Props {
 
 const handleConfirm = (game: any) =>{
 
-    console.log("ID = " + game.id + " HomeTeam = " + game.home);
+
+    let update = {
+        id: "42",
+        status: "Scheduled"
+
+    }
+
+    apiUpdateGame(update)
+    //console.log("ID = " + game.id + " HomeTeam = " + game.home);
 }
 
 const handleEdit = (game: any) =>{

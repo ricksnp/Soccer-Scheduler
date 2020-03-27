@@ -161,7 +161,7 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
                 id: res[i].matchid,
                 home: res[i].homeTeamName,
                 away: res[i].awayTeamName,
-                start: res[i].date.replace(" ", "T"),
+                start: res[i].date,
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
                 gender: res[i].gender,
