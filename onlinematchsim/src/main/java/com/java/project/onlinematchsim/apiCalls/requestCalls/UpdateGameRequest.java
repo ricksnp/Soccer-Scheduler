@@ -6,7 +6,7 @@ public class UpdateGameRequest {
 	@NotBlank
 	private String status;
 	
-	@NotBlank
+	
 	private Long id;
 
 	public String getStatus() {
