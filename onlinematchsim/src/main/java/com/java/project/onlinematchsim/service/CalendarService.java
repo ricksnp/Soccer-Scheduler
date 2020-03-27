@@ -16,6 +16,7 @@ import java.util.List;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 //import org.springframework.dao.DataIntegrityViolationException;
 //import org.springframework.data.domain.Page;
 //import org.springframework.data.domain.PageRequest;
@@ -100,7 +101,8 @@ public class CalendarService {
 	public GamesCalendar updateGame(Long matchId, UpdateGameRequest updateGameRequest)
 	{
 		GamesCalendar gamesCal = gamesRepository.findByMatchId(matchId).orElseThrow( () -> new ResourceNotFoundException("Game","id", matchId));
-		gamesCal.setMatchId(matchId);
+		
+		gamesCal.setMatchId(gamesCal.getMatchId());
 		gamesCal.setStatus(updateGameRequest.getStatus());
 		return gamesRepository.save(gamesCal);
 	}
