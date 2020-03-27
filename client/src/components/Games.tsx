@@ -158,7 +158,7 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
             console.log("IN IF")
             pending.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
-                id: res[i].matchid,
+                id: res[i].id,
                 home: res[i].homeTeamName,
                 away: res[i].awayTeamName,
                 start: res[i].date,

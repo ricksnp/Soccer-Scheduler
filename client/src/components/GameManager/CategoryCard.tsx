@@ -53,6 +53,8 @@ function sortGames (games: any)
 
     }
 
+
+    console.log("EDITED" + edit)
     return { "edited": edit, "new": newGames }
 }
 
@@ -65,8 +67,8 @@ interface Props {
 const CategoryCard = ( props: Props ) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    console.log("editGames" + props.editGames)
-    const gamesList = props.editGames == undefined ? props.editGames : sortGames(props.editGames)
+    console.log("editGames" + JSON.stringify(props.editGames))
+    const gamesList = props.editGames == "" ? props.editGames : sortGames(props.editGames)
     
     //sortGames(props.editGames);
     
@@ -98,7 +100,7 @@ const CategoryCard = ( props: Props ) => {
         ]
 
     //contains list of new games or message
-    const listNew = gamesList === undefined ?
+    const listNew = gamesList.new === undefined ?
        <Empty> No new games have been created</Empty>
     :
         gamesList.new.map((game: any, i: any) => {
@@ -109,7 +111,7 @@ const CategoryCard = ( props: Props ) => {
         })
     
     //contains list of edited games or message
-    const listEdit = gamesList  ===  undefined?
+    const listEdit = gamesList.edited  ==  ""?
         <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
@@ -119,7 +121,7 @@ const CategoryCard = ( props: Props ) => {
         })
 
     //contains list of scheduled games
-    const listScheduled =  props.scheduledGames === undefined ?
+    const listScheduled =  props.scheduledGames == "" ?
         <Empty>No games have been scheduled</Empty>
     :
         props.scheduledGames.map((game: any, i: any) => {

@@ -26,15 +26,13 @@ interface Props {
 
 const handleConfirm = (game: any) =>{
 
-
     let update = {
-        id: "42",
-        status: "Scheduled"
-
+        id: game.id,
+        status: game.status
     }
 
     apiUpdateGame(update)
-    //console.log("ID = " + game.id + " HomeTeam = " + game.home);
+
 }
 
 const handleEdit = (game: any) =>{
@@ -68,8 +66,8 @@ const GameCard = ( props: Props ) => {
 
         <>
             <Card title={game.home + " vs " + game.away}>
-                <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level</Title> {game.level}
-                <Title>Date:</Title> {game.date} <Title>Time: </Title> {game.time} <Title>Location:</Title> {game.location}
+                <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel}
+                 <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
                 <Div>
                     <Button style={{background:"#52c41a"}} onClick={()=>handleConfirm(game)}><i className="fas fa-check"></i></Button>
                     <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
