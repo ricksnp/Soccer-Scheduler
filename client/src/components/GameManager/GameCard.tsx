@@ -30,8 +30,8 @@ const handleConfirm = (game: any) =>{
         id: game.id,
         status: game.status
     }
-
     apiUpdateGame(update)
+
 
 }
 
