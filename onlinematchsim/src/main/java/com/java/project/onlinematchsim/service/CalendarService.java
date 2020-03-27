@@ -22,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.domain.Pageable;
 //import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.java.project.onlinematchsim.apiCalls.requestCalls.UpdateGameRequest;
+import com.java.project.onlinematchsim.apiCalls.requestCalls.UpdateGameResponse;
+
+
 
 //import java.util.Collections;
 //import java.util.List;
@@ -93,11 +97,11 @@ public class CalendarService {
 					
 	}
 	
-	public GamesCalendar updateGame(Long matchId, GamesEntryRequest gameEntryRequest)
+	public GamesCalendar updateGame(Long matchId, UpdateGameRequest updateGameRequest)
 	{
 		GamesCalendar gamesCal = gamesRepository.findByMatchId(matchId).orElseThrow( () -> new ResourceNotFoundException("Game","id", matchId));
 		gamesCal.setMatchId(matchId);
-		gamesCal.setStatus(gameEntryRequest.getStatus());
+		gamesCal.setStatus(updateGameRequest.getStatus());
 		return gamesRepository.save(gamesCal);
 	}
 	
