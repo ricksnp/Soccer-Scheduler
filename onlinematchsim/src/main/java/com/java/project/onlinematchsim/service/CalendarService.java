@@ -101,9 +101,17 @@ public class CalendarService {
 	public GamesCalendar updateGame(Long matchId, UpdateGameRequest updateGameRequest)
 	{
 		GamesCalendar gamesCal = gamesRepository.findByMatchId(matchId).orElseThrow( () -> new ResourceNotFoundException("Game","id", matchId));
-		
-		gamesCal.setMatchId(gamesCal.getMatchId());
+
+		UpdateGameResponse game = new UpdateGameResponse();
+
+
+		gamesCal.setMatchId(updateGameRequest.getId());
 		gamesCal.setStatus(updateGameRequest.getStatus());
+
+		gamesRepository.save(gamesCal);
+		game.setId(updateGameRequest.getId());
+		game.setStatus(updateGameRequest.getStatus());
+
 		return gamesRepository.save(gamesCal);
 	}
 	
