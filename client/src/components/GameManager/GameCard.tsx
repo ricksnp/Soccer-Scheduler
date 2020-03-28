@@ -3,12 +3,6 @@ import { Card, Button} from 'antd';
 import styled from 'styled-components';
 import {apiUpdateGame} from '../../utility/APIGameControl'
 
-const Wrapper = styled.div`
-border:"10px" 
-border-color:"black"
-
-`;
-
 
 const Title = styled.span`
 font-weight: bold;
@@ -54,7 +48,7 @@ const GameCard = ( props: Props ) => {
 
     let color = "white";
 
-    if(props.index % 2 == 0)
+    if(props.index % 2 === 0)
     {
         color = "grey"
     }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from 'antd';
-import { Header, SubHeader } from '../../style/PageStyles';
+import { Header } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGameController from './AddGameController'
@@ -44,7 +44,7 @@ function sortGames (games: any)
             newGames.push(games[i]);
             
         }
-        else if(games[i] != undefined)
+        else if(games[i] !== undefined)
         {
             if(games[i].status.includes("Edit") )
             {edit.push(games[i])}
@@ -68,7 +68,7 @@ const CategoryCard = ( props: Props ) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
     console.log("editGames" + JSON.stringify(props.editGames))
-    const gamesList = props.editGames == "" ? props.editGames : sortGames(props.editGames)
+    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames)
     
     //sortGames(props.editGames);
     
@@ -111,7 +111,7 @@ const CategoryCard = ( props: Props ) => {
         })
     
     //contains list of edited games or message
-    const listEdit = gamesList.edited  ==  ""?
+    const listEdit = gamesList.edited  ===  ""?
         <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
@@ -121,7 +121,7 @@ const CategoryCard = ( props: Props ) => {
         })
 
     //contains list of scheduled games
-    const listScheduled =  props.scheduledGames == "" ?
+    const listScheduled =  props.scheduledGames === "" ?
         <Empty>No games have been scheduled</Empty>
     :
         props.scheduledGames.map((game: any, i: any) => {

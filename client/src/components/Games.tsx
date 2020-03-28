@@ -15,7 +15,7 @@ let games:any = [];
 
 for(let i = 0; i < res.length; i++)
 {
-    if(res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled")
+    if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
     {
 
         let color;
@@ -28,6 +28,9 @@ for(let i = 0; i < res.length; i++)
 
         games.push({
             title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+            id: res[i].id,
+            home: res[i].homeTeamName,
+            away: res[i].awayTeamName,
             start: res[i].date.replace(" ", "T"),
             location: res[i].location,
             teamLevel: res[i].teamLevel,
@@ -57,8 +60,8 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled" || res[i].status == "coachPending") && 
-            (res[i].homeTeamName == name || res[i].awayTeamName == name))
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending") && 
+            (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
 
             let color;
@@ -73,6 +76,9 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
 
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
@@ -106,8 +112,8 @@ export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status == "scheduled" || res[i].status == "moved" || res[i].status == "cancelled") && 
-            (res[i].homeTeamName == name || res[i].awayTeamName == name))
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") && 
+            (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
             let color;
             if(res[i].status === "scheduled")
@@ -119,6 +125,9 @@ export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
 
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
@@ -153,7 +162,7 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
     for(let i = 0; i < res.length; i++)
     {
 
-        if(res[i].status == "coachPending" && res[i].awayTeamName == name)
+        if(res[i].status === "coachPending" && res[i].awayTeamName === name)
         {
             console.log("IN IF")
             pending.push({
@@ -191,7 +200,7 @@ export const getAdminPending = (apiCall: any,setAssignorPending:any) =>{
 
     for(let i = 0; i < res.length; i++)
     {
-        if(res[i].status == "assignorPending")
+        if(res[i].status === "assignorPending")
         {
             pending.push({
                 id: res[i].matchid,
@@ -225,7 +234,7 @@ export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
 
     for(let i = 0; i < res.length; i++)
     {
-        if(res[i].status == "awayEdit" && res[i].homeTeamName.equals(name))
+        if(res[i].status === "awayEdit" && res[i].homeTeamName.equals(name))
         {
             edited.push({
                 id: res[i].matchid,
@@ -237,7 +246,7 @@ export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
                 gender: res[i].gender
             })
         }
-        else if(res[i].status == "awayEdit" && res[i].awayTeamName.equals(name))
+        else if(res[i].status === "awayEdit" && res[i].awayTeamName.equals(name))
         {
             edited.push({
                 id: res[i].matchid,

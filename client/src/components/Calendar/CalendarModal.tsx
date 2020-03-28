@@ -58,7 +58,8 @@ const CalendarModal = () => {
         }
 
         if (showViewGame) {
-            dispatch({ type: 'EDIT_GAME' });
+            dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
+            console.log(clickedEvent)
         }
 
         if (showEditGame) {
@@ -75,9 +76,11 @@ const CalendarModal = () => {
             onCancel={handleCancel}
             onOk={handleOk}
             okText={showViewGame ? 'Edit' : 'Submit'}
+            cancelButtonProps={{ style: { display: 'none' } }}
         >
-            {showAddGame && <GameForm ref={saveForm} />}
-            {showViewGame && <EventDisplay event={clickedEvent} />}
+            { showAddGame && <GameForm ref={saveForm} /> }
+            { showEditGame && <GameForm ref={saveForm} /> }
+            { showViewGame && <EventDisplay event={clickedEvent} /> }
         </Modal>
     );
 }

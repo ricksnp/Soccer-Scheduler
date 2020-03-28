@@ -1,5 +1,5 @@
-import React, {useState}from 'react'
-import { Form, Select, Radio, TimePicker, Input, Checkbox } from 'antd';
+import React from 'react'
+import { Form, Select, Radio, Input } from 'antd';
 import { useGlobalState } from './Provider';
 
 interface Props {
@@ -12,6 +12,8 @@ const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
     const showAddGame = useGlobalState('showAddGame');
     const addGameDate = useGlobalState('addGameDate');
+    const clickedGame = useGlobalState('clickedGame');
+    const showEditGame = useGlobalState('showEditGame');
 
     //for home/away team Select element
     const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
@@ -34,6 +36,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Home Team">
                 {getFieldDecorator('homeTeamName', {
                     rules: [{ required: true, message: 'Select Home Team' }],
+                    initialValue: showEditGame === true? clickedGame[5] : ""
                 })(
                     <Select showSearch >
                         {teamOptions}
@@ -43,6 +46,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Away Team">
                 {getFieldDecorator('awayTeamName', { 
                     rules: [{ required: true, message: 'Select Away Team' }],
+                    initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >
                         {teamOptions}
@@ -52,6 +56,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Level">
                 { getFieldDecorator('teamLevel', {
                     rules: [{ required: true }],
+                    initialValue: showEditGame === true? clickedGame[3] : ""
                 })(
                     <Radio.Group buttonStyle="solid">
                         <Radio.Button value="v">Varsity</Radio.Button>
@@ -62,6 +67,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Team">
                     { getFieldDecorator( 'gender', {
                         rules: [{ required: true }],
+                        initialValue: showEditGame === true? clickedGame[4] : ""
                     } )(
                         <Radio.Group buttonStyle="solid">
                             <Radio.Button value="b">Boys</Radio.Button>
@@ -72,6 +78,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Location">
                 {getFieldDecorator('location', {
                     rules: [{ required: true, message: 'Select Location' }],
+                    initialValue: showEditGame === true? clickedGame[2] : ""
                 })(
                     <Input/>
                 )}
@@ -79,7 +86,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Status" style={ {display: "none"} } >
                 {getFieldDecorator('status', {
                     rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: "coachPending"
+                    initialValue: showEditGame === true? clickedGame[7] : "coachPending"
                 })(
                     <Input/>
                 )}
