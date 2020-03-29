@@ -38,21 +38,21 @@ const GameCalendar = ({filter}:any) => {
 
 
 
-  if(counter == 0)
+  if(counter === 0)
   { 
     getGames(setApi)
 
-    if(api != "null")
+    if(api !== "null")
     {
 
-      if(filter == "Scheduled")
+      if(filter === "Scheduled")
       {
         getScheduledGames(api, setEvents)
         console.log("getScheduledGames")
       }
-      else if(filter == "Your Games" || filter == user.team)
+      else if(filter === "Your Games" || filter === user.team)
       {
-        if(user.role == "USER_ROLE")
+        if(user.role === "USER_ROLE")
         {
           getCoachSchedule(api, setEvents, user.team)
           console.log("getCoachSchedule")
@@ -120,14 +120,14 @@ const GameCalendar = ({filter}:any) => {
         plugins={[dayGridPlugin, interactionPlugin]}
         dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
         events={events}
-        eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender] })}
+        eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status , calEvent.event.extendedProps.id] })}
       />
 
       {//Conditional rendering with filter hook is used to force rerender when state changes
-        filter == "Your Games" ?
-        <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
+        filter === "Your Games" ?
+        <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
         :
-        <>{counter != 0 && prevFilter != filter && setCounter(0)}</>
+        <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
       }
 
     </div>

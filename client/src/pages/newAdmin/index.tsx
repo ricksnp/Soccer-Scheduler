@@ -38,7 +38,7 @@ const NewAdmin = (userInfo: User) => {
     const [flag, setflag] = useState(false);
  
 
-    if (counter == 0) {
+    if (counter === 0) {
         getNewGames(setNew);
         setCounter(counter + 1);
         setUser("ROLE_USER")
@@ -65,7 +65,7 @@ const NewAdmin = (userInfo: User) => {
         {
             console.log("COUNTER:" + counter);
     
-            if(newResponse[0].status != 'null' && counter < 2)
+            if(newResponse[0].status !== 'null' && counter < 2)
             {
                 getCoachPending(newResponse, setPending, "West Monroe")
                 setCounter(counter + 1)
@@ -101,13 +101,13 @@ const NewAdmin = (userInfo: User) => {
 
         return (
             <>
-                {newResponse.status == "null" ?
+                {newResponse.status === "null" ?
 
                     <div>There Are No Games</div>
                     :
                     <>
                     {console.log("INPENDING" + newPending) }
-                        {categoryName == 'Pending Approval' &&
+                        {categoryName === 'Pending Approval' &&
                             <CategoryCard 
                                 category={categoryName} 
                                 editGames={pendingGames()} 

@@ -20,7 +20,7 @@ type Action =
   | { type: 'CLOSE_ADD_GAME' }
   | { type: 'VIEW_GAME', payload: any }
   | { type: 'CLOSE_VIEW_GAME' }
-  | { type: 'EDIT_GAME' }
+  | { type: 'EDIT_GAME', payload: any }
   | { type: 'CLOSE_EDIT_GAME' }
 
 const reducer = (state: State, action: Action) => {
@@ -60,7 +60,7 @@ const reducer = (state: State, action: Action) => {
       addGameDate: "",
       showViewGame: false,
       showEditGame: true,
-      clickedGame: []
+      clickedGame: action.payload
     }
     case 'CLOSE_EDIT_GAME': return {
       showAddGame: false,

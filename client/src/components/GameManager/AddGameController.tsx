@@ -30,7 +30,7 @@ const AddGameController = () =>{
         //removing the selected card 
            for(let i=0; i < controllArray.length; i++)
            {
-                if(i != index)
+                if(i !== index)
                 {
                     tempArray.push(controllArray[i])
                 }
@@ -49,7 +49,7 @@ const AddGameController = () =>{
     return (
         <Form onSubmit={onFinish}>
 
-        {cardCount == 0 ? 
+        {cardCount === 0 ? 
         
             <AddGames/>
         :

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import GameCalendar from './GameCalendar';
 import CalendarModal from './CalendarModal';
 import Filter from './Filter';
-import { Provider, useDispatch } from './Provider';
+import { Provider } from './Provider';
 import styled from 'styled-components';
 
 
