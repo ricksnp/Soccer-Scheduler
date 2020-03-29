@@ -28,7 +28,7 @@ const handleConfirm = (game: any) =>{
 
     let update = {
         id: game.id,
-        status: game.status
+        status: "scheduled"
     }
     apiUpdateGame(update)
 
