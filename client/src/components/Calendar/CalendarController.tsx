@@ -6,45 +6,13 @@ import { Provider } from './Provider';
 import styled from 'styled-components';
 
 
-const Scheduled = styled.span`
-float: left;
-color: black;
-font-weight: bolder;
-padding: 2px;
-margin-right: 5px;
-border-radius: 5px;
-background: #78e388
-`;
+const Scheduled = styled.span`background: #78e388`;
 
-const Pending = styled.span`
-float: left;
-color: black;
-font-weight: bolder;
-padding: 2px;
-margin-right: 5px;
-border-radius: 5px;
-background: #fdff87
-`;
+const Pending = styled.span`background: #fdff87`;
 
-const Cancelled = styled.span`
-float: left;
-color: black;
-font-weight: bolder;
-padding: 2px;
-margin-right: 5px;
-border-radius: 5px;
-background: #ff5757
-`;
+const Cancelled = styled.span`background: #ff5757`;
 
-const Moved = styled.span`
-float: left;
-color: black;
-font-weight: bolder;
-padding: 2px;
-margin-right: 5px;
-border-radius: 5px;
-background: #adadad
-`;
+const Moved = styled.span`background: #adadad`;
 
 
 
@@ -58,17 +26,19 @@ const CalendarController = () => {
     return (
         <>
             <Provider>
-                <Filter setFilter={setFilter}/>
-                <div>
-                    <Scheduled>Scheduled Game</Scheduled>
-                    <Pending>Pending Game</Pending> 
-                    <Cancelled>Cancelled Game</Cancelled>
-                    <Moved>Moved Game</Moved>
+                <Filter setFilter={setFilter} />
+                <div className="inline-bloccc">
+                    <Scheduled className="game-status-tab">Scheduled Game</Scheduled>
+                    <Pending className="game-status-tab">Pending Game</Pending>
+                    <Cancelled className="game-status-tab">Cancelled Game</Cancelled>
+                    <Moved className="game-status-tab">Moved Game</Moved>
                 </div>
 
                 <GameCalendar filter={filter} />
 
                 <CalendarModal />
+
+
             </Provider>
         </>
     );

@@ -4,3 +4,27 @@
     margin-right: 100px;
     height: 600px;
 }
+
+.inline-bloccc {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.game-status-tab {
+    margin-bottom: 5px;
+    float: left;
+    color: black;
+    font-weight: bolder;
+    padding: 5px 8px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+    .hiddenOnPhone {
+        display: none !important;
+    }
+}

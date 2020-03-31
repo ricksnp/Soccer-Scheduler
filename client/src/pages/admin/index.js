@@ -35,7 +35,7 @@ class Page extends Component {
                 <StoreModal showModal={this.state.visible} closeModal={this.closeStoreModal} />
                 <div className="assigner-top-bar">
                     <h2>Manage Assignors</h2>
-                    <Button variant="contained" color="primary" onClick={this.openStoreModal}><i className="fas fa-plus"></i> assignor</Button>
+                    <Button variant="contained" color="primary" className="assignor-add-button" onClick={this.openStoreModal}><i className="fas fa-plus"></i> assignor</Button>
                 </div>
                 <div class="assignor-table">
                     <TableComp />
