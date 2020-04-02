@@ -80,8 +80,8 @@
 }
 
 @media (max-width: 500px) {
-    .MuiTableRow-root .MuiTableCell-root:nth-child(2),
-    .MuiTableRow-head .MuiTableCell-head:nth-child(2) {
+    .MuiTableRow-root .MuiTableCell-root:nth-child(4),
+    .MuiTableRow-head .MuiTableCell-head:nth-child(4) {
         display: none;
     }
 }

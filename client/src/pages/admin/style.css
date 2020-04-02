@@ -80,10 +80,14 @@
 }
 
 @media (max-width: 500px) {
-    .MuiTableRow-root .MuiTableCell-root:nth-child(3),
-    .MuiTableRow-head .MuiTableCell-head:nth-child(3) {
+    .MuiTableRow-root .MuiTableCell-root:nth-child(4),
+    .MuiTableRow-head .MuiTableCell-head:nth-child(4) {
         display: none;
     }
 }
 
-
+@media (max-width: 390px) {
+    .assignor-add-button {
+        font-size: 10px !important;
+    }
+}

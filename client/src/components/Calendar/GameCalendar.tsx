@@ -7,8 +7,9 @@ import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
-import {isBrowser, isMobile} from "react-device-detect";
-
+import { isBrowser, isMobile } from "react-device-detect";
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 interface Props {
   handleEventClick: Function
@@ -16,9 +17,9 @@ interface Props {
 
 const getGames = (setApi: any) => {
 
-  apiGetGames().then(response =>{
-   setApi(response);
-})
+  apiGetGames().then(response => {
+    setApi(response);
+  })
 
 }
 
@@ -28,111 +29,105 @@ const user = {
 }
 
 
-const GameCalendar = ({filter}:any) => {
+const GameCalendar = ({ filter }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
   const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
-  const [prevFilter,setPrev] = useState("Your Games");
+  const [prevFilter, setPrev] = useState("Your Games");
 
 
 
-  if(counter === 0)
-  { 
+  if (counter === 0) {
     getGames(setApi)
 
-    if(api !== "null")
-    {
+    if (api !== "null") {
 
-      if(filter === "Scheduled")
-      {
+      if (filter === "Scheduled") {
         getScheduledGames(api, setEvents)
         console.log("getScheduledGames")
       }
-      else if(filter === "Your Games" || filter === user.team)
-      {
-        if(user.role === "USER_ROLE")
-        {
+      else if (filter === "Your Games" || filter === user.team) {
+        if (user.role === "USER_ROLE") {
           getCoachSchedule(api, setEvents, user.team)
           console.log("getCoachSchedule")
         }
-        else
-        {
+        else {
           //TODO ADMIN STUFF
         }
       }
       else //for games of specific teams that is not the suer
       {
-        getTeamSchedule(api,setEvents, filter)
+        getTeamSchedule(api, setEvents, filter)
         console.log("getTeamSchedule")
       }
 
 
-    setPrev(filter);
-    setCounter(counter + 1);
+      setPrev(filter);
+      setCounter(counter + 1);
     }
   }
 
 
   return (
-    <div className="game-cal">
-      {console.log(isBrowser)}
-      <Cal
-        eventLimit = {true}
-        header={isBrowser ? 
-          {
-            left: 'dayGridMonth,dayGridWeek,dayGridDay',
-            center: 'title',
-            right: 'prev next, today',
+    <>
+      <div className="game-cal">
+        {console.log(isBrowser)}
+        <Cal
+          eventLimit={true}
+          header={isBrowser ?
+            {
+              left: 'dayGridMonth,dayGridWeek,dayGridDay',
+              center: 'title',
+              right: 'prev next, today',
+            }
+
+            :
+            {
+              center: 'dayGridMonth,dayGridFiveDay,dayGridDay     today',
+              left: 'title',
+              right: ''
+            }
           }
 
-          : 
-          {
-            center: 'dayGridMonth,dayGridFiveDay,dayGridDay     today',
-            left: 'title',
-            right: ''
+
+          footer={
+            isMobile ?
+              {
+                center: 'prev next',
+                left: ''
+              }
+              :
+              {}
           }
+          views={{
+            dayGridFiveDay: {
+              type: 'dayGridWeek',
+              duration: { days: 5 },
+              buttonText: '5-day',
+              eventLimit: 10
+            },
+            dayGridMonth: {
+              eventLimit: 3
+            }
+          }}
+          defaultView={isMobile ? "dayGridFiveDay" : "dayGridMonth"}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
+          events={events}
+          eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status, calEvent.event.extendedProps.id] })}
+        />
+
+        {//Conditional rendering with filter hook is used to force rerender when state changes
+          filter === "Your Games" ?
+            <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
+            :
+            <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
         }
-
-
-        footer={
-          isMobile ? 
-          {
-            center: 'prev next',
-            left:''
-          } 
-          : 
-          {}
-        }
-        views={{
-          dayGridFiveDay: {
-            type: 'dayGridWeek',
-            duration: { days: 5 },
-            buttonText: '5-day',
-            eventLimit: 10
-          },
-          dayGridMonth: {
-            eventLimit: 3
-          }
-        }}
-        defaultView={isMobile ? "dayGridFiveDay": "dayGridMonth"}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
-        events={events}
-        eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status , calEvent.event.extendedProps.id] })}
-      />
-
-      {//Conditional rendering with filter hook is used to force rerender when state changes
-        filter === "Your Games" ?
-        <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
-        :
-        <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
-      }
-
-    </div>
-
-
+      </div>
+      <Button variant="contained" color="primary" className="hiddenOnPhone">Export CSV</Button>
+    </>
   );
 }
 
