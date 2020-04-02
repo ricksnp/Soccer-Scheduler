@@ -111,7 +111,7 @@ const CategoryCard = ( props: Props ) => {
         })
     
     //contains list of edited games or message
-    const listEdit = gamesList.edited  ===  ""?
+    const listEdit = gamesList.edited[0] ==  undefined ?
         <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
@@ -121,7 +121,7 @@ const CategoryCard = ( props: Props ) => {
         })
 
     //contains list of scheduled games
-    const listScheduled =  props.scheduledGames === "" ?
+    const listScheduled =  props.scheduledGames[0].status == "null" ?
         <Empty>No games have been scheduled</Empty>
     :
         props.scheduledGames.map((game: any, i: any) => {

@@ -3,7 +3,8 @@ import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
-import { getCoachPending } from '../../components/Games';
+import { getCoachPending, getCoachSchedule } from '../../components/Games';
+import {Form, Select} from 'antd';
 
 
 async function getNewGames(setNew: any) {
@@ -35,8 +36,29 @@ const NewAdmin = (userInfo: User) => {
     const [counter, setCounter] = useState(0);
     const [newResponse, setNew] = useState(initialResponse);
     const [newPending, setPending] = useState(initialResponse);
-    const [flag, setflag] = useState(false);
+    const [newSchedulued, setScheduled] = useState(initialResponse);
+    const [userSchool, setSchool] = useState("West Monroe")
  
+
+    /*
+    *   Used for testing, can be removed when schools are implemented in user accounts
+    */
+   const Option = Select.Option
+   const teams: Array<string> = ["Neville", "West Monroe", "Ouachita" ]
+   const teamOptions = teams.map((team, i) => {
+       return (
+           <Option value={team} key={i}>
+               {team}
+           </Option>
+       );
+   });
+    const handleChange = (value:any) => {
+        setCounter(counter-1)
+       setSchool(value);
+
+   }
+   /***************************************************************************/
+
 
     if (counter === 0) {
         getNewGames(setNew);
@@ -44,15 +66,6 @@ const NewAdmin = (userInfo: User) => {
         setUser("ROLE_USER")
     }
 
-
-    //for testing purposes
-    const onClick = () => {
-        user === "coach" ?
-            setUser("assignor")
-            :
-            setUser("ROLE_USER")
-
-    }
 
     //list of categories to display
     const categories = ['Pending Approval', 'Scheduled Games'];
@@ -63,36 +76,45 @@ const NewAdmin = (userInfo: User) => {
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
         if (user === "ROLE_USER") 
         {
-            console.log("COUNTER:" + counter);
+           
     
             if(newResponse[0].status !== 'null' && counter < 2)
             {
-                getCoachPending(newResponse, setPending, "West Monroe")
+                getCoachPending(newResponse, setPending, userSchool)
                 setCounter(counter + 1)
                 console.log("Current" + JSON.stringify(newPending))
             }
         }
-        // if user isn't coach, find games where status == assognorpending || assignoredit
+        // if user isn't coach, find games where status == assignorPending || assignoredit
         else {
 
 
         }
+
         console.log(JSON.stringify("NEWPENDING " + JSON.stringify(newPending)))
         return newPending
     }
 
     //store list of scheduled games based on user roll -- same as pending, different status requirements
     const scheduledGames = () => {
-        let scheduled: any = [];
-        if (user === "coach") {
+
+        if (user === "ROLE_USER") {
             
-                // } else {
-            //     for ( let i = 0; i < gameList.length; i++ ) {
-            //         if ( gameList[i].status === "scheduled" )
-            //             scheduled.push(gameList[i]);
-            //     }
+            console.log("COUNTER1:" + counter + " RES= " + newResponse[0].status);
+
+            if(newResponse[0].status !== 'null' && counter < 2)
+            {
+                getCoachSchedule(newResponse, setScheduled, userSchool)
+                setCounter(counter + 1)
+                console.log("Scheduled" + JSON.stringify(newSchedulued))
+            }
         }
-        return scheduled
+        else
+        {
+            
+        }
+
+        return newSchedulued
     }
 
 
@@ -123,6 +145,14 @@ const NewAdmin = (userInfo: User) => {
     return (
         <div>
             {console.log("USER ROLE: " + user)}
+
+            <Form>
+                <Form.Item label="Filter">
+                    <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
+                        {teamOptions}
+                    </Select>
+                </Form.Item>
+            </Form>
             {displayCards}
         </div>
     );

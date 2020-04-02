@@ -60,7 +60,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending") && 
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") && 
             (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
 
@@ -89,7 +89,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
             })
         }
     }
-    
+    console.log("GETCOACHSCHEDULE: " + games)
     setSchedule(games);
     
 }
@@ -155,7 +155,6 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
     
     const res = apiCall;
     console.log("RES" + JSON.stringify(res))
-    console.log("NAME" + name)
 
     let pending = [];
 
@@ -178,8 +177,6 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
             })
         }
     }
-    
-    console.log("Games Pending!!!!!!!!!!!!!" + JSON.stringify(pending))
 
     setPending(pending);
 
