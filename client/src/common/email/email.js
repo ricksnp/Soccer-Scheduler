@@ -1,9 +1,9 @@
 
 const AWS = require('aws-sdk');
 
-AWS_SES_REGION = "us-east-1"
-AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOZX3BXCPE"
-AWS_SES_SECRET_ACCESS_KEY = "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"
+const AWS_SES_REGION = "us-east-1"
+const AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOZX3BXCPE"
+const AWS_SES_SECRET_ACCESS_KEY = "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"
 // Amazon SES configuration
 const SESConfig = {
     apiVersion: '2010-12-01',
@@ -12,7 +12,7 @@ const SESConfig = {
     region: "us-east-1"
 }
 
-function sendAnEmail(to, data) {
+export const sendAnEmail = (to, data) => {
     var params = {
         Source: 'rickspnathan@gmail.com',
         Destination: {
@@ -42,5 +42,6 @@ function sendAnEmail(to, data) {
 
 }
 
-sendAnEmail("rickspnathan@gmail.com", 'IT IS <a href="http://scoreamatch.com/">WORKING</a>!');
+
+
 

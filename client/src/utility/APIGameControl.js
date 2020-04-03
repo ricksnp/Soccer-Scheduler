@@ -1,9 +1,9 @@
-import { API_BASE_URL, ACCESS_TOKEN} from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 
 
 const request = (options) => {
 	const headers = new Headers({
-		'Content-Type' : 'application/json'
+		'Content-Type': 'application/json'
 	});
 
 	if (localStorage.getItem(ACCESS_TOKEN)) {
@@ -26,25 +26,25 @@ const request = (options) => {
 
 export function postGames(games) {
 	return request({
-		url    : API_BASE_URL + '/calendar',
-		method : 'POST',
-		body   : JSON.stringify(games)
+		url: API_BASE_URL + '/calendar',
+		method: 'POST',
+		body: JSON.stringify(games)
 	});
 }
 
 export function apiGetGames() {
 	return request({
-		url    : API_BASE_URL + '/calendar/allgames',
-		method : 'GET'
+		url: API_BASE_URL + '/calendar/allgames',
+		method: 'GET'
 	});
 
 }
 
-export function apiUpdateGame(game){
+export function apiUpdateGame(game) {
 	return request({
-		url    : API_BASE_URL + '/calendar/updategames',
-		method : 'POST',
-		body   : JSON.stringify(game)
+		url: API_BASE_URL + '/calendar/updategames',
+		method: 'POST',
+		body: JSON.stringify(game)
 	});
 
 
