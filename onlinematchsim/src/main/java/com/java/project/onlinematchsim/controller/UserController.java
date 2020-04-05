@@ -25,9 +25,10 @@ public class UserController {
     //private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getRole());
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getRole(), currentUser.getDistrict(),
+            currentUser.getSchoolname());
         return userSummary;
     }
 
@@ -48,7 +49,7 @@ public class UserController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
-        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString());
+        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString(), user.getDistrict(),user.getSchoolname());
 
         return userProfile;
 

@@ -38,7 +38,7 @@ public class CalendarController
 	
 	
 	@PostMapping
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public ResponseEntity<?> registerGames(@Valid @RequestBody GamesEntryRequest gameReq)
 	{
 		GamesCalendar gamesCalendar = calendarService.createGame(gameReq);
@@ -47,13 +47,14 @@ public class CalendarController
 	}
 	
 	@GetMapping("/allgames")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public List<GameEntryResponse> getAllGames(@CurrentUser UserPrincipal currentUser)
 	{
 		return calendarService.getAllGames(currentUser);
 	}
 	
 	@PostMapping("/updategames")
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public ResponseEntity<?> updateGames( @CurrentUser UserPrincipal currentUser, @Valid @RequestBody UpdateGameRequest gameReq)
 	{
 		GamesCalendar gamesCalendar = calendarService.updateGame( gameReq.getId(), gameReq);
