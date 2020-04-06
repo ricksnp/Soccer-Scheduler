@@ -17,17 +17,13 @@ import { signup, checkUsernameAvailability, checkEmailAvailability } from '../..
 import { sign } from 'crypto';
 import zIndex from '@material-ui/core/styles/zIndex';
 
-const AWS = require('aws-sdk');
-const AWS_SES_REGION = "us-east-1"
-const AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOZX3BXCPE"
-const AWS_SES_SECRET_ACCESS_KEY = "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"
 
-// Amazon SES configuration
-const SESConfig = {
-    apiVersion: '2010-12-01',
-    accessKeyId: "AKIA5GWYDREOZX3BXCPE",
-    secretAccessKey: "0X1TDFKNoKnKVtYlxF/lpKssb7+IMlmHvDyiUMXj",
-    region: "us-east-1"
+
+
+let emailContents = (username, password) => {
+    return "<h2>Your Login Information:</h2>" +
+        "<h3>Username:  </h3>" + username + "<br/>" +
+        "<h3>Password:  </h3>" + password;
 }
 
 class StoreModal extends React.Component {
@@ -51,7 +47,8 @@ class StoreModal extends React.Component {
             },
             password: {
                 value: ''
-            }
+            },
+
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -86,18 +83,25 @@ class StoreModal extends React.Component {
         });
     }
 
+
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state.password.value);
+
+        let str = this.state.firstname.value + " " + this.state.lastname.value;
+        const firstb4 = str.substr(0, str.indexOf(' '));
+        const firstLet = firstb4.charAt(0).toLowerCase();
+        const last = str.substr(str.indexOf(' ') + 1).toLowerCase();
+        const finUserName = firstLet + last + Math.floor(Math.random() * 1000) + 1;
 
         const signupRequest = {
             name: this.state.firstname.value + " " + this.state.lastname.value,
             email: this.state.email.value,
-            username: this.state.username.value,
+            username: finUserName,
             schoolname: this.state.schoolname.value,
             district: '12A',
             password: 'Password1'
         };
+        console.log(JSON.stringify(signupRequest));
 
 
         signup(signupRequest)
@@ -107,12 +111,7 @@ class StoreModal extends React.Component {
                     description: "Sucessfully added a new coach!"
                 });
                 //this.props.history.push('/login');
-                // let str = signupRequest.name;
-                // const firstb4 = str.substr(0, str.indexOf(' '));
-                // const firstLet = firstb4.charAt(0).toLowerCase();
-                // const last = str.substr(str.indexOf(' ') + 1).toLowerCase();
-                // const finUserName = firstLet + last + Math.floor(Math.random() * 1000) + 1;
-                // sendAnEmail(signupRequest.email, "Login Information:" + "<br/>" + finUserName);
+                sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
             .catch((error) => {
                 notification.error({

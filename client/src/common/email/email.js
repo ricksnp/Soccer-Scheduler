@@ -1,14 +1,13 @@
 const AWS = require('aws-sdk');
 
 const AWS_SES_REGION = "us-east-1"
-const AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOYZBN3QOM"
-const AWS_SES_SECRET_ACCESS_KEY = "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"
+
 // Amazon SES configuration
 const SESConfig = {
 
     apiVersion: '2010-12-01',
-    accessKeyId: "AKIA5GWYDREOYZBN3QOM",
-    secretAccessKey: "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",
+    accessKeyId: process.env.REACT_APP_AWS_SES_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_SES_SECRET_ACCESS_KEY,
     region: "us-east-1"
 }
 

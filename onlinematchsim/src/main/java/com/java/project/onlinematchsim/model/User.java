@@ -35,8 +35,16 @@ public class User
     private String email;
 
     @NotBlank
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     private String password;
+
+    @NotBlank
+    @Size(max = 100)
+    private String district;
+
+    @NotBlank
+    @Size(max = 100)
+    private String schoolname;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -48,11 +56,13 @@ public class User
 
     }
 
-    public User(String name, String username, String email, String password) {
+    public User(String name, String username, String email, String password, String district, String schoolname) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.district = district;
+        this.schoolname = schoolname;
     }
 
     public Long getId() {
@@ -101,6 +111,22 @@ public class User
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getSchoolname() {
+        return schoolname;
+    }
+
+    public void setSchoolname(String schoolname) {
+        this.schoolname = schoolname;
     }
     
 }

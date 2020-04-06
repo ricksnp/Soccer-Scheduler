@@ -38,7 +38,7 @@ public class CalendarController
 	
 	
 	@PostMapping
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public ResponseEntity<?> registerGames(@Valid @RequestBody GamesEntryRequest gameReq)
 	{
 		GamesCalendar gamesCalendar = calendarService.createGame(gameReq);
@@ -47,19 +47,29 @@ public class CalendarController
 	}
 	
 	@GetMapping("/allgames")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public List<GameEntryResponse> getAllGames(@CurrentUser UserPrincipal currentUser)
 	{
 		return calendarService.getAllGames(currentUser);
 	}
 	
 	@PostMapping("/updategames")
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
 	public ResponseEntity<?> updateGames( @CurrentUser UserPrincipal currentUser, @Valid @RequestBody UpdateGameRequest gameReq)
 	{
 		GamesCalendar gamesCalendar = calendarService.updateGame( gameReq.getId(), gameReq);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendar.getMatchId()).toUri();
 		return ResponseEntity.created(location).body(new ApiResponse(true, "Games Updated Successfully"));
 	}
-	
+
+	@PostMapping("/multiplegames")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
+	public ResponseEntity<?> multipleGames(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody List<GamesCalendar> gamesCalendarList)
+	{
+		calendarService.createMultipleGames(gamesCalendarList);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendarList.get(0).getMatchId()).toUri();
+		return ResponseEntity.created(location).body(new ApiResponse(true, "Games Updated Successfully"));
+	}
 	
 }

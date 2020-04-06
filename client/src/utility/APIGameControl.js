@@ -47,5 +47,12 @@ export function apiUpdateGame(game) {
 		body: JSON.stringify(game)
 	});
 
+}
 
+export function addMultipleGames(game){
+	return request({
+		url: API_BASE_URL + '/calendar/multiplegames',
+		method: 'POST',
+		body: JSON.stringify(game)
+	});
 }

@@ -5,7 +5,11 @@ public class UpdateGameRequest {
 	
 	@NotBlank
 	private String status;
-	
+
+	private String date;
+
+
+	private String location;
 	
 	private Long id;
 
@@ -24,5 +28,21 @@ public class UpdateGameRequest {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 }

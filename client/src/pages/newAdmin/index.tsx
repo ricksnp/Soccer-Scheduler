@@ -6,18 +6,14 @@ import { getGames } from '../../components/Calendar/Provider';
 import { getCoachPending, getCoachSchedule } from '../../components/Games';
 import {Form, Select} from 'antd';
 
-
 async function getNewGames(setNew: any) {
 
     await apiGetGames().then(response => {
         setNew(response);
     })
 }
-interface User {
-    name: string,
-    role: string
-}
-const NewAdmin = (userInfo: User) => {
+
+const NewAdmin = (userInfo: any) => {
 
 
     const initialResponse: any = [{
@@ -37,7 +33,7 @@ const NewAdmin = (userInfo: User) => {
     const [newResponse, setNew] = useState(initialResponse);
     const [newPending, setPending] = useState(initialResponse);
     const [newSchedulued, setScheduled] = useState(initialResponse);
-    const [userSchool, setSchool] = useState("West Monroe")
+    const [userSchool, setSchool] = useState(userInfo.user.schoolname)
  
 
     /*
@@ -60,10 +56,12 @@ const NewAdmin = (userInfo: User) => {
    /***************************************************************************/
 
 
+   console.log("NEWADMIN USERINFO: " + JSON.stringify(userInfo))
+
     if (counter === 0) {
         getNewGames(setNew);
         setCounter(counter + 1);
-        setUser("ROLE_USER")
+        setUser(userInfo.user.role)
     }
 
 
@@ -153,6 +151,7 @@ const NewAdmin = (userInfo: User) => {
                     </Select>
                 </Form.Item>
             </Form>
+    <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>
     );

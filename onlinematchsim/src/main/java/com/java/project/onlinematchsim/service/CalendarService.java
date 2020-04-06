@@ -3,12 +3,11 @@ package com.java.project.onlinematchsim.service;
 //import com.java.project.onlinematchsim.exception.BadRequestException;
 //import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
+import com.java.project.onlinematchsim.apiCalls.requestCalls.*;
 import com.java.project.onlinematchsim.model.*;
 //import com.java.project.onlinematchsim.repos.UserRepository;
 import com.java.project.onlinematchsim.repos.GamesRepository;
 import com.java.project.onlinematchsim.security.UserPrincipal;
-import com.java.project.onlinematchsim.apiCalls.requestCalls.GameEntryResponse;
-import com.java.project.onlinematchsim.apiCalls.requestCalls.GamesEntryRequest;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -23,9 +22,6 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.data.domain.Pageable;
 //import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import com.java.project.onlinematchsim.apiCalls.requestCalls.UpdateGameRequest;
-import com.java.project.onlinematchsim.apiCalls.requestCalls.UpdateGameResponse;
-
 
 
 //import java.util.Collections;
@@ -58,6 +54,24 @@ public class CalendarService {
 		return gamesRepository.save(gameCal);
 		
 		
+	}
+
+	public void createMultipleGames(List<GamesCalendar> gamesCalendarList)
+	{
+
+		for(int i = 0; i < gamesCalendarList.size(); i++) {
+
+			GamesCalendar gameCal = new GamesCalendar();
+			gameCal.setHomeTeamName(gamesCalendarList.get(i).getHomeTeamName());
+			gameCal.setAwayTeamName(gamesCalendarList.get(i).getAwayTeamName());
+			gameCal.setDate(gamesCalendarList.get(i).getDate());
+			gameCal.setLocation(gamesCalendarList.get(i).getLocation());
+			gameCal.setGender(gamesCalendarList.get(i).getGender());
+			gameCal.setStatus(gamesCalendarList.get(i).getStatus());
+			gameCal.setTeamLevel(gamesCalendarList.get(i).getTeamLevel());
+
+			gamesRepository.save(gameCal);
+		}
 	}
 	
 	public GameEntryResponse getGamesById(Long matchId, UserPrincipal currentuser)
@@ -107,6 +121,8 @@ public class CalendarService {
 
 		gamesCal.setMatchId(updateGameRequest.getId());
 		gamesCal.setStatus(updateGameRequest.getStatus());
+		gamesCal.setDate(updateGameRequest.getDate());
+		gamesCal.setLocation(updateGameRequest.getLocation());
 
 		gamesRepository.save(gamesCal);
 		game.setId(updateGameRequest.getId());

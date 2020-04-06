@@ -22,8 +22,15 @@ const handleConfirm = (game: any) =>{
 
     let update = {
         id: game.id,
-        status: "scheduled"
+        status: "scheduled",
+        location: game.location,
+        level: game.teamLevel,
+        gender: game.gender,
+        date: game.start
+
     }
+
+    console.log(update);
     apiUpdateGame(update)
 
 
@@ -36,7 +43,17 @@ const handleEdit = (game: any) =>{
 
 const handleDelete = (game: any) =>{
 
-    console.log("ID = " + game.id + " HomeTeam = " + game.home);
+    let update = {
+        id: game.id,
+        status: "deleted",
+        location: game.location,
+        level: game.teamLevel,
+        gender: game.gender,
+        date: game.start
+
+    }
+
+    apiUpdateGame(update)
 }
 
 

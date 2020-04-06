@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -25,9 +28,10 @@ public class UserController {
     //private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getRole());
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getRole(), currentUser.getDistrict(),
+            currentUser.getSchoolname());
         return userSummary;
     }
 
@@ -48,10 +52,28 @@ public class UserController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
-        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString());
+        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString(), user.getDistrict(),user.getSchoolname());
 
         return userProfile;
 
+    }
+
+    @GetMapping("/allusers")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
+    public List<UserProfile> getAllUsers(@CurrentUser UserPrincipal currentUser)
+    {
+        List<User> user = userRepository.findAll();
+        List<UserProfile> userList = new ArrayList<>();
+
+        for(int i = 0; i < user.size(); i++)
+        {
+            UserProfile userProfile = new UserProfile(user.get(i).getId(), user.get(i).getUsername(), user.get(i).getName(), user.get(i).getRoles().toString(), user.get(i).getDistrict(),user.get(i).getSchoolname());
+
+            userList.add(userProfile);
+
+        }
+
+        return userList;
     }
 
 }
