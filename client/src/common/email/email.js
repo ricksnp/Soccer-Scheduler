@@ -1,14 +1,13 @@
-
 const AWS = require('aws-sdk');
 
 const AWS_SES_REGION = "us-east-1"
-const AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOZX3BXCPE"
-const AWS_SES_SECRET_ACCESS_KEY = "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"
+
 // Amazon SES configuration
 const SESConfig = {
+
     apiVersion: '2010-12-01',
-    accessKeyId: "AKIA5GWYDREOZX3BXCPE",
-    secretAccessKey: "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",
+    accessKeyId: process.env.REACT_APP_AWS_SES_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_SES_SECRET_ACCESS_KEY,
     region: "us-east-1"
 }
 
@@ -31,7 +30,7 @@ export const sendAnEmail = (to, data) => {
             },
             Subject: {
                 Charset: 'UTF-8',
-                Data: 'Node + SES Example'
+                Data: 'Score A Match'
             }
         }
     };

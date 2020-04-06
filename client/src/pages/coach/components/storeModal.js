@@ -15,31 +15,31 @@ import {
 } from '../../../constants';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
+import zIndex from '@material-ui/core/styles/zIndex';
 
-const AWS = require('aws-sdk');
-const AWS_SES_REGION = "us-east-1"
-const AWS_SES_ACCESS_KEY_ID = "AKIA5GWYDREOZX3BXCPE"
-const AWS_SES_SECRET_ACCESS_KEY = "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"
 
-// Amazon SES configuration
-const SESConfig = {
-    apiVersion: '2010-12-01',
-    accessKeyId: "AKIA5GWYDREOZX3BXCPE",
-    secretAccessKey: "0X1TDFKNoKnKVtYlxF/lpKssb7+IMlmHvDyiUMXj",
-    region: "us-east-1"
+
+
+let emailContents = (username, password) => {
+    return "<h2>Your Login Information:</h2>" +
+        "<h3>Username:  </h3>" + username + "<br/>" +
+        "<h3>Password:  </h3>" + password;
 }
-
-
-
 
 class StoreModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: {
+            firstname: {
+                value: ''
+            },
+            lastname: {
                 value: ''
             },
             username: {
+                value: ''
+            },
+            schoolname: {
                 value: ''
             },
             email: {
@@ -48,9 +48,6 @@ class StoreModal extends React.Component {
             password: {
                 value: ''
             },
-            schoolname: {
-                value: ''
-            }
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -59,6 +56,8 @@ class StoreModal extends React.Component {
         this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
         this.isFormInvalid = this.isFormInvalid.bind(this);
     }
+
+
 
     handleInputChange(event, validationFun) {
         const target = event.target;
@@ -72,31 +71,39 @@ class StoreModal extends React.Component {
             }
         });
     }
-
-    handleNewChange(event){
-
+    handleNewChange(event) {
         const target = event.target;
         const inputName = target.name;
         const inputValue = target.value;
 
         this.setState({
-        [inputName]:{
-            value: inputValue
-        }
-    });
+            [inputName]: {
+                value: inputValue,
+            }
+        });
     }
+
 
     handleSubmit(event) {
         event.preventDefault();
 
+        let str = this.state.firstname.value + " " + this.state.lastname.value;
+        const firstb4 = str.substr(0, str.indexOf(' '));
+        const firstLet = firstb4.charAt(0).toLowerCase();
+        const last = str.substr(str.indexOf(' ') + 1).toLowerCase();
+        const finUserName = firstLet + last + Math.floor(Math.random() * 1000) + 1;
+
         const signupRequest = {
-            name: this.state.name.value,
+            name: this.state.firstname.value + " " + this.state.lastname.value,
             email: this.state.email.value,
-            username: this.state.username.value,
-            password: this.state.password.value,
-            schoolname:  this.state.schoolname.value,
-            district: "12A"
+            username: finUserName,
+            schoolname: this.state.schoolname.value,
+            district: '12A',
+            password: 'Password1'
         };
+        console.log(JSON.stringify(signupRequest));
+
+
         signup(signupRequest)
             .then((response) => {
                 notification.success({
@@ -104,8 +111,7 @@ class StoreModal extends React.Component {
                     description: "Sucessfully added a new coach!"
                 });
                 //this.props.history.push('/login');
-                console.log(signupRequest.email);
-                sendAnEmail(signupRequest.email, "Hi");
+                sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
             .catch((error) => {
                 notification.error({
@@ -117,10 +123,11 @@ class StoreModal extends React.Component {
 
     isFormInvalid() {
         return !(
-            this.state.name.validateStatus === 'success' &&
-            this.state.username.validateStatus === 'success' &&
-            this.state.email.validateStatus === 'success' &&
-            this.state.password.validateStatus === 'success'
+            // this.state.name.validateStatus === 'success' &&
+            // this.state.username.validateStatus === 'success' &&
+            // this.state.email.validateStatus === 'success' &&
+            // this.state.password.validateStatus === 'success'
+            false
         );
     }
 
@@ -140,17 +147,17 @@ class StoreModal extends React.Component {
                 >
                     <p className="addAssignor-title">Add Coaches</p>
                     <form onSubmit={this.handleSubmit} className="addAssignor-form">
-                        <TextField id="standard-basic" label="Full Name" name="name" value={this.state.name.value} onChange={(event) => this.handleInputChange(event, this.validateName)} />
-                        <TextField id="standard-basic" label="Username" name="username" value={this.state.username.value} onBlur={this.validateUsernameAvailability} onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
+                        <TextField id="standard-basic" label="First name" name="firstname" value={this.state.firstname.value} onChange={(event) => this.handleNewChange(event)} />
+                        <TextField id="standard-basic" label="Last name" name="lastname" value={this.state.lastname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
-                        <TextField id="standard-basic" label="Password" name="password" type="password" value={this.state.password.value} onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
-                        <TextField id="standard-basic" label="School Name" name="schoolname"  value={this.state.schoolname.value} onChange={(event) => this.handleNewChange(event)} />
+                        <TextField id="standard-basic" label="School name" name="schoolname" value={this.state.schoolname.value} onChange={(event) => this.handleNewChange(event)} />
                         <Button
                             type="primary"
                             htmlType="submit"
                             size="large"
                             className="signup-form-button"
-                            disabled={this.isFormInvalid()}
+                            //disabled={this.isFormInvalid()}
+                            onClick={this.onClose}
                         >Add Coach</Button>
                     </form>
                 </Modal>
