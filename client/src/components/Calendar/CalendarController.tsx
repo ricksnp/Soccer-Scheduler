@@ -18,11 +18,12 @@ const Moved = styled.span`background: #adadad`;
 
 //CalendarController controls all aspects of the control,
 // it returns the Provider, GameCalendar, and Calendar Modal
-const CalendarController = () => {
+const CalendarController = (user: any) => {
 
     //intital state must be "Scheduled" or else everything breaks
     const [filter, setFilter] = useState("Your Games")
 
+    console.log("CalendarController: "+  JSON.stringify(user))
     return (
         <>
             <Provider>
@@ -34,7 +35,7 @@ const CalendarController = () => {
                     <Moved className="game-status-tab">Moved Game</Moved>
                 </div>
 
-                <GameCalendar filter={filter} />
+                <GameCalendar filter={filter} user={user} />
 
                 <CalendarModal />
 

@@ -4,7 +4,7 @@ import { Header } from '../../style/PageStyles'
 import {addMultipleGames} from '../../utility/APIGameControl'
 import {getAllUsers} from '../../utility/APIUtility'
 
-const Home = (isAuthenticated: any) => {
+const Home = ({isAuthenticated, user}: any) => {
 
 function addGames()
 {
@@ -26,12 +26,11 @@ function getUsers(){
    })
 }
 
+console.log("HOME USER: " + JSON.stringify(user))
 
     return (
         <>
-            <button onClick={() => addGames()}>TEST MULTIPLE GAMES</button>
-            <button onClick={() => getUsers()}>TEST All Users</button>
-            <CalendarController/>
+            <CalendarController user={user}/>
         </>
     );
 }
