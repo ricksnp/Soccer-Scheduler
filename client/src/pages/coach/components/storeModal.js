@@ -15,6 +15,7 @@ import {
 } from '../../../constants';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 const AWS = require('aws-sdk');
 const AWS_SES_REGION = "us-east-1"
@@ -53,6 +54,8 @@ class StoreModal extends React.Component {
         this.isFormInvalid = this.isFormInvalid.bind(this);
     }
 
+
+
     handleInputChange(event, validationFun) {
         const target = event.target;
         const inputName = target.name;
@@ -75,6 +78,8 @@ class StoreModal extends React.Component {
             username: this.state.username.value,
             password: this.state.password.value
         };
+
+
         signup(signupRequest)
             .then((response) => {
                 notification.success({
@@ -82,8 +87,13 @@ class StoreModal extends React.Component {
                     description: "Sucessfully added a new coach!"
                 });
                 //this.props.history.push('/login');
-                console.log(signupRequest.email);
-                sendAnEmail(signupRequest.email, "Hi");
+                var randompass = Math.random().toString(36).slice(-8);
+                let str = signupRequest.name;
+                const firstb4 = str.substr(0, str.indexOf(' '));
+                const firstLet = firstb4.charAt(0).toLowerCase();
+                const last = str.substr(str.indexOf(' ') + 1).toLowerCase();
+                const finUserName = firstLet + last + Math.floor(Math.random() * 1000) + 1;
+                sendAnEmail(signupRequest.email, "Login Information:" + "<br/>" + finUserName + "<br/>" + randompass);
             })
             .catch((error) => {
                 notification.error({
@@ -119,7 +129,7 @@ class StoreModal extends React.Component {
                     <p className="addAssignor-title">Add Coaches</p>
                     <form onSubmit={this.handleSubmit} className="addAssignor-form">
                         <TextField id="standard-basic" label="Full Name" name="name" value={this.state.name.value} onChange={(event) => this.handleInputChange(event, this.validateName)} />
-                        <TextField id="standard-basic" label="Username" name="username" value={this.state.username.value} onBlur={this.validateUsernameAvailability} onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
+                        <TextField id="standard-basic" label="Username" name="username" value={this.state.username.value} onChange={(event) => this.handleInputChange(event, this.validateName)} />
                         <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
                         <TextField id="standard-basic" label="Password" name="password" type="password" value={this.state.password.value} onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
                         <Button
@@ -128,6 +138,7 @@ class StoreModal extends React.Component {
                             size="large"
                             className="signup-form-button"
                             disabled={this.isFormInvalid()}
+                            onClick={this.onClose}
                         >Add Coach</Button>
                     </form>
                 </Modal>
