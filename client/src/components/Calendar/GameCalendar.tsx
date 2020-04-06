@@ -29,7 +29,7 @@ const user = {
 }
 
 
-const GameCalendar = ({ filter }: any) => {
+const GameCalendar = ({ filter, users }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
@@ -37,7 +37,7 @@ const GameCalendar = ({ filter }: any) => {
   const [counter, setCounter] = useState(0);
   const [prevFilter, setPrev] = useState("Your Games");
 
-
+  console.log("GAMECALENDAR USER: " + JSON.stringify(users))
 
   if (counter === 0) {
     getGames(setApi)

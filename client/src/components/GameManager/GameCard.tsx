@@ -56,7 +56,19 @@ const handleDelete = (game: any) =>{
     apiUpdateGame(update)
 }
 
+const handleCancel = (game: any)=>{
+    let update = {
+        id: game.id,
+        status: "cancelled",
+        location: game.location,
+        level: game.teamLevel,
+        gender: game.gender,
+        date: game.start
 
+    }
+
+    apiUpdateGame(update)
+}
 
 
 const GameCard = ( props: Props ) => {
@@ -90,7 +102,7 @@ const GameCard = ( props: Props ) => {
                 :
                 <>
                     <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
-                    <Button style={{background:"#f5222d"}} onClick={()=>handleDelete(game)}><i className="fas fa-times-circle"></i></Button>
+                    <Button style={{background:"#f5222d"}} onClick={()=>handleCancel(game)}><i className="fas fa-times-circle"></i></Button>
                 </>
                 }
                 </Div>
