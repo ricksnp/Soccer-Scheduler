@@ -29,6 +29,9 @@ const SESConfig = {
     region: "us-east-1"
 }
 
+
+
+
 class StoreModal extends React.Component {
     constructor(props) {
         super(props);
@@ -44,7 +47,11 @@ class StoreModal extends React.Component {
             },
             password: {
                 value: ''
+            },
+            schoolname: {
+                value: ''
             }
+
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,6 +73,19 @@ class StoreModal extends React.Component {
         });
     }
 
+    handleNewChange(event){
+
+        const target = event.target;
+        const inputName = target.name;
+        const inputValue = target.value;
+
+        this.setState({
+        [inputName]:{
+            value: inputValue
+        }
+    });
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -73,7 +93,9 @@ class StoreModal extends React.Component {
             name: this.state.name.value,
             email: this.state.email.value,
             username: this.state.username.value,
-            password: this.state.password.value
+            password: this.state.password.value,
+            schoolname:  this.state.schoolname.value,
+            district: "12A"
         };
         signup(signupRequest)
             .then((response) => {
@@ -122,6 +144,7 @@ class StoreModal extends React.Component {
                         <TextField id="standard-basic" label="Username" name="username" value={this.state.username.value} onBlur={this.validateUsernameAvailability} onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
                         <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
                         <TextField id="standard-basic" label="Password" name="password" type="password" value={this.state.password.value} onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
+                        <TextField id="standard-basic" label="School Name" name="schoolname"  value={this.state.schoolname.value} onChange={(event) => this.handleNewChange(event)} />
                         <Button
                             type="primary"
                             htmlType="submit"

@@ -64,12 +64,6 @@ class App extends Component {
 	async componentDidMount() {
 		this.loadCurrentUser();
 
-		await apiGetGames().then(response => {
-			this.setState({
-				games: response
-			});
-		})
-
 		console.log("CURRENT USER + " + JSON.stringify(this.state.currentUser))
 	}
 
@@ -136,7 +130,7 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
-								<Route path="/GameManager" render={() => <NewAdmin user={this.state.user} />} />
+								<Route path="/GameManager" render={() => <NewAdmin user={this.state.currentUser} />} />
 								<Route path="/admin" render={() => <Admin />} />
 								<Route path="/coach" render={() => <Coach />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} />} />

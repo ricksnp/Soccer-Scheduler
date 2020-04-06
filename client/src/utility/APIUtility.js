@@ -38,6 +38,15 @@ export function signup(signupRequest) {
 	});
 }
 
+export function AssignorSignup(signupRequest) {
+	return request({
+		url    : API_BASE_URL + '/auth/signup/assignor',
+		method : 'POST',
+		body   : JSON.stringify(signupRequest)
+	});
+}
+
+
 export function checkUsernameAvailability(username) {
 	return request({
 		url    : API_BASE_URL + '/user/checkUsernameAvailability?username=' + username,
@@ -66,6 +75,13 @@ export function getCurrentUser() {
 export function getUserProfile(username) {
 	return request({
 		url    : API_BASE_URL + '/users/' + username,
+		method : 'GET'
+	});
+}
+
+export function getAllUsers() {
+	return request({
+		url    : API_BASE_URL + '/allusers',
 		method : 'GET'
 	});
 }
