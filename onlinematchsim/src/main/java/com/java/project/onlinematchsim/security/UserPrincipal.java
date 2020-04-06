@@ -46,7 +46,6 @@ public class UserPrincipal implements UserDetails
         this.password = password;
         this.role = role;
         this.authorities = authorities;
-        this.role = role;
     }
 
     public static UserPrincipal create(User user) {
@@ -57,11 +56,11 @@ public class UserPrincipal implements UserDetails
         return new UserPrincipal(
                 user.getId(),
                 user.getName(),
+                user.getDistrict(),
+                user.getSchoolname(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getDistrict(),
-                user.getSchoolname(),
                 authorities,
                 authorities.get(0).toString()
             
