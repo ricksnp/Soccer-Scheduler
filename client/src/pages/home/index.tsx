@@ -26,11 +26,12 @@ function getUsers(){
    })
 }
 
-console.log("HOME USER: " + JSON.stringify(user))
-
+        
     return (
         <>
-            <CalendarController user={user}/>
+        <button onClick={getUsers}>All Users</button>
+        <div>You are signed in as {user.schoolname}</div>
+            <CalendarController/>
         </>
     );
 }

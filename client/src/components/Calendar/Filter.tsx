@@ -3,18 +3,61 @@ import {Select, Form,} from 'antd';
 import {isMobile} from "react-device-detect";
 import styled from 'styled-components';
 import EditModal from '../../pages/coach/components/editModal';
+import {getAllUsers} from '../../utility/APIUtility';
 
 
+
+function updateOptions(setter:any)
+{
+    console.log("here");
+
+    let list:any = []
+
+    let set = new Set()
+
+    list[0] = "Your Games";
+    list[1] = "Scheduled";
+
+    getAllUsers().then((response)=>
+    {
+
+        console.log("res: " + response)
+        for(let i=0;i<response.length;i++)
+        {
+            if(!set.has(response[i].schoolname))
+            {
+                list[i+2] = response[i].schoolname
+                set.add(response[i].schoolname)
+        
+            }
+        }
+
+        setter(list)
+    })
+
+    console.log("list" + list);
+}
 
 
 const Filter = ({setFilter}: any) =>
 {
 
-
     const Option = Select.Option
-    const teams: Array<string> = [ "Your Games", "Scheduled", "Neville", "West Monroe", "Ouachita" ]
-    
+    const teams: Array<string> = [ "Your Games", "Scheduled"]
+
+    const [teamList, setTeamList] = useState(teams)
+    const [counter, setCounter] = useState(0);
+
     const teamOptions = teams.map((team, i) => {
+        return (
+            <Option value={team} key={i}>
+                {team}
+            </Option>
+        );
+    });
+
+
+    const apiTeamOptions = teamList.map((team, i) => {
         return (
             <Option value={team} key={i}>
                 {team}
@@ -28,7 +71,7 @@ const Filter = ({setFilter}: any) =>
 
     const layout = 
         isMobile ? 
-        {   
+        {
             labelCol: {span: 3},
             wrapperCol: {span: 10}
         }
@@ -38,16 +81,40 @@ const Filter = ({setFilter}: any) =>
             wrapperCol: { span: 8 },
         }
 
+    if(counter == 0)
+    {
+
+        updateOptions(setTeamList);
+
+        setCounter(counter +1)
+    }
+
 
 
     return(
+        <>
+
+        {teamList.length == 2 ? 
+
+        <Form {...layout}>
+        <Form.Item label="Filter">
+            <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
+                {teamOptions}
+            </Select>
+        </Form.Item>
+        </Form>
+
+            :
         <Form {...layout}>
             <Form.Item label="Filter">
                 <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
-                    {teamOptions}
+                    {apiTeamOptions}
                 </Select>
             </Form.Item>
         </Form>
+
+        }
+        </>
     );
 
 }

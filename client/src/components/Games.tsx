@@ -60,7 +60,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") && 
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending") && 
             (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
 

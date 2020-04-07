@@ -10,6 +10,8 @@ import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import {getCurrentUser} from '../../utility/APIUtility'
+import { setupMaster } from 'cluster';
 
 interface Props {
   handleEventClick: Function
@@ -25,42 +27,43 @@ const getGames = (setApi: any) => {
 
 const user = {
   role: "USER_ROLE",
-  team: "West Monroe"
+  schoolname: "West Monroe"
 }
 
 
-const GameCalendar = ({ filter, users }: any) => {
+const GameCalendar = ({ filter }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
   const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
   const [prevFilter, setPrev] = useState("Your Games");
+  const [currentUser, setUser] = useState(user)
 
-  console.log("GAMECALENDAR USER: " + JSON.stringify(users))
 
   if (counter === 0) {
     getGames(setApi)
+    getCurrentUser().then((response=>{setUser(response)}))
+
+    console.log("Calendar User: " + currentUser.role)
 
     if (api !== "null") {
 
       if (filter === "Scheduled") {
         getScheduledGames(api, setEvents)
-        console.log("getScheduledGames")
       }
-      else if (filter === "Your Games" || filter === user.team) {
-        if (user.role === "USER_ROLE") {
-          getCoachSchedule(api, setEvents, user.team)
+      else if (filter === "Your Games" || filter === currentUser.schoolname) {
+        if (currentUser.role.includes("USER") ) {
+          getCoachSchedule(api, setEvents, currentUser.schoolname)
           console.log("getCoachSchedule")
         }
         else {
           //TODO ADMIN STUFF
         }
       }
-      else //for games of specific teams that is not the suer
+      else //for games of specific teams that is not the user
       {
         getTeamSchedule(api, setEvents, filter)
-        console.log("getTeamSchedule")
       }
 
 
