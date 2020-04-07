@@ -92,6 +92,13 @@ const GameCard = ( props: Props ) => {
     const [color, setColor] = useState("#484848")
     const [counter, setCounter] = useState(0)
 
+    const cardStyle = {
+        margin: '2%',
+        background: color,
+        borderStyle: 'solid',
+        borderColor: 'black'
+    }
+
     const game = props.game
 
     console.log("INDEX: " + props.index)
@@ -108,7 +115,7 @@ const GameCard = ( props: Props ) => {
         :
 
         <>
-            <Card title={game.home + " vs " + game.away} style={{margin: '2%', background: color}} >
+            <Card title={game.home + " vs " + game.away} style={cardStyle} >
                 <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel}
                  <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
                 

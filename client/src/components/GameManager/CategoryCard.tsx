@@ -132,7 +132,7 @@ const CategoryCard = ( props: Props ) => {
 
     //contains list of new games or message
     const listNew = gamesList.new[0] === undefined ?
-       <Empty> No new games have been created</Empty>
+       <Empty> There are no new game requests</Empty>
     :
         gamesList.new.map((game: any, i: any) => {
 
@@ -171,7 +171,7 @@ const CategoryCard = ( props: Props ) => {
         })
 
     const movedList =  scheduledList.moved[0] == undefined  ?
-    <Empty>No games have been canceled</Empty>
+    <Empty>No games have been moved</Empty>
     :
         scheduledList.moved.map((game: any, i: any) => {
             return(
