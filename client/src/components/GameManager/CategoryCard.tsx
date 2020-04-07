@@ -58,6 +58,36 @@ function sortGames (games: any)
     return { "edited": edit, "new": newGames }
 }
 
+function sortScheduled(games:any)
+{
+    let scheduled: any = []
+    let canceled: any = []
+    let moved: any = []
+
+    for(let i = 0; i < games.length; i++ )
+    {
+
+        console.log("scheduled games" + JSON.stringify(games))
+        if(games[i].status == "scheduled")
+        {
+            scheduled.push(games[i]);
+            
+        }
+        else if(games[i].status == "cancelled")
+        {
+            canceled.push(games[i]);
+            
+        }
+        else if(games[i].status == "moved")
+        {
+            moved.push(games[i])
+        }
+
+    }
+
+    return { "scheduled": scheduled, "canceled": canceled, "moved": moved }
+}
+
 interface Props {
     category: string,
     editGames: any,
@@ -69,6 +99,7 @@ const CategoryCard = ( props: Props ) => {
     //depending on category of curret card, gamesList is assigned list(s) of games
     console.log("editGames" + JSON.stringify(props.editGames))
     const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames)
+    const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
     
     //sortGames(props.editGames);
     
@@ -91,7 +122,7 @@ const CategoryCard = ( props: Props ) => {
             },
             {
                 key: "scheduled",
-                tab: "Scheduled Games",
+                tab: "Scheduled/Cancelled/Moved Games",
             },
             {
                 key: "add",
@@ -100,7 +131,7 @@ const CategoryCard = ( props: Props ) => {
         ]
 
     //contains list of new games or message
-    const listNew = gamesList.new === undefined ?
+    const listNew = gamesList.new[0] === undefined ?
        <Empty> No new games have been created</Empty>
     :
         gamesList.new.map((game: any, i: any) => {
@@ -121,10 +152,28 @@ const CategoryCard = ( props: Props ) => {
         })
 
     //contains list of scheduled games
-    const listScheduled =  props.scheduledGames[0].status == "null" ?
+    const listScheduled =  scheduledList.scheduled == undefined  ?
         <Empty>No games have been scheduled</Empty>
     :
-        props.scheduledGames.map((game: any, i: any) => {
+        scheduledList.scheduled.map((game: any, i: any) => {
+            return(
+                <GameCard game={game} index={i}/>
+            );
+        })
+
+    const canceledList =  scheduledList.canceled[0] == undefined  ?
+    <Empty>No games have been canceled</Empty>
+    :
+        scheduledList.canceled.map((game: any, i: any) => {
+            return(
+                <GameCard game={game} index={i}/>
+            );
+        })
+
+    const movedList =  scheduledList.moved[0] == undefined  ?
+    <Empty>No games have been canceled</Empty>
+    :
+        scheduledList.moved.map((game: any, i: any) => {
             return(
                 <GameCard game={game} index={i}/>
             );
@@ -133,7 +182,7 @@ const CategoryCard = ( props: Props ) => {
     return(
         <Card
             style={{ width: '90%'}}
-            // bodyStyle={{background: "#5cdbd3"}}
+            //bodyStyle={{background: "#686868"}}
             headStyle={Headstyle}
             title={"Game Manager"}
             tabList={tabList}
@@ -142,13 +191,22 @@ const CategoryCard = ( props: Props ) => {
         >
                { key === "pending" && 
                     <>
-                    <Header>New Games</Header>
+                    <Header>Recently Added</Header>
                     {listNew}
                     <Header>Edited Games</Header>
                     {listEdit}
                     </>
                 }
-                {key === "scheduled" && listScheduled}
+                {key === "scheduled" && 
+                    <>
+                        <Header>Scheduled</Header>
+                        {listScheduled}
+                        <Header>Moved</Header>
+                        {movedList}
+                        <Header>Canceled</Header>
+                        {canceledList}
+                    </>
+                }
                 {key === "add" && <AddGameController/>}   
         </Card>
     );

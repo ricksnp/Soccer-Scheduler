@@ -110,8 +110,7 @@ class StoreModal extends React.Component {
                     message: 'Online Match Sim App',
                     description: "Sucessfully added a new coach!"
                 });
-                //this.props.history.push('/login');
-                sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
+               sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
             .catch((error) => {
                 notification.error({

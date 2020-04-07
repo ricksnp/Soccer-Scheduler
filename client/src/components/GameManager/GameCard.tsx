@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Card, Button} from 'antd';
 import styled from 'styled-components';
 import {apiUpdateGame} from '../../utility/APIGameControl'
@@ -59,7 +59,7 @@ const handleDelete = (game: any) =>{
 const handleCancel = (game: any)=>{
     let update = {
         id: game.id,
-        status: "cancelled",
+        status: "canceled",
         location: game.location,
         level: game.teamLevel,
         gender: game.gender,
@@ -70,16 +70,36 @@ const handleCancel = (game: any)=>{
     apiUpdateGame(update)
 }
 
+const pendingButtons =(game:any)=>{ 
+    return( 
+        <>
+            <Button style={{background:"#52c41a"}} onClick={()=>handleConfirm(game)}><i className="fas fa-check"></i></Button>
+            <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
+            <Button style={{background:"#f5222d"}} onClick={()=>handleDelete(game)}><i className="fas fa-trash-alt"></i></Button>
+        </>
+    )}
+
+const scheduledButtons =(game:any)=>{ 
+    return( 
+        <>
+        <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
+        <Button style={{background:"#f5222d"}} onClick={()=>handleCancel(game)}><i className="fas fa-times-circle"></i></Button>
+        </>
+    )}
 
 const GameCard = ( props: Props ) => {
 
+    const [color, setColor] = useState("#484848")
+    const [counter, setCounter] = useState(0)
+
     const game = props.game
 
-    let color = "white";
+    console.log("INDEX: " + props.index)
 
-    if(props.index % 2 === 0)
+    if(props.index % 2 == 0 && counter == 0)
     {
-        color = "grey"
+        setColor("#A8A8A8")
+        setCounter(counter+1)
     }
 
     return(
@@ -88,22 +108,21 @@ const GameCard = ( props: Props ) => {
         :
 
         <>
-            <Card title={game.home + " vs " + game.away}>
+            <Card title={game.home + " vs " + game.away} style={{margin: '2%', background: color}} >
                 <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel}
                  <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
                 
                 <Div>
                 {game.status =="coachPending" ? 
-                    <>
-                        <Button style={{background:"#52c41a"}} onClick={()=>handleConfirm(game)}><i className="fas fa-check"></i></Button>
-                        <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
-                        <Button style={{background:"#f5222d"}} onClick={()=>handleDelete(game)}><i className="fas fa-trash-alt"></i></Button>
-                    </>
-                :
+                  <>
+                  {pendingButtons(game)}
+                  </>
+                : game.status == "scheduled" ?
                 <>
-                    <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
-                    <Button style={{background:"#f5222d"}} onClick={()=>handleCancel(game)}><i className="fas fa-times-circle"></i></Button>
+                   {scheduledButtons(game)}
                 </>
+                :
+                <></>
                 }
                 </Div>
             </Card>
