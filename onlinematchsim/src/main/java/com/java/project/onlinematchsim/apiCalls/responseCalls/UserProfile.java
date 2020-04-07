@@ -8,9 +8,10 @@ public class UserProfile {
     private String name;
     private String role;
     private String district;
+    private String email;
     private String schoolname;
 
-    public UserProfile(Long id, String username, String name, String role, String district, String schoolname)
+    public UserProfile(Long id, String username, String name, String role, String district, String schoolname, String email)
     {
         this.id = id;
         this.username = username;
@@ -18,6 +19,7 @@ public class UserProfile {
         this.role = role;
         this.district = district;
         this.schoolname = schoolname;
+        this.email = email;
     }
 
 
@@ -71,5 +73,13 @@ public class UserProfile {
 
     public void setSchoolname(String schoolname) {
         this.schoolname = schoolname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

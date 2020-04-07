@@ -52,7 +52,7 @@ public class UserController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
-        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString(), user.getDistrict(),user.getSchoolname());
+        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getRoles().toString(), user.getDistrict(),user.getSchoolname(), user.getEmail());
 
         return userProfile;
 
@@ -67,7 +67,7 @@ public class UserController {
 
         for(int i = 0; i < user.size(); i++)
         {
-            UserProfile userProfile = new UserProfile(user.get(i).getId(), user.get(i).getUsername(), user.get(i).getName(), user.get(i).getRoles().toString(), user.get(i).getDistrict(),user.get(i).getSchoolname());
+            UserProfile userProfile = new UserProfile(user.get(i).getId(), user.get(i).getUsername(), user.get(i).getEmail(), user.get(i).getName(), user.get(i).getRoles().toString(), user.get(i).getDistrict(),user.get(i).getSchoolname());
 
             userList.add(userProfile);
 
