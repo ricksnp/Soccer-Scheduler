@@ -19,7 +19,7 @@ interface Props {
     index: any
 }
 
-const dispatch = useDispatch();
+
 
 const handleConfirm = (game: any) =>{
 
@@ -37,12 +37,6 @@ const handleConfirm = (game: any) =>{
     apiUpdateGame(update)
 
 
-}
-
-const handleEdit = (game: any) =>{
-
-    dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
-    console.log("ID = " + game.id +" HomeTeam = " + game.home);
 }
 
 const handleDelete = (game: any) =>{
@@ -74,27 +68,36 @@ const handleCancel = (game: any)=>{
     apiUpdateGame(update)
 }
 
-const pendingButtons =(game:any)=>{ 
-    return( 
-        <>
-            <Button style={{background:"#52c41a"}} onClick={()=>handleConfirm(game)}><i className="fas fa-check"></i></Button>
-            <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
-            <Button style={{background:"#f5222d"}} onClick={()=>handleDelete(game)}><i className="fas fa-trash-alt"></i></Button>
-        </>
-    )}
-
-const scheduledButtons =(game:any)=>{ 
-    return( 
-        <>
-        <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
-        <Button style={{background:"#f5222d"}} onClick={()=>handleCancel(game)}><i className="fas fa-times-circle"></i></Button>
-        </>
-    )}
-
 const GameCard = ( props: Props ) => {
 
     const [color, setColor] = useState("#484848")
     const [counter, setCounter] = useState(0)
+    const dispatch = useDispatch();
+
+    const handleEdit = (game: any) =>{
+
+        dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
+        console.log("ID = " + game.id +" HomeTeam = " + game.home);
+    }
+
+    
+    const pendingButtons =(game:any)=>{ 
+        return( 
+            <>
+                <Button style={{background:"#52c41a"}} onClick={()=>handleConfirm(game)}><i className="fas fa-check"></i></Button>
+                <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
+                <Button style={{background:"#f5222d"}} onClick={()=>handleDelete(game)}><i className="fas fa-trash-alt"></i></Button>
+            </>
+        )}
+    
+    const scheduledButtons =(game:any)=>{ 
+        return( 
+            <>
+            <Button style={{background:"#1890ff"}} onClick={()=>handleEdit(game)}><i className="fas fa-edit"></i></Button>
+            <Button style={{background:"#f5222d"}} onClick={()=>handleCancel(game)}><i className="fas fa-times-circle"></i></Button>
+            </>
+        )}
+    
 
     const cardStyle = {
         margin: '2%',
