@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './GMProvider';
-import GameForm from '../Calendar/GameForm';
+import GMGameForm from './GMGameForm';
 import { postGames } from '../../utility/APIGameControl';
 
 const GMModals = () => {
@@ -58,7 +58,7 @@ const GMModals = () => {
             okText={'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showEditGame && <GameForm ref={saveForm} /> }
+            { showEditGame && <GMGameForm ref={saveForm} /> }
         </Modal>
     );
 }
