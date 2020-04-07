@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Card, Button} from 'antd';
 import styled from 'styled-components';
 import {apiUpdateGame} from '../../utility/APIGameControl'
+import { useGlobalState, useDispatch } from './GMProvider';
 
 
 const Title = styled.span`
@@ -17,6 +18,8 @@ interface Props {
     game: any,
     index: any
 }
+
+const dispatch = useDispatch();
 
 const handleConfirm = (game: any) =>{
 
@@ -38,6 +41,7 @@ const handleConfirm = (game: any) =>{
 
 const handleEdit = (game: any) =>{
 
+    dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
     console.log("ID = " + game.id +" HomeTeam = " + game.home);
 }
 
