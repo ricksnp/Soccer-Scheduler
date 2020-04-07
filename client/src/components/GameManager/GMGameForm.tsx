@@ -41,7 +41,6 @@ function updateOptions(setter:any)
 
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
-    const addGameDate = useGlobalState('addGameDate');
     const clickedGame = useGlobalState('clickedGame');
     const showEditGame = useGlobalState('showEditGame');
 
