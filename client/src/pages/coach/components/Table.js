@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import { getAllUsers } from '../../../utility/APIUtility'
 
 // Handlers
 import RemoveModal from './removeModal';
@@ -22,30 +23,13 @@ class TableComp extends React.Component {
             showEditModal: false,
             tableData: [
                 {
-                    name: "test",
-                    email: "1212@mail.com",
-                    school: "some school",
-                    district: "5A",
+                    name: "",
+                    email: "",
+                    school: "",
+                    district: ""
                 },
-                {
-                    name: "test",
-                    email: "1212@mail.com",
-                    school: "some school",
-                    district: "5A",
-                },
-                {
-                    name: "test",
-                    email: "1212@mail.com",
-                    school: "some school",
-                    district: "5A",
-                },
-                {
-                    name: "test",
-                    email: "1212@mail.com",
-                    school: "some school",
-                    district: "5A",
-                }
-            ],
+
+            ]
         };
     }
 
@@ -72,8 +56,11 @@ class TableComp extends React.Component {
             showRemoveModal: false,
         });
     }
-
+    componentDidMount() {
+        getAllUsers().then((response) => { this.setState({ tableData: response }) })
+    }
     render() {
+        console.log(this.state.tableData);
         return (
             <>
                 <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} />
@@ -104,7 +91,7 @@ class TableComp extends React.Component {
                                     {item.email}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {item.school}
+                                    {item.schoolname}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     {item.district}
