@@ -3,7 +3,7 @@ import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
-import { getCoachPending, getCoachSchedule } from '../../components/Games';
+import { getCoachPending, getCoachSchedule, getTeamSchedule } from '../../components/Games';
 import {Form, Select} from 'antd';
 
 async function getNewGames(setNew: any) {
@@ -102,7 +102,7 @@ const NewAdmin = (userInfo: any) => {
 
             if(newResponse[0].status !== 'null' && counter < 2)
             {
-                getCoachSchedule(newResponse, setScheduled, userSchool)
+                getTeamSchedule(newResponse, setScheduled, userSchool)
                 setCounter(counter + 1)
                 console.log("Scheduled" + JSON.stringify(newSchedulued))
             }
