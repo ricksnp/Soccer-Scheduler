@@ -1,9 +1,40 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Form, Select, Radio, Input } from 'antd';
 import { useGlobalState } from './Provider';
+import {getAllUsers} from '../../utility/APIUtility';
 
 interface Props {
     form: any
+}
+
+function updateOptions(setter:any)
+{
+    console.log("here");
+
+    let list:any = []
+
+    let set = new Set()
+
+    list[0] = "Outside of District";
+
+    getAllUsers().then((response)=>
+    {
+
+        console.log("res: " + response)
+        for(let i=0;i<response.length;i++)
+        {
+            if(!set.has(response[i].schoolname))
+            {
+                list[i+2] = response[i].schoolname
+                set.add(response[i].schoolname)
+        
+            }
+        }
+
+        setter(list)
+    })
+
+    console.log("list" + list);
 }
 
 //if "other", school is not in disctrict, make new field appear to type in school
@@ -16,8 +47,22 @@ const CreateEditGame = ( props: Props ) => {
     const showEditGame = useGlobalState('showEditGame');
 
     //for home/away team Select element
-    const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
+    const teams: Array<string> = [ "Outside of District"]
+
+    const [teamList, setTeamList] = useState(teams)
+    const [counter, setCounter] = useState(0);
+
+
     const teamOptions = teams.map((team, i) => {
+        return (
+            <Option value={team} key={i}>
+                {team}
+            </Option>
+        );
+    });
+
+   
+    const apiTeamOptions = teamList.map((team, i) => {
         return (
             <Option value={team} key={i}>
                 {team}
@@ -29,6 +74,15 @@ const CreateEditGame = ( props: Props ) => {
     const { form } = props;
     const { getFieldDecorator } = form;
 
+    
+    if(counter == 0)
+    {
+
+        updateOptions(setTeamList);
+
+        setCounter(counter +1)
+    }
+
     return (
 
         <Form layout="vertical">
@@ -39,7 +93,11 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[5] : ""
                 })(
                     <Select showSearch >
-                        {teamOptions}
+                        {teamList.length == 1 ? 
+                           teamOptions
+                        :
+                            apiTeamOptions
+                        }
                     </Select>
                 )}
             </Form.Item>
@@ -49,7 +107,11 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >
-                        {teamOptions}
+                         {teamList.length == 1 ? 
+                           teamOptions
+                        :
+                            apiTeamOptions
+                        }
                     </Select>
                 )}
             </Form.Item>
