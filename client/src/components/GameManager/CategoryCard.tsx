@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import AddGameController from './AddGameController'
 import {isMobile} from 'react-device-detect'
 import GMModal from './GMModals';
-
+import {GMProvider} from './GMProvider';
 
 const Empty = styled.div`
     @media only screen and (max-width: 768px){
@@ -164,10 +164,10 @@ const CategoryCard = ( props: Props ) => {
     :
         scheduledList.scheduled.map((game: any, i: any) => {
             return(
-                <div>
+                <GMProvider>
                     <GameCard game={game} index={i}/>
                     <GMModal />
-                </div>
+                </GMProvider>
             );
         })
 
