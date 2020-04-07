@@ -5,6 +5,7 @@ import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGameController from './AddGameController'
 import {isMobile} from 'react-device-detect'
+import GMModal from './GMModals';
 
 
 const Empty = styled.div`
@@ -137,7 +138,10 @@ const CategoryCard = ( props: Props ) => {
         gamesList.new.map((game: any, i: any) => {
 
             return(
-                <GameCard game={game} index={i}/>
+                <div>
+                    <GameCard game={game} index={i}/>
+                    <GMModal />
+                </div>
             );
         })
     
@@ -147,7 +151,10 @@ const CategoryCard = ( props: Props ) => {
     :
         gamesList.edited.map((game: any, i: any) => {
             return(
-                <GameCard game={game} index={i}/>
+                <div>
+                    <GameCard game={game} index={i}/>
+                    <GMModal />
+                </div>
             );
         })
 
@@ -157,7 +164,10 @@ const CategoryCard = ( props: Props ) => {
     :
         scheduledList.scheduled.map((game: any, i: any) => {
             return(
-                <GameCard game={game} index={i}/>
+                <div>
+                    <GameCard game={game} index={i}/>
+                    <GMModal />
+                </div>
             );
         })
 
