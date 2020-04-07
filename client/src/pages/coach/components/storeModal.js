@@ -15,7 +15,7 @@ import {
 } from '../../../constants';
 import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
-import zIndex from '@material-ui/core/styles/zIndex';
+
 
 
 
