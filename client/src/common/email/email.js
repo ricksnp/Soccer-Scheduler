@@ -1,3 +1,4 @@
+require('dotenv').config()
 const AWS = require('aws-sdk');
 
 const AWS_SES_REGION = "us-east-1"
@@ -6,8 +7,8 @@ const AWS_SES_REGION = "us-east-1"
 const SESConfig = {
 
     apiVersion: '2010-12-01',
-    accessKeyId: process.env.REACT_APP_AWS_SES_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_AWS_SES_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
     region: "us-east-1"
 }
 
