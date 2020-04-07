@@ -16,6 +16,8 @@ import { MyModal } from '../components';
 
 const { Content } = Layout;
 
+console.log(process.env.REACT_APP_AWS_ACCESS_KEY_ID);
+console.log(process.env.REACT_APP_AWS_SECRET_ACCESS_KEY);
 class App extends Component {
 	constructor(props) {
 		super(props);
