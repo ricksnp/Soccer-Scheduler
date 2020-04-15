@@ -56,7 +56,7 @@ const handleDelete = (game: any) =>{
 const handleCancel = (game: any)=>{
     let update = {
         id: game.id,
-        status: "canceled",
+        status: "cancelled",
         location: game.location,
         level: game.teamLevel,
         gender: game.gender,

@@ -72,6 +72,7 @@ function sortScheduled(games:any)
         if(games[i].status == "scheduled")
         {
             scheduled.push(games[i]);
+            console.log("here")
             
         }
         else if(games[i].status == "cancelled")

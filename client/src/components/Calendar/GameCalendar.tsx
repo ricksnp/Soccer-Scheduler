@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
+import { getScheduledGames, getTeamSchedule, getCoachSchedule, } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
@@ -56,6 +56,10 @@ const GameCalendar = ({ filter }: any) => {
         if (currentUser.role.includes("USER") ) {
           getCoachSchedule(api, setEvents, currentUser.schoolname)
           console.log("getCoachSchedule")
+        }
+        else if(filter === "Master Schedule")
+        {
+
         }
         else {
           //TODO ADMIN STUFF

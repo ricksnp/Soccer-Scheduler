@@ -3,7 +3,7 @@ import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
-import { getCoachPending, getCoachSchedule, getTeamSchedule } from '../../components/Games';
+import { getCoachPending, getCoachSchedule, getTeamSchedule, getAdminPending, getScheduledGames} from '../../components/Games';
 import {Form, Select} from 'antd';
 
 async function getNewGames(setNew: any) {
@@ -86,6 +86,12 @@ const NewAdmin = (userInfo: any) => {
         // if user isn't coach, find games where status == assignorPending || assignoredit
         else {
 
+            if(newResponse[0].status !== 'null' && counter < 2)
+            {
+                getAdminPending(newResponse, setPending)
+                setCounter(counter + 1)
+                console.log("Current Assignor Games" + JSON.stringify(newPending))
+            }
 
         }
 
@@ -110,6 +116,12 @@ const NewAdmin = (userInfo: any) => {
         else
         {
             
+            if(newResponse[0].status !== 'null' && counter < 2)
+            {
+                getScheduledGames(newResponse, setScheduled)
+                setCounter(counter + 1)
+                console.log("Assignor Scheduled" + JSON.stringify(newSchedulued))
+            }
         }
 
         return newSchedulued
@@ -143,15 +155,7 @@ const NewAdmin = (userInfo: any) => {
     return (
         <div>
             {console.log("USER ROLE: " + user)}
-
-            <Form>
-                <Form.Item label="Filter">
-                    <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
-                        {teamOptions}
-                    </Select>
-                </Form.Item>
-            </Form>
-    <div>You are signed in as {userInfo.user.schoolname}</div>
+             <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>
     );
