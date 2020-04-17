@@ -13,7 +13,7 @@ import {
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH
 } from '../../../constants';
-import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../../utility/APIUtility';
+import { signup, checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
 
 
@@ -104,13 +104,13 @@ class StoreModal extends React.Component {
         console.log(JSON.stringify(signupRequest));
 
 
-        signup(signupRequest)
+        AssignorSignup(signupRequest)
             .then((response) => {
                 notification.success({
                     message: 'Online Match Sim App',
                     description: "Sucessfully added a new coach!"
                 });
-               sendsendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
+               sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
             .catch((error) => {
                 notification.error({

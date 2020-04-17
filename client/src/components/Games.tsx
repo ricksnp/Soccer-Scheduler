@@ -35,6 +35,7 @@ for(let i = 0; i < res.length; i++)
             location: res[i].location,
             teamLevel: res[i].teamLevel,
             gender: res[i].gender,
+            status: res[i].status,
             color: color,
             textColor: 'black'
         })
@@ -45,6 +46,37 @@ setEvents(games);
 
 }
 
+
+export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
+
+    const res = apiCall;
+    
+    let games:any = [];
+    
+    for(let i = 0; i < res.length; i++)
+    {
+        if(res[i].status == "scheduled")
+        {
+    
+            games.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                status: res[i].status,
+                gender: res[i].gender
+            })
+        }
+    }
+    
+    console.log("Get scheduled games" + games)
+    setEvents(games);
+    
+}
+    
 /*
 getCoachSchedule reads through the JSON data in the "getgames" API call
     and creates an array of objects to be used by the CalendarFilter or 
