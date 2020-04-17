@@ -8,7 +8,7 @@ import './index.css';
 
 const Header = Layout.Header;
 
-class AppHeader extends Component {
+class AppHeader extends Component{
 	constructor(props) {
 		super(props);
 
@@ -62,16 +62,20 @@ class AppHeader extends Component {
 									<i class="far fa-calendar-alt"></i>
 								</NavLink>
 							</li>
-							<li>
-								<NavLink exact={true} activeClassName='is-active' to="/admin">
-									<i className="fas fa-user-shield"></i>
-								</NavLink>
-							</li>
-							<li>
-								<NavLink exact={true} activeClassName='is-active' to="/coach">
-									<i class="far fa-edit"></i>
-								</NavLink>
-							</li>
+							{this.props.currentUser =="ROLE_ADMIN" && 
+								<li>
+									<NavLink exact={true} activeClassName='is-active' to="/admin">
+										<i className="fas fa-user-shield"></i>
+									</NavLink>
+								</li>
+							}
+							{this.props.currentUser.role !='ROLE_USER' && 
+								<li>
+									<NavLink exact={true} activeClassName='is-active' to="/coach">
+										<i class="far fa-edit"></i>
+									</NavLink>
+								</li>
+							}
 							<li>
 								<NavLink exact={true} activeClassName='is-active' to="/GameManager">
 									<i class="fas fa-futbol"></i>
