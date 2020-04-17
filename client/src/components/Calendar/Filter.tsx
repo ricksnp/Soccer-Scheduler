@@ -81,7 +81,7 @@ const Filter = ({setFilter}: any) =>
             wrapperCol: { span: 8 },
         }
 
-    if(counter == 0)
+    if(counter === 0)
     {
 
         updateOptions(setTeamList);
@@ -94,7 +94,7 @@ const Filter = ({setFilter}: any) =>
     return(
         <>
 
-        {teamList.length == 2 ? 
+        {teamList.length === 2 ? 
 
         <Form {...layout}>
         <Form.Item label="Filter">

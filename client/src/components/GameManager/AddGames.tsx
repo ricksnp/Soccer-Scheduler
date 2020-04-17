@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Form, Input, Select, TimePicker, Button, DatePicker, Radio, Card} from 'antd';
-import {isMobile, isIPad13} from "react-device-detect";
+import React from 'react';
+import {Form, Input, Select, TimePicker, DatePicker, Radio, Card} from 'antd';
+import { isMobile } from "react-device-detect";
 import styled from 'styled-components';
 
 

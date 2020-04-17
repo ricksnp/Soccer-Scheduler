@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Form, Select, Radio, Input } from 'antd';
+import { Form, Select, Radio, Input, TimePicker } from 'antd';
 import { useGlobalState } from './Provider';
 import {getAllUsers} from '../../utility/APIUtility';
 
@@ -75,7 +75,7 @@ const CreateEditGame = ( props: Props ) => {
     const { getFieldDecorator } = form;
 
     
-    if(counter == 0)
+    if(counter === 0)
     {
 
         updateOptions(setTeamList);
@@ -93,7 +93,7 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[5] : ""
                 })(
                     <Select showSearch >
-                        {teamList.length == 1 ? 
+                        {teamList.length === 1 ? 
                            teamOptions
                         :
                             apiTeamOptions
@@ -107,7 +107,7 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >
-                         {teamList.length == 1 ? 
+                         {teamList.length === 1 ? 
                            teamOptions
                         :
                             apiTeamOptions
@@ -163,7 +163,6 @@ const CreateEditGame = ( props: Props ) => {
                     <Input disabled style={{width:"50%"}} />
                 )}
             </Form.Item>
-                <Form.Item/>
         </Form>
       );
 };

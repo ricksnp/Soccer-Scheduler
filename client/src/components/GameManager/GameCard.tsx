@@ -100,7 +100,7 @@ const GameCard = ( props: Props ) => {
 
     console.log("INDEX: " + props.index)
 
-    if(props.index % 2 == 0 && counter == 0)
+    if(props.index % 2 === 0 && counter === 0)
     {
         setColor("#A8A8A8")
         setCounter(counter+1)
@@ -117,11 +117,11 @@ const GameCard = ( props: Props ) => {
                  <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
                 
                 <Div>
-                {game.status =="coachPending" ? 
+                {game.status === "coachPending" ? 
                   <>
                   {pendingButtons(game)}
                   </>
-                : game.status == "scheduled" ?
+                : game.status === "scheduled" ?
                 <>
                    {scheduledButtons(game)}
                 </>

@@ -69,18 +69,18 @@ function sortScheduled(games:any)
     {
 
         console.log("scheduled games" + JSON.stringify(games))
-        if(games[i].status == "scheduled")
+        if(games[i].status === "scheduled")
         {
             scheduled.push(games[i]);
             console.log("here")
             
         }
-        else if(games[i].status == "cancelled")
+        else if(games[i].status === "cancelled")
         {
             canceled.push(games[i]);
             
         }
-        else if(games[i].status == "moved")
+        else if(games[i].status === "moved")
         {
             moved.push(games[i])
         }
@@ -147,7 +147,7 @@ const CategoryCard = ( props: Props ) => {
         })
     
     //contains list of edited games or message
-    const listEdit = gamesList.edited[0] ==  undefined ?
+    const listEdit = gamesList.edited[0] ===  undefined ?
         <Card><Empty>No games have been edited</Empty></Card>
     :
         gamesList.edited.map((game: any, i: any) => {
@@ -160,7 +160,7 @@ const CategoryCard = ( props: Props ) => {
         })
 
     //contains list of scheduled games
-    const listScheduled =  scheduledList.scheduled == undefined  ?
+    const listScheduled =  scheduledList.scheduled === undefined  ?
         <Empty>No games have been scheduled</Empty>
     :
         scheduledList.scheduled.map((game: any, i: any) => {
@@ -172,7 +172,7 @@ const CategoryCard = ( props: Props ) => {
             );
         })
 
-    const canceledList =  scheduledList.canceled[0] == undefined  ?
+    const canceledList =  scheduledList.canceled[0] === undefined  ?
     <Empty>No games have been canceled</Empty>
     :
         scheduledList.canceled.map((game: any, i: any) => {
@@ -181,7 +181,7 @@ const CategoryCard = ( props: Props ) => {
             );
         })
 
-    const movedList =  scheduledList.moved[0] == undefined  ?
+    const movedList =  scheduledList.moved[0] === undefined  ?
     <Empty>No games have been canceled</Empty>
     :
         scheduledList.moved.map((game: any, i: any) => {

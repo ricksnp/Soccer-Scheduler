@@ -73,7 +73,7 @@ const CreateEditGame = ( props: Props ) => {
     const { getFieldDecorator } = form;
 
     
-    if(counter == 0)
+    if(counter === 0)
     {
 
         updateOptions(setTeamList);
@@ -91,7 +91,7 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[5] : ""
                 })(
                     <Select showSearch >
-                        {teamList.length == 1 ? 
+                        {teamList.length === 1 ? 
                            teamOptions
                         :
                             apiTeamOptions
@@ -105,7 +105,7 @@ const CreateEditGame = ( props: Props ) => {
                     initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >
-                         {teamList.length == 1 ? 
+                         {teamList.length === 1 ? 
                            teamOptions
                         :
                             apiTeamOptions

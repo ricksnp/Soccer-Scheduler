@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select } from 'antd';
+import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames } from '../../utility/APIGameControl';
+import {getCurrentUser} from '../../utility/APIUtility'
+
+const openNotification = () => {
+    notification.open({
+        message: 'Not a participant',
+        description: 'You cannot edit a game in which your team is not a participant.'
+    })
+}
 
 const CalendarModal = () => {
     const showAddGame = useGlobalState('showAddGame');
@@ -12,6 +20,9 @@ const CalendarModal = () => {
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
+
+    const [user, setUser] = useState("Neville")
+    //getCurrentUser().then((response=>{setUser(response)}));
 
 
     const [gameForm, setGameForm] = useState(React.createRef());
@@ -58,8 +69,15 @@ const CalendarModal = () => {
         }
 
         if (showViewGame) {
-            dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
-            console.log(clickedEvent)
+            //opens edit modal if user is participant in game
+            if(user === clickedEvent[5] || user === clickedEvent[6]){
+                //save edits
+                dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
+            } 
+            //opens notification if user attempts to edit a game in which they are not participant
+            else {
+                openNotification();
+            }
         }
 
         if (showEditGame) {
@@ -68,6 +86,8 @@ const CalendarModal = () => {
         }
 
     }
+
+    const allowEdit = showViewGame && (user !== clickedEvent[5] || user!== clickedEvent[6]);
 
     return (
         <Modal

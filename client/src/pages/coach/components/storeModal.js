@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { sendAnEmail } from '../../../common/email/email'
-import { Link } from 'react-router-dom';
-import { Form, Input, Button, notification } from 'antd';
+import { Button, notification } from 'antd';
 import { Modal } from 'antd';
 import {
     NAME_MIN_LENGTH,
@@ -13,8 +12,7 @@ import {
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH
 } from '../../../constants';
-import { signup, checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
-import { sign } from 'crypto';
+import { checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
 
 
 
