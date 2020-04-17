@@ -45,7 +45,6 @@ const GameCalendar = ({ filter }: any) => {
     getGames(setApi)
     getCurrentUser().then((response=>{setUser(response)}))
 
-    console.log("Calendar User: " + currentUser.role)
 
     if (api !== "null") {
 
@@ -56,10 +55,6 @@ const GameCalendar = ({ filter }: any) => {
         if (currentUser.role.includes("USER") ) {
           getCoachSchedule(api, setEvents, currentUser.schoolname)
           console.log("getCoachSchedule")
-        }
-        else if(filter === "Master Schedule")
-        {
-
         }
         else {
           //TODO ADMIN STUFF

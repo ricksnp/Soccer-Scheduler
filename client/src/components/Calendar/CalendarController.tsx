@@ -22,12 +22,19 @@ const CalendarController = (user: any) => {
 
     //intital state must be "Scheduled" or else everything breaks
     const [filter, setFilter] = useState("Your Games")
+    const [counter, setCounter] = useState(0)
+    const userRole = user.user.role
 
-    console.log("CalendarController: "+  JSON.stringify(user))
+    if(userRole == "ROLE_ASSIGNOR" && counter == 0)
+    {
+        setFilter("Scheduled")
+        setCounter(counter + 1)
+    }
+
     return (
         <>
             <Provider>
-                <Filter setFilter={setFilter} />
+                <Filter setFilter={setFilter} userRole={userRole}/>
                 <div className="inline-bloccc">
                     <Scheduled className="game-status-tab">Scheduled Game</Scheduled>
                     <Pending className="game-status-tab">Pending Game</Pending>
