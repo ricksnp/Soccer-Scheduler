@@ -3,6 +3,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useGlobalState, useDispatch } from './GMProvider';
 import GMGameForm from './GMGameForm';
 import { postGames } from '../../utility/APIGameControl';
+import GameForm from './GMGameForm'
 
 const GMModals = () => {
     const showEditGame = useGlobalState('showEditGame');

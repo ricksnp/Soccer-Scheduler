@@ -7,30 +7,39 @@ import {getAllUsers} from '../../utility/APIUtility';
 
 
 
-function updateOptions(setter:any)
+function updateOptions(setter:any, userRole: string)
 {
-    console.log("here");
 
     let list:any = []
 
     let set = new Set()
+    let count = 2;
 
-    list[0] = "Your Games";
-    list[1] = "Scheduled";
+    if(userRole == "ROLE_USER")
+    {
+        list[0] = "Your Games";
+        list[1] = "Scheduled";
+    }
+    else{
+        list[0] = "Scheduled";
+        count = 1;
+    }
 
     getAllUsers().then((response)=>
     {
 
-        console.log("res: " + response)
+        console.log("res: " + JSON.stringify(response))
         for(let i=0;i<response.length;i++)
         {
-            if(!set.has(response[i].schoolname))
+            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor")
             {
-                list[i+2] = response[i].schoolname
+                list[i+count] = response[i].schoolname
                 set.add(response[i].schoolname)
         
             }
         }
+
+        console.log(list)
 
         setter(list)
     })
@@ -39,11 +48,11 @@ function updateOptions(setter:any)
 }
 
 
-const Filter = ({setFilter}: any) =>
+const Filter = ({setFilter, userRole}: any) =>
 {
 
     const Option = Select.Option
-    const teams: Array<string> = [ "Your Games", "Scheduled"]
+    const teams: Array<string> = ["Your Games", "Scheduled"]
 
     const [teamList, setTeamList] = useState(teams)
     const [counter, setCounter] = useState(0);
@@ -84,7 +93,7 @@ const Filter = ({setFilter}: any) =>
     if(counter == 0)
     {
 
-        updateOptions(setTeamList);
+        updateOptions(setTeamList, userRole);
 
         setCounter(counter +1)
     }
@@ -97,19 +106,35 @@ const Filter = ({setFilter}: any) =>
         {teamList.length == 2 ? 
 
         <Form {...layout}>
-        <Form.Item label="Filter">
-            <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
-                {teamOptions}
-            </Select>
-        </Form.Item>
+            <Form.Item label="Filter">
+                {userRole == "ROLE_USER" ?
+                    <Select showSearch onChange={handleChange} 
+                        placeholder={"Your Games"}>
+                            {teamOptions}
+                    </Select>
+                        :
+                    <Select showSearch onChange={handleChange} 
+                        placeholder={"Scheduled"}>
+                            {teamOptions}
+                    </Select>
+                }        
+            </Form.Item>
         </Form>
 
             :
         <Form {...layout}>
             <Form.Item label="Filter">
-                <Select showSearch onChange={handleChange} placeholder={"Your Games"}>
-                    {apiTeamOptions}
-                </Select>
+            {userRole == "ROLE_USER" ?
+                    <Select showSearch onChange={handleChange} 
+                        placeholder={"Your Games"}>
+                            {apiTeamOptions}
+                    </Select>
+                        :
+                    <Select showSearch onChange={handleChange} 
+                        placeholder={"Scheduled"}>
+                            {apiTeamOptions}
+                    </Select>
+                }        
             </Form.Item>
         </Form>
 

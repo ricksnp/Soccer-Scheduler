@@ -130,9 +130,9 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
+								{this.state.currentUser.role != "ROLE_USER" && <Route path="/coach" render={() => <Coach />} />}
+								{this.state.currentUser.role == "ROLE_ADMIN" && <Route path="/admin" render={() => <Admin />} />}
 								<Route path="/GameManager" render={() => <NewAdmin user={this.state.currentUser} />} />
-								<Route path="/admin" render={() => <Admin />} />
-								<Route path="/coach" render={() => <Coach />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} user={this.state.currentUser} />} />
 							</Switch>
 						}

@@ -7,7 +7,7 @@ import '../../style/gameCalendar.scss';
 import { CSVLink, CSVDownload } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
+import { getScheduledGames, getTeamSchedule, getCoachSchedule, } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
@@ -50,7 +50,6 @@ const GameCalendar = ({ filter }: any) => {
     getGames(setApi)
     getCurrentUser().then((response => { setUser(response) }))
 
-    console.log("Calendar User: " + currentUser.role)
 
     if (api !== "null") {
 

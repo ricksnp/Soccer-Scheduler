@@ -30,7 +30,7 @@ function getUsers(){
     return (
         <>
         <div>You are signed in as {user.schoolname}</div>
-            <CalendarController/>
+            <CalendarController user={user}/>
         </>
     );
 }
