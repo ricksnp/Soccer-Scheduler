@@ -19,6 +19,7 @@ class RemoveModal extends React.Component {
                     onCancel={this.onClose}
                     closable
                     okText="Delete"
+                    onOk={this.onClose}
                 >
                     <p className="addAssignor-title">Are you sure want to remove this user?</p>
                 </Modal>

@@ -4,14 +4,19 @@ import '../../style/gameCalendar.css';
 import Cal from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
+import { CSVLink, CSVDownload } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import {getCurrentUser} from '../../utility/APIUtility'
+import { getCurrentUser } from '../../utility/APIUtility'
 import { setupMaster } from 'cluster';
+
+
+var csvData = '';
+var headers: import("react-csv/components/CommonPropTypes").LabelKeyObject[] | string[] | undefined = [];
 
 interface Props {
   handleEventClick: Function
@@ -43,7 +48,7 @@ const GameCalendar = ({ filter }: any) => {
 
   if (counter === 0) {
     getGames(setApi)
-    getCurrentUser().then((response=>{setUser(response)}))
+    getCurrentUser().then((response => { setUser(response) }))
 
     console.log("Calendar User: " + currentUser.role)
 
@@ -53,7 +58,7 @@ const GameCalendar = ({ filter }: any) => {
         getScheduledGames(api, setEvents)
       }
       else if (filter === "Your Games" || filter === currentUser.schoolname) {
-        if (currentUser.role.includes("USER") ) {
+        if (currentUser.role.includes("USER")) {
           getCoachSchedule(api, setEvents, currentUser.schoolname)
           console.log("getCoachSchedule")
         }
@@ -71,8 +76,8 @@ const GameCalendar = ({ filter }: any) => {
       setCounter(counter + 1);
     }
   }
-
-
+  apiGetGames().then((response) => { csvData = response; })
+  console.log("HI" + JSON.stringify(csvData[0]));
   return (
     <>
       <div className="game-cal">
@@ -130,7 +135,9 @@ const GameCalendar = ({ filter }: any) => {
         }
       </div>
       <Button variant="contained" color="primary" className="hiddenOnPhone">Export CSV</Button>
+      <CSVLink data={csvData}>Download me</CSVLink>;
     </>
+
   );
 }
 
