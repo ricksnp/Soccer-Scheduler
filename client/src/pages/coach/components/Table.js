@@ -57,9 +57,22 @@ class TableComp extends React.Component {
         });
     }
     componentDidMount() {
-        getAllUsers().then((response) => { this.setState({ tableData: response }) })
+        getAllUsers().then((response) => 
+        { 
+            let userList = []
+            for(let i = 0; i < response.length; i++)
+            {
+                if(response[i].district == this.props.userDistrict && response[i].schoolname != "Assignor")
+                {
+                    userList.push(response[i])
+                }
+
+            }
+            this.setState({ tableData: userList }) 
+        })
     }
     render() {
+        console.log("ADMIN DISTRICT: " + this.props.userDistrict)
         console.log(this.state.tableData);
         return (
             <>

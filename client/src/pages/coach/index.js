@@ -32,13 +32,13 @@ class Page extends Component {
     render() {
         return (
             <>
-                <StoreModal showModal={this.state.visible} closeModal={this.closeStoreModal} />
+                <StoreModal showModal={this.state.visible} closeModal={this.closeStoreModal} userDistrict={this.props.user.district}/>
                 <div className="assigner-top-bar">
                     <h2>Manage Coaches</h2>
                     <Button variant="contained" color="primary" onClick={this.openStoreModal}><i className="fas fa-plus"></i> coach</Button>
                 </div>
                 <div class="assignor-table">
-                    <TableComp />
+                    <TableComp userDistrict={this.props.user.district}/>
                 </div>
             </>
         );
