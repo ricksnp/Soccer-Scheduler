@@ -85,7 +85,7 @@ class StoreModal extends React.Component {
 
 
     handleSubmit(event) {
-        event.preventDefault();
+        //event.preventDefault();
 
         let str = this.state.firstname.value + " " + this.state.lastname.value;
         const firstb4 = str.substr(0, str.indexOf(' '));
@@ -110,7 +110,7 @@ class StoreModal extends React.Component {
                     message: 'Online Match Sim App',
                     description: "Sucessfully added a new coach!"
                 });
-               sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
+                sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
             .catch((error) => {
                 notification.error({
@@ -134,6 +134,11 @@ class StoreModal extends React.Component {
         this.props.closeModal();
     }
 
+    closeMethod = () => {
+        this.handleSubmit();
+        this.onClose();
+    }
+
     render() {
         return (
             <>
@@ -142,6 +147,8 @@ class StoreModal extends React.Component {
                     onCancel={this.onClose}
                     closable
                     okText="Add"
+                    onOk={this.closeMethod}
+
 
                 >
                     <p className="addAssignor-title">Add Coaches</p>
@@ -150,14 +157,6 @@ class StoreModal extends React.Component {
                         <TextField id="standard-basic" label="Last name" name="lastname" value={this.state.lastname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
                         <TextField id="standard-basic" label="School name" name="schoolname" value={this.state.schoolname.value} onChange={(event) => this.handleNewChange(event)} />
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            size="large"
-                            className="signup-form-button"
-                            //disabled={this.isFormInvalid()}
-                            onClick={this.onClose}
-                        >Add Coach</Button>
                     </form>
                 </Modal>
             </>
