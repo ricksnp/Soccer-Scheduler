@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 import Papa from 'papaparse';
+import XLSX from 'xlsx';
 
 const buttonRef = React.createRef()
 
@@ -22,11 +23,32 @@ export default class CSVReader1 extends Component {
 
     importCSV = () => {
         const { csvfile } = this.state;
-        Papa.parse(csvfile, {
-            complete: this.updateData,
-            header: true
-        });
+        // Papa.parse(csvfile, {
+        //     complete: this.updateData,
+        //     header: true,
+        //     comments: true
+        // });
+        const reader = new FileReader();
+        reader.onload = function (e) {
+
+            var data = e.target.result;
+            let readedData = XLSX.read(data, { type: 'array' });
+            const wsname = readedData.SheetNames[0];
+            const ws = readedData.Sheets[wsname];
+
+            /* Convert array to json*/
+            const dataParse = XLSX.utils.sheet_to_json(ws, { raw: false });
+            console.log('---------------');
+            console.log(dataParse);
+            console.log('---------------');
+
+
+
+        }
+        reader.readAsArrayBuffer(csvfile);
+
     };
+
 
     updateData(result) {
         var data = result.data;

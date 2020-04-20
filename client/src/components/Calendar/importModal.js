@@ -35,7 +35,7 @@ class MyModal1 extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <p>Download our template first:  <a href={`${process.env.PUBLIC_URL}/template.csv`} download="">Download</a></p>
+                    <p>Download our template first:  <a href={`${process.env.PUBLIC_URL}/scheduletemplate.csv`} download="">Download</a></p>
                     <CSVReader1 />
                 </Modal>
             </>
