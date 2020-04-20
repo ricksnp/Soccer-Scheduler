@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { useDispatch } from './Provider';
 import '../../style/gameCalendar.css';
 import Cal from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import '../../style/gameCalendar.scss';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getScheduledGames, getTeamSchedule, getCoachSchedule, } from '../Games';
@@ -13,10 +13,10 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { getCurrentUser } from '../../utility/APIUtility'
 import { setupMaster } from 'cluster';
+import MyModal1 from './importModal';
 
 
 var csvData = '';
-var headers: import("react-csv/components/CommonPropTypes").LabelKeyObject[] | string[] | undefined = [];
 
 interface Props {
   handleEventClick: Function
@@ -59,7 +59,7 @@ const GameCalendar = ({ filter }: any) => {
       else if (filter === "Your Games" || filter === currentUser.schoolname) {
         if (currentUser.role.includes("USER")) {
           getCoachSchedule(api, setEvents, currentUser.schoolname)
-          console.log("getCoachSchedule")
+          //console.log("getCoachSchedule")
         }
         else {
           //TODO ADMIN STUFF
@@ -76,7 +76,6 @@ const GameCalendar = ({ filter }: any) => {
     }
   }
   apiGetGames().then((response) => { csvData = response; })
-  console.log("HI" + JSON.stringify(csvData[0]));
   return (
     <>
       <div className="game-cal">
@@ -133,8 +132,8 @@ const GameCalendar = ({ filter }: any) => {
             <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
         }
       </div>
-      <Button variant="contained" color="primary" className="hiddenOnPhone">Export CSV</Button>
-      <CSVLink data={csvData}>Download me</CSVLink>;
+      <Button color="primary"><CSVLink data={csvData} filename={"schedule.csv"} className="hiddenOnPhone" >Export Games</CSVLink></Button>
+      <MyModal1 />
     </>
 
   );

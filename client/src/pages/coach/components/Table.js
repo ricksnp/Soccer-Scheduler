@@ -10,15 +10,11 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import { getAllUsers } from '../../../utility/APIUtility';
 import { apiGetGames } from '../../../utility/APIGameControl';
-import { CSVLink, CSVDownload } from "react-csv";
-//import json2csv from 'json2csv';
+
 
 // Handlers
 import RemoveModal from './removeModal';
 import EditModal from './editModal';
-
-//var csvData = '';
-
 
 class TableComp extends React.Component {
     constructor(props) {
