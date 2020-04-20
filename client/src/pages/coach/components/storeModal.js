@@ -18,8 +18,6 @@ import { sign } from 'crypto';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { schoolNames } from './autofill';
 
-
-
 let emailContents = (username, password) => {
     return "<h2>Your Login Information:</h2>" +
         "<h3>Username:  </h3>" + username + "<br/>" +
