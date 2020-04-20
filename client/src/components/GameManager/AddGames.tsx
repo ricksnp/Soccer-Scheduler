@@ -40,7 +40,6 @@ const AddGames = () => {
 
     
     return(
-      <Wrapper>
         <Card>
             <Form.Item 
                 label="Away Team"
@@ -98,7 +97,6 @@ const AddGames = () => {
             </Form.Item>
 
         </Card>
-      </Wrapper>
     );
 }
 
