@@ -51,34 +51,15 @@ const CalendarModal = () => {
     const handleOk = () => {
         if (showAddGame) {
             // @ts-ignore
-            gameForm.validateFields((err: any, values: object) => {
+            gameForm.validateFields((err: any, values: any) => {
                 if (err) {
                     return;
                 }
 
-
-                const game: object = {
-                    // @ts-ignore
-                    "homeTeamName": JSON.stringify(gameForm.getFieldValue("homeTeamName")),
-                    // @ts-ignore
-                    "awayTeamname": JSON.stringify(gameForm.getFieldValue("awayTeamName")),
-                    // @ts-ignore
-                    "teamLevel": JSON.stringify(gameForm.getFieldValue("teamLevel")),
-                    // @ts-ignore
-                    "gender": JSON.stringify(gameForm.getFieldValue("gender")),
-                    // @ts-ignore
-                    "location": JSON.stringify(gameForm.getFieldValue("location")),
-                    // @ts-ignore
-                    "status": JSON.stringify(gameForm.getFieldValue("status")),
-                    // @ts-ignore
-                    "date": JSON.stringify(gameForm.getFieldValue("date") + "T" + gameForm.getFieldValue("time")._i),
-                }
-
-                console.log(typeof values)
                 //send to backend
-                postGames(game);
+                postGames(values);
                 console.log("VALUES" + JSON.stringify(values));
-                //@ts-ignore
+                //console.log("GAMES: " + getGames())
 
 
                 // @ts-ignore
