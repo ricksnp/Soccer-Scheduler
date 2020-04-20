@@ -21,8 +21,6 @@ import CSVReader1 from '../../../components/Calendar/importReader'
 
 
 
-
-
 let emailContents = (username, password) => {
     return "<h2>Your Login Information:</h2>" +
         "<h3>Username:  </h3>" + username + "<br/>" +

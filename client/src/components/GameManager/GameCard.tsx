@@ -151,7 +151,7 @@ const GameCard = ( props: Props ) => {
         <>
             <Card title={game.home + " vs " + game.away} style={cardStyle} >
                 <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel}
-                 <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
+                 <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location} <Title>Gender:</Title> {game.gender}
                 
                 <Div>
                 {game.status =="coachPending" || game.status == "assignorPending" ? 
