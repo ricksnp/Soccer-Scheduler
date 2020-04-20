@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {Button, Radio, Form} from 'antd';
+import React, { useState } from 'react';
+import { Button, Radio, Form } from 'antd';
 import AddGames from './AddGames'
+import MyModal1 from '../Calendar/importModal'
 
 
 
-const AddGameController = () =>{
+const AddGameController = () => {
     const initialArray = [1]
 
     const [controllArray, setArray] = useState(initialArray);
-    const [cardCount,setCount] = useState(0)
+    const [cardCount, setCount] = useState(0)
 
-    function addCard()
-    {
+    function addCard() {
 
         let tempArray = controllArray;
 
@@ -23,59 +23,60 @@ const AddGameController = () =>{
     }
 
 
-    function removeCard(index:any){
+    function removeCard(index: any) {
 
-        let tempArray =[];
+        let tempArray = [];
 
         //removing the selected card 
-           for(let i=0; i < controllArray.length; i++)
-           {
-                if(i !== index)
-                {
-                    tempArray.push(controllArray[i])
-                }
-           }
-           setArray(tempArray)
-           console.log(tempArray)
+        for (let i = 0; i < controllArray.length; i++) {
+            if (i !== index) {
+                tempArray.push(controllArray[i])
+            }
+        }
+        setArray(tempArray)
+        console.log(tempArray)
 
 
     }
 
-    const onFinish = ({values}:any) =>{
-        console.log("Success: " +  values)
+    const onFinish = ({ values }: any) => {
+        console.log("Success: " + values)
     }
 
 
     return (
-        <Form onSubmit={onFinish}>
+        <>
+            <Form onSubmit={onFinish}>
 
-        {cardCount === 0 ? 
-        
-            <AddGames/>
-        :
+                {cardCount === 0 ?
 
-        controllArray.map((controllArray, i) =>{
-            console.log(controllArray + "in map")
-            return (
-                <>
-                    <AddGames key={i} />
-                    <Button onClick={() => removeCard(i)}>Remove</Button>
-                </>
-                )
-        })
-        
-        }
-        <div>
-            <Button type="primary" onClick={()=>addCard()}>Add Another Game</Button>
-        </div>
+                    <AddGames />
+                    :
 
-            <Form.Item >
-                <Button type="primary" htmlType="submit">
-                    Submit
+                    controllArray.map((controllArray, i) => {
+                        console.log(controllArray + "in map")
+                        return (
+                            <>
+                                <AddGames key={i} />
+                                <Button onClick={() => removeCard(i)}>Remove</Button>
+                            </>
+                        )
+                    })
+
+                }
+                <div>
+                    <Button type="primary" onClick={() => addCard()}>Add Another Game</Button>
+                </div>
+
+                <Form.Item >
+                    <Button type="primary" htmlType="submit">
+                        Submit
                 </Button>
-            </Form.Item>
+                </Form.Item>
 
-        </Form>
+            </Form>
+            <MyModal1 />
+        </>
     )
 }
 

@@ -133,7 +133,6 @@ const GameCalendar = ({ filter }: any) => {
         }
       </div>
       <Button color="primary"><CSVLink data={csvData} filename={"schedule.csv"} className="hiddenOnPhone" >Export Games</CSVLink></Button>
-      <MyModal1 />
     </>
 
   );
