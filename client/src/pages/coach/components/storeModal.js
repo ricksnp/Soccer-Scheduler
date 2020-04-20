@@ -101,7 +101,7 @@ class StoreModal extends React.Component {
             email: this.state.email.value,
             username: finUserName,
             schoolname: this.state.schoolname.value,
-            district: '12A',
+            district: this.props.userDistrict,
             password: 'Password1'
         };
         console.log(JSON.stringify(signupRequest));

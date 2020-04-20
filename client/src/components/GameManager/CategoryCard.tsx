@@ -32,21 +32,32 @@ const Headstyle = isMobile ?
     }
 
 //sorts pending games based on status
-function sortGames(games: any) {
+function sortGames(games: any, role: string) {
     let edit: any = [];
     let newGames: any = [];
 
     console.log("CategoryCard" + JSON.stringify(games))
     for (let i = 0; i < games.length; i++) {
 
-        if (games[i].status === "coachPending") {
-            console.log("GamesList" + games[i])
-            newGames.push(games[i]);
+        if(role == "ROLE_USER")
+        {
+            if (games[i].status === "coachPending") {
+                console.log("GamesList" + games[i])
+                newGames.push(games[i]);
 
+            }
+            else if (games[i].status != undefined) {
+                if (games[i].status.includes("Edit")) { edit.push(games[i]) }
+
+            }
         }
-        else if (games[i] !== undefined) {
-            if (games[i].status.includes("Edit")) { edit.push(games[i]) }
+        else
+        {
+            if (games[i].status === "assignorPending") {
+                console.log("GamesList" + games[i])
+                newGames.push(games[i]);
 
+            }
         }
 
     }
@@ -63,10 +74,8 @@ function sortScheduled(games: any) {
 
     for (let i = 0; i < games.length; i++) {
 
-        console.log("scheduled games" + JSON.stringify(games))
         if (games[i].status == "scheduled") {
             scheduled.push(games[i]);
-            console.log("here")
 
         }
         else if (games[i].status == "cancelled") {
@@ -85,27 +94,20 @@ function sortScheduled(games: any) {
 interface Props {
     category: string,
     editGames: any,
-    scheduledGames: any
+    scheduledGames: any,
+    role: string
 }
 
 const CategoryCard = (props: Props) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    console.log("editGames" + JSON.stringify(props.editGames))
-    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames)
+    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role)
     const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
 
     //sortGames(props.editGames);
 
 
     const [key, setKey] = useState("pending");
-
-    // const handleTabChange = () => {
-    //     key === "new"? 
-    //         setKey('edit')
-    //     :
-    //         setKey("new");
-    // }
 
     //if current category is pending approval, add tabs to category card
     const tabList =
@@ -132,7 +134,7 @@ const CategoryCard = (props: Props) => {
 
             return (
                 <div>
-                    <GameCard game={game} index={i} />
+                    <GameCard game={game} index={i} role={props.role}/>
                     <GMModal />
                 </div>
             );
@@ -145,7 +147,7 @@ const CategoryCard = (props: Props) => {
         gamesList.edited.map((game: any, i: any) => {
             return (
                 <div>
-                    <GameCard game={game} index={i} />
+                    <GameCard game={game} index={i} role={props.role}/>
                     <GMModal />
                 </div>
             );
@@ -158,7 +160,7 @@ const CategoryCard = (props: Props) => {
         scheduledList.scheduled.map((game: any, i: any) => {
             return (
                 <GMProvider>
-                    <GameCard game={game} index={i} />
+                    <GameCard game={game} index={i} role={props.role}/>
                     <GMModal />
                 </GMProvider>
             );
@@ -169,7 +171,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.canceled.map((game: any, i: any) => {
             return (
-                <GameCard game={game} index={i} />
+                <GameCard game={game} index={i} role={props.role}/>
             );
         })
 
@@ -178,7 +180,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.moved.map((game: any, i: any) => {
             return (
-                <GameCard game={game} index={i} />
+                <GameCard game={game} index={i} role={props.role}/>
             );
         })
 
