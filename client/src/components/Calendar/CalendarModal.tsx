@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select } from 'antd';
+import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
@@ -46,7 +46,19 @@ const CalendarModal = () => {
                 }
 
                 //send to backend
-                postGames(values);
+                postGames(values)
+                .then((response)=>{
+                    notification.success({
+                        message: "Game Added",
+                        description: "Game was successfully added"
+                    })
+                })
+                .catch((error)=>{
+                    notification.error({
+                        message: "Game Add Failed",
+                        description: "Game was not added"
+                    })
+                })
                 console.log("VALUES" + JSON.stringify(values));
                 //console.log("GAMES: " + getGames())
 

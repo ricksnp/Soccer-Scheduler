@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Card, Button} from 'antd';
+import { Card, Button, notification} from 'antd';
 import styled from 'styled-components';
 import {apiUpdateGame} from '../../utility/APIGameControl'
 import { useGlobalState, useDispatch } from './GMProvider';
@@ -38,6 +38,8 @@ const GameCard = ( props: Props ) => {
     const handleConfirm = (game: any) =>{
 
         console.log("ID" + game.id)
+        let addMessage = "Games successfully Scheduled";
+
         let update = {
             id: game.id,
             status: "assignorPending",
@@ -66,7 +68,8 @@ const GameCard = ( props: Props ) => {
                 update.status = "scheduled"
             }
             else{
-                update.status = "assignorPending"
+                update.status = "assignorPending";
+                addMessage = "Game Successfully sent to  Assignor";
             }
 
             console.log("days till season start from game: " + numofDays)
@@ -75,6 +78,18 @@ const GameCard = ( props: Props ) => {
         console.log("UPDATE" + JSON.stringify(update))
     
         apiUpdateGame(update)
+        .then((response)=>{
+            notification.success({
+                message: "Game Confirmed",
+                description: addMessage
+                })
+        })
+        .catch((error) =>{
+            notification.error({
+                message: "Game Was Not Confirmed",
+                description: error           
+             })
+        })
     
     
     }
@@ -92,6 +107,18 @@ const GameCard = ( props: Props ) => {
         }
     
         apiUpdateGame(update)
+        .then((response)=>{
+            notification.success({
+                message: "Game Deleted",
+                description: "Game was successfully deleted"
+            })
+        })
+        .catch((error)=>{
+            notification.error({
+                message: "Game Was Not deleted",
+                description: error
+            })
+        })
     }
     
     const handleCancel = (game: any)=>{
@@ -106,6 +133,18 @@ const GameCard = ( props: Props ) => {
         }
     
         apiUpdateGame(update)
+        .then((response)=>{
+            notification.success({
+                message: "Game Cancelled",
+                description: "Game was successfully cancelled"
+            })
+        })
+        .catch((error)=>{
+            notification.error({
+                message: "Game Was Not Cancelled",
+                description: error
+            })
+        })
     }
 
     
