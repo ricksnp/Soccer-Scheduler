@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { sendAnEmail } from '../../../common/email/email'
 import { Link } from 'react-router-dom';
@@ -15,17 +15,15 @@ import {
 } from '../../../constants';
 import { signup, checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
-import CSVReader1 from '../../../components/Calendar/importReader'
-
-
-
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { schoolNames } from './autofill';
 
 let emailContents = (username, password) => {
     return "<h2>Your Login Information:</h2>" +
         "<h3>Username:  </h3>" + username + "<br/>" +
         "<h3>Password:  </h3>" + password;
 }
+
 
 class StoreModal extends React.Component {
     constructor(props) {
@@ -56,8 +54,19 @@ class StoreModal extends React.Component {
         this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
         this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
         this.isFormInvalid = this.isFormInvalid.bind(this);
+        this.onSchoolNameChange = this.onSchoolNameChange.bind(this);
     }
 
+    onSchoolNameChange = (event, values) => {
+        this.setState({
+            schoolname: { value: values.schoolname }
+        }, () => {
+            // This will output an array of objects
+            // given by Autocompelte options property.
+            console.log(this.state.schoolname);
+            console.log(event);
+        });
+    }
 
 
     handleInputChange(event, validationFun) {
@@ -157,7 +166,15 @@ class StoreModal extends React.Component {
                         <TextField id="standard-basic" label="First name" name="firstname" value={this.state.firstname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="Last name" name="lastname" value={this.state.lastname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
-                        <TextField id="standard-basic" label="School name" name="schoolname" value={this.state.schoolname.value} onChange={(event) => this.handleNewChange(event)} />
+                        <Autocomplete
+                            options={schoolNames}
+                            onChange={this.onSchoolNameChange}
+                            freeSolo
+                            getOptionLabel={(option) => option.schoolname}
+                            style={{ width: 250 }}
+                            renderInput={(params) => <TextField id="standard-basic" label="School name" name="schoolname" onChange={(event) => this.handleNewChange(event)}  {...params} />}
+                        />
+
                     </form>
                 </Modal>
             </>

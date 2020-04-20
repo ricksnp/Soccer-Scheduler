@@ -28,7 +28,7 @@ class MyModal1 extends React.Component {
     render() {
         return (
             <>
-                <Button type="primary" onClick={this.showModal} >Choose File</Button>
+                <Button type="primary" onClick={this.showModal} >Bulk Add</Button>
                 < Modal
                     title="Upload your schedule!"
                     visible={this.state.visible}
