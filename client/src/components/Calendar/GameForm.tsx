@@ -163,6 +163,13 @@ const CreateEditGame = ( props: Props ) => {
                     <Input disabled style={{width:"50%"}} />
                 )}
             </Form.Item>
+            <Form.Item label="Time">
+                {getFieldDecorator('time', {
+                    rules: [{required: true}]
+                })(
+                    <TimePicker use12Hours format="hh:mm A" minuteStep={15} />
+                )}
+            </Form.Item>
         </Form>
       );
 };
