@@ -232,17 +232,19 @@ export const getAdminPending = (apiCall: any,setAssignorPending:any) =>{
         if(res[i].status === "assignorPending")
         {
             pending.push({
-                id: res[i].matchid,
+                id: res[i].id,
                 home: res[i].homeTeamName,
                 away: res[i].awayTeamName,
                 start: res[i].date.replace(" ", "T"),
                 location: res[i].location,
                 teamLevel: res[i].teamLevel,
-                gender: res[i].gender
+                gender: res[i].gender,
+                status: res[i].status
             })
         }
     }
     
+    console.log("In Assignor Pending, Games = " + JSON.stringify(pending))
     setAssignorPending(pending);
 
 }

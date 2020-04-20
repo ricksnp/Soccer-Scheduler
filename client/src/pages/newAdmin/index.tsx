@@ -34,29 +34,10 @@ const NewAdmin = (userInfo: any) => {
     const [newPending, setPending] = useState(initialResponse);
     const [newSchedulued, setScheduled] = useState(initialResponse);
     const [userSchool, setSchool] = useState(userInfo.user.schoolname)
- 
-
-    /*
-    *   Used for testing, can be removed when schools are implemented in user accounts
-    */
-   const Option = Select.Option
-   const teams: Array<string> = ["Neville", "West Monroe", "Ouachita" ]
-   const teamOptions = teams.map((team, i) => {
-       return (
-           <Option value={team} key={i}>
-               {team}
-           </Option>
-       );
-   });
-    const handleChange = (value:any) => {
-        setCounter(counter-1)
-       setSchool(value);
-
-   }
-   /***************************************************************************/
 
 
-   console.log("NEWADMIN USERINFO: " + JSON.stringify(userInfo))
+
+   console.log("NEWADMIN USERINFO: " + JSON.stringify(userInfo.user.role))
 
     if (counter === 0) {
         getNewGames(setNew);
@@ -95,7 +76,8 @@ const NewAdmin = (userInfo: any) => {
 
         }
 
-        console.log(JSON.stringify("NEWPENDING " + JSON.stringify(newPending)))
+        console.log("NEWPENDING " + JSON.stringify(newPending))
+
         return newPending
     }
 
@@ -141,6 +123,7 @@ const NewAdmin = (userInfo: any) => {
                     {console.log("INPENDING" + newPending) }
                         {categoryName === 'Pending Approval' &&
                             <CategoryCard 
+                                role={userInfo.user.role}
                                 category={categoryName} 
                                 editGames={pendingGames()} 
                                 scheduledGames={scheduledGames()}

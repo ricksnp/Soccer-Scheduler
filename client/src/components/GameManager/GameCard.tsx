@@ -16,56 +16,12 @@ const Div = styled.div`
 
 interface Props {
     game: any,
-    index: any
+    index: any,
+    role: string
 }
 
+const seasonStart = new Date("2020/02/20");
 
-const handleConfirm = (game: any) =>{
-
-    let update = {
-        id: game.id,
-        status: "scheduled",
-        location: game.location,
-        level: game.teamLevel,
-        gender: game.gender,
-        date: game.start
-
-    }
-
-    console.log(update);
-    apiUpdateGame(update)
-
-
-}
-
-const handleDelete = (game: any) =>{
-
-    let update = {
-        id: game.id,
-        status: "deleted",
-        location: game.location,
-        level: game.teamLevel,
-        gender: game.gender,
-        date: game.start
-
-    }
-
-    apiUpdateGame(update)
-}
-
-const handleCancel = (game: any)=>{
-    let update = {
-        id: game.id,
-        status: "cancelled",
-        location: game.location,
-        level: game.teamLevel,
-        gender: game.gender,
-        date: game.start
-
-    }
-
-    apiUpdateGame(update)
-}
 
 const GameCard = ( props: Props ) => {
 
@@ -77,6 +33,79 @@ const GameCard = ( props: Props ) => {
 
         dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
         console.log("ID = " + game.id +" HomeTeam = " + game.home);
+    }
+
+    const handleConfirm = (game: any) =>{
+
+        console.log("ID" + game.id)
+        let update = {
+            id: game.id,
+            status: "assignorPending",
+            location: game.location,
+            level: game.teamLevel,
+            gender: game.gender,
+            date: game.start
+    
+        }
+
+        if(props.role != "ROLE_USER")
+        {
+            update.status = "scheduled"
+        }
+        else{
+            
+            //Calculating the number of days between the game date and the season start
+            let gameDate:Date = new Date(update.date);
+            let difference = seasonStart.getTime() - gameDate.getTime()
+            let numofDays = difference / (1000 * 3600 * 24); 
+
+            //if Game is scheduled more than a week away from season start, set status to scheduled, 
+            // else send it to the assignor
+            if(numofDays >= 7)
+            {
+                update.status = "scheduled"
+            }
+            else{
+                update.status = "assignorPending"
+            }
+
+            console.log("days till season start from game: " + numofDays)
+        }
+
+        console.log("UPDATE" + JSON.stringify(update))
+    
+        apiUpdateGame(update)
+    
+    
+    }
+    
+    const handleDelete = (game: any) =>{
+    
+        let update = {
+            id: game.id,
+            status: "deleted",
+            location: game.location,
+            level: game.teamLevel,
+            gender: game.gender,
+            date: game.start
+    
+        }
+    
+        apiUpdateGame(update)
+    }
+    
+    const handleCancel = (game: any)=>{
+        let update = {
+            id: game.id,
+            status: "cancelled",
+            location: game.location,
+            level: game.teamLevel,
+            gender: game.gender,
+            date: game.start
+    
+        }
+    
+        apiUpdateGame(update)
     }
 
     
@@ -107,7 +136,6 @@ const GameCard = ( props: Props ) => {
 
     const game = props.game
 
-    console.log("INDEX: " + props.index)
 
     if(props.index % 2 == 0 && counter == 0)
     {
@@ -126,16 +154,16 @@ const GameCard = ( props: Props ) => {
                  <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location}
                 
                 <Div>
-                {game.status =="coachPending" ? 
+                {game.status =="coachPending" || game.status == "assignorPending" ? 
                   <>
                   {pendingButtons(game)}
                   </>
                 : game.status == "scheduled" ?
-                <>
-                   {scheduledButtons(game)}
-                </>
+                    <>
+                    {scheduledButtons(game)}
+                    </>
                 :
-                <></>
+                    <></>
                 }
                 </Div>
             </Card>
