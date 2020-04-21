@@ -114,7 +114,7 @@ class StoreModal extends React.Component {
         console.log(JSON.stringify(signupRequest));
 
 
-        AssignorSignup(signupRequest)
+        signup(signupRequest)
             .then((response) => {
                 notification.success({
                     message: 'Online Match Sim App',

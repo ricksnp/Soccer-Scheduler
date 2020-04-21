@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import { CSVReader } from 'react-papaparse'
-import Papa from 'papaparse';
 import XLSX from 'xlsx';
-import {addMultipleGames} from '../../utility/APIGameControl'
-import {notification} from 'antd'
-
-const buttonRef = React.createRef()
+import { addMultipleGames } from '../../utility/APIGameControl'
+import { notification } from 'antd'
 
 export default class CSVReader1 extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             csvfile: undefined,
-            jsonData: undefined
+            jsonData: undefined,
+            userHome: this.props.userHome,
+            userRole: this.props.role
         };
+
         this.updateData = this.updateData.bind(this);
     }
 
@@ -25,13 +24,11 @@ export default class CSVReader1 extends Component {
 
     importCSV = () => {
         const { csvfile } = this.state;
+        const { userRole } = this.state;
+        const { userHome } = this.state;
         var dataParse = undefined
-        var myStatus = "assignorPending"
-        // Papa.parse(csvfile, {
-        //     complete: this.updateData,
-        //     header: true,
-        //     comments: true
-        // });
+        var myStatus = "coachPending"
+
         const reader = new FileReader();
         reader.onload = function (e) {
 
@@ -41,68 +38,76 @@ export default class CSVReader1 extends Component {
             const ws = readedData.Sheets[wsname];
 
             /* Convert array to json*/
-            dataParse = XLSX.utils.sheet_to_json(ws, { raw: false, header: 1 });
+            dataParse = XLSX.utils.sheet_to_json(ws, { raw: false, header: 1, blankRows: false });
             console.log('---------------');
             console.log(dataParse);
             console.log('---------------');
 
-            if(this.props.role != "ROLE_USER")
-            {
+            const convertTime12to24 = (time12h) => {
+                if (time12h != undefined) {
+                    var [time, modifier] = time12h.split(' ');
+                    var [time, modifier] = time12h.split(' ');
+
+                    let [hours, minutes] = time.split(':');
+
+                    if (hours === '12') {
+                        hours = '00';
+                    }
+
+                    if (modifier === 'PM') {
+                        hours = parseInt(hours, 10) + 12;
+                    }
+
+                    return `${hours}:${minutes}` + ':00';
+
+                }
+
+            }
+
+            if (userRole != "ROLE_USER") {
                 myStatus = "Scheduled";
             }
 
-            if(dataParse != undefined)
-            {
+            console.log(dataParse.length)
+            if (dataParse != undefined) {
                 let addGamesArray = []
-                var counter;
-    
-                for(let i = 0; i < dataParse.length;i++)
-                {
-    
-                    //{homeTeamName: "West Monroe", awayTeamName: "Neville", date: "2020-04-28T00:00:00", location: "MultipleTest", status: "Scheduled", teamLevel: "V", gender: "b" },
-                    console.log("data " + dataParse[i+1][0])
+                var counter = 0;
 
-                    // var time = ""
-                    // timeArray = dataParse[i+1][1].split(" ")
-
-                    // if(timeArray[1].toUpper() == "PM")
-                    // {
-                    //     time = timeArray[0] + 12
-                    // }
-                    // else
-                    // {
-                    //     time = "0" + timeArray[0]
-                    // }
-
+                for (let i = 1; i < dataParse.length; i++) {
+                    var time12h = dataParse[i][1];
+                    if (dataParse[i].length == 6) {
+                        counter++;
                         addGamesArray.push({
-                            homeTeamName: this.props.userHome,
-                            date: dataParse[i+1][0] + "T" + dataParse[i+1][1] + ":00",
-                            location: dataParse[i+1][2],
-                            awayTeam: dataParse[i+1][3],
-                            gender: dataParse[i+1][4],
-                            level: dataParse[i+1][5],
+                            homeTeamName: userHome,
+                            date: dataParse[i][0] + "T" + convertTime12to24(time12h),
+                            location: dataParse[i][2],
+                            awayTeamName: dataParse[i][3],
+                            gender: dataParse[i][4],
+                            teamLevel: dataParse[i][5],
                             status: myStatus
                         })
 
-                        counter++;
+
+                    }
+
                 }
-
+                console.log(addGamesArray);
                 addMultipleGames(addGamesArray)
-                .then((response) =>{
-                    notification.success({
-                        message: "Added Games",
-                        description: "Successfully added " + counter + " games"
+                    .then((response) => {
+                        notification.success({
+                            message: "Added Games",
+                            description: "Successfully added " + counter + " games"
+                        })
                     })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Could not add games",
-                        description: error
+                    .catch((error) => {
+                        notification.error({
+                            message: "Could not add games",
+                            description: error
+                        })
                     })
-                })
 
-    
-    
+
+
             }
 
 
@@ -111,7 +116,7 @@ export default class CSVReader1 extends Component {
         reader.readAsArrayBuffer(csvfile);
         console.log("Below reader.read")
 
-        
+
 
     };
 
@@ -123,6 +128,7 @@ export default class CSVReader1 extends Component {
 
     render() {
         console.log(this.state.csvfile);
+        console.log("gg" + this.props.userHome);
         return (
             <div className="App">
                 <h2>Import CSV File!</h2>
