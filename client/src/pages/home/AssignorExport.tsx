@@ -72,11 +72,11 @@ const AssignorExport = (newData:any) => {
                     newL = "jv"
                 }
 
-                if(arbiter.school[i].gender = "boys")
+                if(arbiter.school[i].gender == "boys")
                 {
                     newGen = "b"
                 }
-                else if(arbiter.school[i].gender = "any")
+                else if(arbiter.school[i].gender == "any")
                 {
                     newGen = "a"
                 }
@@ -86,6 +86,8 @@ const AssignorExport = (newData:any) => {
                 }
                 var key = arbiter.school[i].name + " " + newL + " " + newGen;
                 var mapData = {level: arbiter.school[i].level, gender: arbiter.school[i].gender, arbiter: arbiter.school[i].arbiter }
+
+                console.log("Key/value pair: " + key + " value: " + JSON.stringify(mapData) )
                 arbiterMap.set(key, mapData)
             }
 
@@ -100,28 +102,20 @@ const AssignorExport = (newData:any) => {
             // if the scheduled hometeam/awayteam matches 
             for(let i = 0; i < arbiterMap.size; i++)
             {
+                var nextName = iterator.next().value;
+
                 for(let j =0;j < scheduled.length; j++)
                 {
                     //basic name in arbiter (not arbiter name)
-                    var nextName = iterator.next().value;
 
-                    if(nextName != undefined && nextName.includes("Buckeye"))
-                    {
-                        console.log("Ya Boi: " + nextName)
-                    }
-                    if(nextName != undefined && nextName.includes(scheduled[j].home))
-                    {
-                        console.log("Ya Boi #2: " + JSON.stringify(scheduled[j]))
-                    }
 
-                    console.log("Ya Boi #4: " + scheduled[j].home)
-
-                    if(scheduled[j] != undefined && nextName != undefined && nextName.includes(scheduled[j].home))
+                    if(scheduled[j] != undefined && nextName != undefined && (nextName.includes(scheduled[j].home)))
                     {
                         var newLevel = "jv";
                         var newgender = "boys"
                         var newObj = arbiterMap.get(nextName);
-                        console.log("NewObj" + newObj)
+
+                        console.log("NewObj" + "key: " + nextName+ " value " + JSON.stringify(newObj))
 
                         if(scheduled[j].teamLevel == "v")
                         {
@@ -140,6 +134,7 @@ const AssignorExport = (newData:any) => {
                         if(newObj.level == newLevel && newObj.gender == newgender)
                         {
                             let ourKey = scheduled[j].home + "" + scheduled[j].gender + "" + scheduled[j].teamLevel
+                            console.log("OurKey" + ourKey)
                             newMap.set(ourKey , newObj.arbiter)
                         }
                     }
@@ -149,6 +144,8 @@ const AssignorExport = (newData:any) => {
                         var newLevel = "jv";
                         var newgender = "boys"
                         var newObj = arbiterMap.get(nextName);
+
+                        console.log("NewObj" + "key: " + nextName+ " value " + JSON.stringify(newObj))
 
                         if(scheduled[j].teamLevel == "v")
                         {
@@ -166,7 +163,10 @@ const AssignorExport = (newData:any) => {
 
                         if(newObj.level == newLevel && newObj.gender == newgender)
                         {
+
+                           
                             let ourKey = scheduled[j].away + "" + scheduled[j].gender + "" + scheduled[j].teamLevel
+                            console.log("OurKey" + ourKey)
                             newMap.set(ourKey , newObj.arbiter)
                         }
 
@@ -180,14 +180,11 @@ const AssignorExport = (newData:any) => {
                 console.log("YEET: " + JSON.stringify(scheduled))
                 var temp = scheduled[i].start
 
-                console.log("TEMP" + temp)
                 var [date, time] = temp.split('T');
                 var [year,month,day] = date.split("-");
 
                 var [h,m,s] = time.split(":");
                 var modifier = "AM";
-
-                console.log("YARG: " + h)
 
                 if(h == "00")
                 {
@@ -207,21 +204,23 @@ const AssignorExport = (newData:any) => {
                 var newLevel = "JV";
                 var newgender = "boys"
 
-                if(scheduled[i].teamLevel == "v")
+                if(scheduled[i].teamLevel === "v")
                 {
                     newLevel = "Varsity"
                 }
-                if(scheduled[i].gender == "b")
+                if(scheduled[i].gender === "b")
                 {
                     newgender = "boys"
                 }
-                else if(scheduled[i].gender == "g")
+                else if(scheduled[i].gender === "g")
                 {
                     newgender = "girls"
                 }
 
                 var homeKey = scheduled[i].home + "" + scheduled[i].gender + "" + scheduled[i].teamLevel
                 var awayKey = scheduled[i].away + "" + scheduled[i].gender + "" + scheduled[i].teamLevel
+
+                console.log("My New Map: "  + homeKey + " value: " + newMap.get(homeKey))
 
                 console.log("Home Map" + newMap.get(homeKey))
                 arbiterInfo.push({
