@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import AddGameController from './AddGameController'
 import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
-import { GMProvider } from './GMProvider'
-
+import {GMProvider} from './GMProvider';
+import BlockDays from '../Calendar/BlockDays';
 
 const Empty = styled.div`
     @media only screen and (max-width: 768px){
@@ -125,6 +125,10 @@ const CategoryCard = (props: Props) => {
             {
                 key: "add",
                 tab: "Add Games"
+            },
+            {
+                key: "block",
+                tab: "Block Days"
             }
         ]
 

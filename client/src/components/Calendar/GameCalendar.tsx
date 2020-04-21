@@ -7,14 +7,14 @@ import '../../style/gameCalendar.scss';
 import { CSVLink } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getTeamSchedule, getCoachSchedule, } from '../Games';
+import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { getCurrentUser } from '../../utility/APIUtility'
 import { setupMaster } from 'cluster';
 import MyModal1 from './importModal';
-
+import { notification } from 'antd';
 
 var csvData = '';
 
@@ -22,10 +22,10 @@ interface Props {
   handleEventClick: Function
 }
 
-const getGames = (setApi: any) => {
+const getGames = ( setApi: any ) => {
 
-  apiGetGames().then(response => {
-    setApi(response);
+  apiGetGames().then( response => {
+    setApi( response );
   })
 
 }
@@ -35,8 +35,15 @@ const user = {
   schoolname: "West Monroe"
 }
 
+const openPastDateNotif = () => {
+  notification.open({
+      message: 'Date already passed',
+      description: 'You cannot add a new game on a date which has already passed.'
+  })
+}
 
-const GameCalendar = ({ filter }: any) => {
+
+const GameCalendar = ( { filter }: any ) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
@@ -44,6 +51,41 @@ const GameCalendar = ({ filter }: any) => {
   const [counter, setCounter] = useState(0);
   const [prevFilter, setPrev] = useState("Your Games");
   const [currentUser, setUser] = useState(user)
+
+  const newDate = new Date;
+  const day = newDate.getDate();
+  const month = newDate.getMonth() + 1;
+  const year = newDate.getFullYear();
+
+  /**
+   * allows/disallows addition of game based on the day clicked vs blocked days
+   * @param info from date on calendar clicked
+   */
+  const dayClick = ( info: any ) => {
+    let clickedDate = info.dateStr.split("-");
+    const currentDate = [ year, month, day ];
+    let clickedPastDate = false;
+
+    /**
+     * determines if a past date was clicked
+     */
+    if ( clickedDate[0] < currentDate[0] ) {
+      clickedPastDate = true;
+    } else if ( clickedDate[1] < currentDate[1] ) {
+      clickedPastDate = true;
+    } else if ( clickedDate [1] > currentDate[1] ) {
+      clickedPastDate = false;
+    } else if ( clickedDate[2] < currentDate[2] ){
+      clickedPastDate = true;
+    }
+
+    if ( clickedPastDate === true /** or if days are blocked by assignor */  ) {
+      openPastDateNotif();
+    } else {
+      dispatch({ type: 'ADD_GAME', payload: info.dateStr })
+    }
+
+  }
 
 
   if (counter === 0) {
@@ -120,7 +162,7 @@ const GameCalendar = ({ filter }: any) => {
           }}
           defaultView={isMobile ? "dayGridFiveDay" : "dayGridMonth"}
           plugins={[dayGridPlugin, interactionPlugin]}
-          dateClick={(info) => dispatch({ type: 'ADD_GAME', payload: info.dateStr })}
+          dateClick={ (info) => dayClick(info) }
           events={events}
           eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status, calEvent.event.extendedProps.id] })}
         />

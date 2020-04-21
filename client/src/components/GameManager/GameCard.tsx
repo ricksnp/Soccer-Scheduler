@@ -176,7 +176,7 @@ const GameCard = ( props: Props ) => {
     const game = props.game
 
 
-    if(props.index % 2 == 0 && counter == 0)
+    if(props.index % 2 === 0 && counter === 0)
     {
         setColor("#A8A8A8")
         setCounter(counter+1)

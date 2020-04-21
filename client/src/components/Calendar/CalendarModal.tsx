@@ -4,14 +4,25 @@ import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames } from '../../utility/APIGameControl';
+import {getCurrentUser} from '../../utility/APIUtility'
 
-const CalendarModal = () => {
+const openNotification = () => {
+    notification.open({
+        message: 'Not a participant',
+        description: 'You cannot edit a game in which your team is not a participant.'
+    })
+}
+
+const CalendarModal = (user: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
+
+    const [school, setSchool] = useState(user.schoolname)
+    //getCurrentUser().then((response=>{setUser(response)}));
 
 
     const [gameForm, setGameForm] = useState(React.createRef());
@@ -45,8 +56,25 @@ const CalendarModal = () => {
                     return;
                 }
 
+                const game = {
+                    // @ts-ignore
+                    homeTeamName: gameForm.getFieldValue("homeTeamName"),
+                    // @ts-ignore
+                    awayTeamName: gameForm.getFieldValue("awayTeamName"),
+                    // @ts-ignore
+                    teamLevel: gameForm.getFieldValue("teamLevel"),
+                    // @ts-ignore
+                    gender: gameForm.getFieldValue("gender"),
+                    // @ts-ignore
+                    location: gameForm.getFieldValue("location"),
+                    // @ts-ignore
+                    status: gameForm.getFieldValue("status"),
+                    // @ts-ignore
+                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                }
+
                 //send to backend
-                postGames(values)
+                postGames(game)
                 .then((response)=>{
                     notification.success({
                         message: "Game Added",
@@ -70,8 +98,16 @@ const CalendarModal = () => {
         }
 
         if (showViewGame) {
-            dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
-            console.log(clickedEvent)
+            //opens edit modal if user is participant in game
+            if(school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER" ){
+                console.log( school + " " + user.role)
+                //save edits
+                dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
+            } 
+            //opens notification if user attempts to edit a game in which they are not participant
+            else {
+                openNotification();
+            }
         }
 
         if (showEditGame) {
@@ -80,6 +116,8 @@ const CalendarModal = () => {
         }
 
     }
+
+    const allowEdit = showViewGame && (user !== clickedEvent[5] || user!== clickedEvent[6]);
 
     return (
         <Modal
