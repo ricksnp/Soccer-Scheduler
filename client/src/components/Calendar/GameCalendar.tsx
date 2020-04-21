@@ -7,7 +7,7 @@ import '../../style/gameCalendar.scss';
 import { CSVLink } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getTeamSchedule, getCoachSchedule } from '../Games';
+import { getScheduledGames, getTeamSchedule, getCoachSchedule, getCSVSchedule } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
@@ -93,7 +93,7 @@ const GameCalendar = ({ filter }: any) => {
   if (counter === 0) {
     getGames(setApi)
     getCurrentUser().then((response => { setUser(response) }))
-    apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
+    apiGetGames().then((response) => { getCSVSchedule(response, setCsvData); console.log(csvData) })
 
 
     if (api !== "null") {
