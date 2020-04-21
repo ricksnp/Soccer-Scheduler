@@ -13,7 +13,7 @@ const openNotification = () => {
     })
 }
 
-const CalendarModal = () => {
+const CalendarModal = (user: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -21,7 +21,7 @@ const CalendarModal = () => {
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-    const [user, setUser] = useState("Neville")
+    const [school, setSchool] = useState(user.schoolname)
     //getCurrentUser().then((response=>{setUser(response)}));
 
 
@@ -74,7 +74,7 @@ const CalendarModal = () => {
                 }
 
                 //send to backend
-                postGames(values)
+                postGames(game)
                 .then((response)=>{
                     notification.success({
                         message: "Game Added",
@@ -99,7 +99,8 @@ const CalendarModal = () => {
 
         if (showViewGame) {
             //opens edit modal if user is participant in game
-            if(user === clickedEvent[5] || user === clickedEvent[6]){
+            if(school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER" ){
+                console.log( school + " " + user.role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
             } 

@@ -44,7 +44,7 @@ const CalendarController = (user: any) => {
 
                 <GameCalendar filter={filter} user={user} />
 
-                <CalendarModal />
+                <CalendarModal user={user.user} />
 
 
             </Provider>
