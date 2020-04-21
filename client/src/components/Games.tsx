@@ -56,9 +56,11 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
     {
         if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
         {
-            let resDate = res[i].date.split("T")
+            let resDate = res[i].date.split(" ")
             let newDate = resDate[0];
             let newTime = resDate[1]
+
+            console.log("RESDATE: " + resDate)
 
             games.push({
                 HomeTeam: res[i].homeTeamName, 
