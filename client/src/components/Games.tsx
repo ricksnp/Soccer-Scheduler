@@ -65,11 +65,12 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
             games.push({
                 HomeTeam: res[i].homeTeamName, 
                 AwayTeam: res[i].awayTeamName,
-                date: newDate,
-                time: newTime,
-                location: res[i].location,
-                teamLevel: res[i].teamLevel,
-                gender: res[i].gender,
+                Date: newDate,
+                Time: newTime,
+                Location: res[i].location,
+                TeamLevel: res[i].teamLevel,
+                Gender: res[i].gender,
+                Status: res[i].status
             })
         }
     }
