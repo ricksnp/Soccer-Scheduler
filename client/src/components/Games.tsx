@@ -46,6 +46,36 @@ setEvents(games);
 
 }
 
+export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
+
+    const res = apiCall;
+    
+    let games:any = [];
+    
+    for(let i = 0; i < res.length; i++)
+    {
+        if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
+        {
+            let resDate = res[i].date.split("T")
+            let newDate = resDate[0];
+            let newTime = resDate[1]
+
+            games.push({
+                HomeTeam: res[i].homeTeamName, 
+                AwayTeam: res[i].awayTeamName,
+                date: newDate,
+                time: newTime,
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+            })
+        }
+    }
+    
+    setEvents(games);
+    
+    }
+
 
 export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
 
