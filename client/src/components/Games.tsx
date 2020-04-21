@@ -92,7 +92,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending") && 
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending" || res[i].status === "assignorPending") && 
             (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
 
@@ -103,7 +103,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
                 color = '#adadad';
             else if (res[i].status === 'cancelled')
                 color = '#ff5757';
-            else if (res[i].status === 'coachPending')
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
                 color = '#fdff87';
 
             games.push({
@@ -193,7 +193,7 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
     for(let i = 0; i < res.length; i++)
     {
 
-        if(res[i].status === "coachPending" && res[i].awayTeamName === name)
+        if(res[i].status === "coachPending" || res[i].status === "assignorPedning" && res[i].awayTeamName === name || res[i].awayTeamName == name)
         {
             console.log("IN IF")
             pending.push({

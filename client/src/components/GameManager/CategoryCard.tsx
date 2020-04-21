@@ -35,10 +35,13 @@ const Headstyle = isMobile ?
 function sortGames(games: any, role: string) {
     let edit: any = [];
     let newGames: any = [];
+    let assignorPending: any = [];
 
     console.log("CategoryCard" + JSON.stringify(games))
     
     for (let i = 0; i < games.length; i++) {
+
+        console.log("All Pending Games " + JSON.stringify(games[i]))
 
         if(role == "ROLE_USER")
         {
@@ -47,15 +50,21 @@ function sortGames(games: any, role: string) {
                 newGames.push(games[i]);
 
             }
+            else if(games[i].status == "assignorPending")
+            {
+                console.log("Assignor Pending Games " + games[i])
+                assignorPending.push(games[i])
+            }
             else if (games[i].status != undefined) {
                 if (games[i].status.includes("Edit")) { edit.push(games[i]) }
 
             }
+
         }
         else
         {
             if (games[i].status === "assignorPending") {
-                console.log("GamesList" + games[i])
+                console.log("Assignor Pending" + games[i])
                 newGames.push(games[i]);
 
             }
@@ -65,7 +74,7 @@ function sortGames(games: any, role: string) {
 
 
     console.log("EDITED" + edit)
-    return { "edited": edit, "new": newGames }
+    return { "edited": edit, "new": newGames, "assignor":assignorPending}
 }
 
 function sortScheduled(games: any) {
@@ -190,6 +199,15 @@ const CategoryCard = (props: Props) => {
             );
         })
 
+    const assignorList = gamesList.assignor[0] == undefined ?
+    <Empty>No games have been sent to the Assignor</Empty>
+    :
+    gamesList.assignor.map((game: any, i: any) => {
+        return (
+            <GameCard game={game} index={i} role={props.role}/>
+        );
+    })
+
     return (
         <Card
             style={{ width: '90%' }}
@@ -206,6 +224,14 @@ const CategoryCard = (props: Props) => {
                     {listNew}
                     <Header>Edited Games</Header>
                     {listEdit}
+                    {props.role === "ROLE_USER" ? 
+                    <>
+                    <Header>Assignor pending</Header>
+                    {assignorList}
+                    </>
+                    :
+                    <></>
+                    }
                 </>
             }
             {key === "scheduled" &&

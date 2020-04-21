@@ -1,6 +1,6 @@
 import React from 'react';
 import { CalendarController } from '../../components'
-import {addMultipleGames} from '../../utility/APIGameControl'
+import {addMultipleGames, addBlockedDay, getBlockedDays, editBlockedDay} from '../../utility/APIGameControl'
 import {getAllUsers} from '../../utility/APIUtility'
 
 const Home = ({isAuthenticated, user}: any) => {
@@ -25,7 +25,31 @@ const Home = ({isAuthenticated, user}: any) => {
 //    })
 // }
 
-        
+        function getBlock()
+        {
+            getBlockedDays().then((response)=>{console.log(response)})
+        }
+
+
+        function addBlock()
+        {
+            let blockedDay = {
+                name: "blocked day",
+                date: "2020-04-20"
+            }
+            addBlockedDay(blockedDay)
+        }
+
+        function editBlock()
+        {
+            let blockedDay = {
+                name: "null",
+                date: "2020-04-20",
+                id: "1"
+            }
+            editBlockedDay(blockedDay)
+        }
+
     return (
         <>
         <div>You are signed in as {user.schoolname}</div>

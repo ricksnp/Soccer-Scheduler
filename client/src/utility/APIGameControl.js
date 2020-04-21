@@ -56,3 +56,27 @@ export function addMultipleGames(game){
 		body: JSON.stringify(game)
 	});
 }
+
+export function addBlockedDay(blockedDay){
+	return request({
+		url: API_BASE_URL + '/calendar/addblockedday',
+		method: 'POST',
+		body: JSON.stringify(blockedDay)
+	});
+}
+
+export function getBlockedDays(){
+	return request({
+		url: API_BASE_URL + '/calendar/getblockeddays',
+		method: 'GET'
+	});
+}
+
+export function editBlockedDay(blockedDay){
+	return request({
+		url: API_BASE_URL + '/calendar/editblockeddays',
+		method: 'POST',
+		body: JSON.stringify(blockedDay)
+	});
+}
+
