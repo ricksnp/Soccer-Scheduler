@@ -16,16 +16,17 @@ import { setupMaster } from 'cluster';
 import MyModal1 from './importModal';
 import { notification } from 'antd';
 
+
 var csvData = '';
 
 interface Props {
   handleEventClick: Function
 }
 
-const getGames = ( setApi: any ) => {
+const getGames = (setApi: any) => {
 
-  apiGetGames().then( response => {
-    setApi( response );
+  apiGetGames().then(response => {
+    setApi(response);
   })
 
 }
@@ -37,13 +38,13 @@ const user = {
 
 const openPastDateNotif = () => {
   notification.open({
-      message: 'Date already passed',
-      description: 'You cannot add a new game on a date which has already passed.'
+    message: 'Date already passed',
+    description: 'You cannot add a new game on a date which has already passed.'
   })
 }
 
 
-const GameCalendar = ( { filter }: any ) => {
+const GameCalendar = ({ filter }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
@@ -51,6 +52,7 @@ const GameCalendar = ( { filter }: any ) => {
   const [counter, setCounter] = useState(0);
   const [prevFilter, setPrev] = useState("Your Games");
   const [currentUser, setUser] = useState(user)
+  const [csvData, setCsvData] = useState('null');
 
   const newDate = new Date;
   const day = newDate.getDate();
@@ -61,25 +63,25 @@ const GameCalendar = ( { filter }: any ) => {
    * allows/disallows addition of game based on the day clicked vs blocked days
    * @param info from date on calendar clicked
    */
-  const dayClick = ( info: any ) => {
+  const dayClick = (info: any) => {
     let clickedDate = info.dateStr.split("-");
-    const currentDate = [ year, month, day ];
+    const currentDate = [year, month, day];
     let clickedPastDate = false;
 
     /**
      * determines if a past date was clicked
      */
-    if ( clickedDate[0] < currentDate[0] ) {
+    if (clickedDate[0] < currentDate[0]) {
       clickedPastDate = true;
-    } else if ( clickedDate[1] < currentDate[1] ) {
+    } else if (clickedDate[1] < currentDate[1]) {
       clickedPastDate = true;
-    } else if ( clickedDate [1] > currentDate[1] ) {
+    } else if (clickedDate[1] > currentDate[1]) {
       clickedPastDate = false;
-    } else if ( clickedDate[2] < currentDate[2] ){
+    } else if (clickedDate[2] < currentDate[2]) {
       clickedPastDate = true;
     }
 
-    if ( clickedPastDate === true /** or if days are blocked by assignor */  ) {
+    if (clickedPastDate === true /** or if days are blocked by assignor */) {
       openPastDateNotif();
     } else {
       dispatch({ type: 'ADD_GAME', payload: info.dateStr })
@@ -91,6 +93,7 @@ const GameCalendar = ( { filter }: any ) => {
   if (counter === 0) {
     getGames(setApi)
     getCurrentUser().then((response => { setUser(response) }))
+    apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
 
 
     if (api !== "null") {
@@ -117,11 +120,10 @@ const GameCalendar = ( { filter }: any ) => {
       setCounter(counter + 1);
     }
   }
-  apiGetGames().then((response) => { csvData = response; })
+  //apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
   return (
     <>
       <div className="game-cal">
-        {console.log(isBrowser)}
         <Cal
           eventLimit={true}
           header={isBrowser ?
@@ -162,7 +164,7 @@ const GameCalendar = ( { filter }: any ) => {
           }}
           defaultView={isMobile ? "dayGridFiveDay" : "dayGridMonth"}
           plugins={[dayGridPlugin, interactionPlugin]}
-          dateClick={ (info) => dayClick(info) }
+          dateClick={(info) => dayClick(info)}
           events={events}
           eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status, calEvent.event.extendedProps.id] })}
         />
