@@ -53,14 +53,18 @@ const GameCalendar = ( { filter }: any ) => {
   const month = newDate.getMonth() + 1;
   const year = newDate.getFullYear();
 
+  /**
+   * allows/disallows addition of game based on the day clicked vs blocked days
+   * @param info from date on calendar clicked
+   */
   const dayClick = ( info: any ) => {
     let clickedDate = info.dateStr.split("-");
     const currentDate = [ year, month, day ];
-
     let clickedPastDate = false;
 
-    console.log(clickedDate)
-
+    /**
+     * determines if a past date was clicked
+     */
     if ( clickedDate[0] < currentDate[0] ) {
       clickedPastDate = true;
     } else if ( clickedDate[1] < currentDate[1] ) {
@@ -71,8 +75,7 @@ const GameCalendar = ( { filter }: any ) => {
       clickedPastDate = true;
     }
 
-    //@ts-ignore
-    if ( clickedPastDate === true ) {
+    if ( clickedPastDate === true /** or if days are blocked by assignor */  ) {
       openPastDateNotif();
     } else {
       dispatch({ type: 'ADD_GAME', payload: info.dateStr })

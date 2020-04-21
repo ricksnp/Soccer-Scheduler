@@ -56,9 +56,25 @@ const CalendarModal = () => {
                     return;
                 }
 
+                const game = {
+                    // @ts-ignore
+                    homeTeamName: gameForm.getFieldValue("homeTeamName"),
+                    // @ts-ignore
+                    awayTeamName: gameForm.getFieldValue("awayTeamName"),
+                    // @ts-ignore
+                    teamLevel: gameForm.getFieldValue("teamLevel"),
+                    // @ts-ignore
+                    gender: gameForm.getFieldValue("gender"),
+                    // @ts-ignore
+                    location: gameForm.getFieldValue("location"),
+                    // @ts-ignore
+                    status: gameForm.getFieldValue("status"),
+                    // @ts-ignore
+                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                }
+
                 //send to backend
-                postGames(values);
-                console.log("VALUES" + JSON.stringify(values));
+                postGames(game);
                 //console.log("GAMES: " + getGames())
 
 
