@@ -46,7 +46,6 @@ export default class CSVReader1 extends Component {
             const convertTime12to24 = (time12h) => {
                 if (time12h != undefined) {
                     var [time, modifier] = time12h.split(' ');
-                    var [time, modifier] = time12h.split(' ');
 
                     let [hours, minutes] = time.split(':');
 
