@@ -65,11 +65,12 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
             games.push({
                 HomeTeam: res[i].homeTeamName, 
                 AwayTeam: res[i].awayTeamName,
-                date: newDate,
-                time: newTime,
-                location: res[i].location,
-                teamLevel: res[i].teamLevel,
-                gender: res[i].gender,
+                Date: newDate,
+                Time: newTime,
+                Location: res[i].location,
+                TeamLevel: res[i].teamLevel,
+                Gender: res[i].gender,
+                Status: res[i].status
             })
         }
     }
@@ -82,6 +83,7 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
 export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
 
     const res = apiCall;
+    console.log("onlyscheduled res: " + JSON.stringify(res))
     
     let games:any = [];
     
@@ -89,7 +91,7 @@ export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
     {
         if(res[i].status == "scheduled")
         {
-    
+            console.log("IN IF STATEMENT")
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -104,7 +106,7 @@ export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
         }
     }
     
-    console.log("Get scheduled games" + games)
+    console.log("Get scheduled games" + JSON.stringify(games))
     setEvents(games);
     
 }

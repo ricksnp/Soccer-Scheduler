@@ -32,7 +32,7 @@ const Headstyle = isMobile ?
     }
 
 //sorts pending games based on status
-function sortGames(games: any, role: string) {
+function sortGames(games: any, role: string, homename: String) {
     let edit: any = [];
     let newGames: any = [];
     let assignorPending: any = [];
@@ -43,9 +43,18 @@ function sortGames(games: any, role: string) {
 
         console.log("All Pending Games " + JSON.stringify(games[i]))
 
+        var titleArray;
+        var awayName;
+
+        if(games[i].title != undefined)
+        {
+            titleArray = games[i].title.split("vs");
+            awayName = titleArray[1]
+        }
+
         if(role == "ROLE_USER")
         {
-            if (games[i].status === "coachPending") {
+            if (games[i].status === "coachPending" && homename != undefined && awayName.includes(homename)) {
                 console.log("GamesList" + games[i])
                 newGames.push(games[i]);
 
@@ -112,7 +121,7 @@ interface Props {
 const CategoryCard = (props: Props) => {
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role)
+    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
     const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
 
     //sortGames(props.editGames);
