@@ -34,6 +34,7 @@ const NewAdmin = (userInfo: any) => {
     const [newPending, setPending] = useState(initialResponse);
     const [newSchedulued, setScheduled] = useState(initialResponse);
     const [userSchool, setSchool] = useState(userInfo.user.schoolname)
+    const [userHome, setHome] = useState("null")
 
 
 
@@ -43,6 +44,7 @@ const NewAdmin = (userInfo: any) => {
         getNewGames(setNew);
         setCounter(counter + 1);
         setUser(userInfo.user.role)
+        setHome(userInfo.user.schoolname)
     }
 
 
@@ -127,6 +129,7 @@ const NewAdmin = (userInfo: any) => {
                                 category={categoryName} 
                                 editGames={pendingGames()} 
                                 scheduledGames={scheduledGames()}
+                                homeName={userHome}
                             />}
                     </>
                 }

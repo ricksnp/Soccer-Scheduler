@@ -37,6 +37,7 @@ function sortGames(games: any, role: string) {
     let newGames: any = [];
 
     console.log("CategoryCard" + JSON.stringify(games))
+    
     for (let i = 0; i < games.length; i++) {
 
         if(role == "ROLE_USER")
@@ -95,7 +96,8 @@ interface Props {
     category: string,
     editGames: any,
     scheduledGames: any,
-    role: string
+    role: string,
+    homeName: String
 }
 
 const CategoryCard = (props: Props) => {
@@ -212,7 +214,7 @@ const CategoryCard = (props: Props) => {
                     {canceledList}
                 </>
             }
-            {key === "add" && <AddGameController />}
+            {key === "add" && <AddGameController  role={props.role} userHome={props.homeName}/>}
         </Card>
     );
 

@@ -3,9 +3,12 @@ import { Button, Radio, Form } from 'antd';
 import AddGames from './AddGames'
 import MyModal1 from '../Calendar/importModal'
 
+interface Props{
+    role:String,
+    userHome: String
+}
 
-
-const AddGameController = () => {
+const AddGameController = (props: Props) => {
     const initialArray = [1]
 
     const [controllArray, setArray] = useState(initialArray);
@@ -75,7 +78,7 @@ const AddGameController = () => {
                 </Form.Item>
 
             </Form>
-            <MyModal1 />
+            <MyModal1 role={props.role} userHome={props.userHome}/>
         </>
     )
 }
