@@ -40,10 +40,6 @@ const AssignorExport = (newData:any) => {
 
     if(counter == 0)
     {
-        console.log("newData: " + JSON.stringify(newData.newData))
-
-        console.log("YEET2: " + JSON.stringify(scheduled))
-
     
         setCounter(counter + 1)
 
@@ -87,7 +83,6 @@ const AssignorExport = (newData:any) => {
                 var key = arbiter.school[i].name + " " + newL + " " + newGen;
                 var mapData = {level: arbiter.school[i].level, gender: arbiter.school[i].gender, arbiter: arbiter.school[i].arbiter }
 
-                console.log("Key/value pair: " + key + " value: " + JSON.stringify(mapData) )
                 arbiterMap.set(key, mapData)
             }
 
@@ -115,7 +110,7 @@ const AssignorExport = (newData:any) => {
                         var newgender = "boys"
                         var newObj = arbiterMap.get(nextName);
 
-                        console.log("NewObj" + "key: " + nextName+ " value " + JSON.stringify(newObj))
+        
 
                         if(scheduled[j].teamLevel == "v")
                         {
@@ -145,7 +140,6 @@ const AssignorExport = (newData:any) => {
                         var newgender = "boys"
                         var newObj = arbiterMap.get(nextName);
 
-                        console.log("NewObj" + "key: " + nextName+ " value " + JSON.stringify(newObj))
 
                         if(scheduled[j].teamLevel == "v")
                         {
@@ -177,7 +171,6 @@ const AssignorExport = (newData:any) => {
 
             for(let i =0;i < scheduled.length; i++)
             {
-                console.log("YEET: " + JSON.stringify(scheduled))
                 var temp = scheduled[i].start
 
                 var [date, time] = temp.split('T');
@@ -220,7 +213,6 @@ const AssignorExport = (newData:any) => {
                 var homeKey = scheduled[i].home + "" + scheduled[i].gender + "" + scheduled[i].teamLevel
                 var awayKey = scheduled[i].away + "" + scheduled[i].gender + "" + scheduled[i].teamLevel
 
-                console.log("My New Map: "  + homeKey + " value: " + newMap.get(homeKey))
 
                 console.log("Home Map" + newMap.get(homeKey))
                 arbiterInfo.push({

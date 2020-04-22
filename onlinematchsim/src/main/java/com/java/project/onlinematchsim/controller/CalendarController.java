@@ -1,5 +1,6 @@
 package com.java.project.onlinematchsim.controller;
 
+import com.java.project.onlinematchsim.model.BlockedDays;
 import com.java.project.onlinematchsim.model.GamesCalendar;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 import com.java.project.onlinematchsim.repos.GamesRepository;
@@ -71,5 +72,36 @@ public class CalendarController
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendarList.get(0).getMatchId()).toUri();
 		return ResponseEntity.created(location).body(new ApiResponse(true, "Games Updated Successfully"));
 	}
+
+	@PostMapping("/editblockeddays")
+	@PreAuthorize(" hasRole('ADMIN') or hasRole('ASSIGNOR')")
+	public ResponseEntity<?> editBlockedDays(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody BlockedDaysRequest blockedDaysRequest)
+	{
+		calendarService.editBlockedDays(blockedDaysRequest);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(blockedDaysRequest.getId()).toUri();
+		return ResponseEntity.created(location).body(new ApiResponse(true, "Blocked Days edited Successfully"));
+
+	}
+
+	@PostMapping("/addblockedday")
+	@PreAuthorize(" hasRole('ADMIN') or hasRole('ASSIGNOR')")
+	public ResponseEntity<?> addBlockedDay(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody BlockedDaysRequest blockedDaysRequest)
+	{
+		BlockedDays blockedDays = calendarService.addBlockedDay(blockedDaysRequest);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(blockedDays.getId()).toUri();
+		return ResponseEntity.created(location).body(new ApiResponse(true, "Blocked Days edited Successfully"));
+
+	}
+
+	@GetMapping("/getblockeddays")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('ASSIGNOR')")
+	public List<BlockedDaysResponse> getBlockedDays(@CurrentUser UserPrincipal currentUser)
+	{
+		return calendarService.getBlockedGames(currentUser);
+	}
+
+
+
 	
 }
