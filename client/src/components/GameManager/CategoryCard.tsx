@@ -8,6 +8,7 @@ import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
 import {GMProvider} from './GMProvider';
 import BlockDays from '../Calendar/BlockDays';
+import DayBlocker from './DayBlocker';
 
 const Empty = styled.div`
     @media only screen and (max-width: 768px){
@@ -254,6 +255,7 @@ const CategoryCard = (props: Props) => {
                 </>
             }
             {key === "add" && <AddGameController  role={props.role} userHome={props.homeName}/>}
+            {key === "block" && props.role != "ROLE_USER" && <DayBlocker/>}
         </Card>
     );
 
