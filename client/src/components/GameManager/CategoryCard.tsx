@@ -144,12 +144,27 @@ const CategoryCard = (props: Props) => {
             {
                 key: "add",
                 tab: "Add Games"
-            },
-            {
-                key: "block",
-                tab: "Block Days"
             }
         ]
+
+    const adminTabList = [
+        {
+            key: 'pending',
+            tab: 'Pending Approval',
+        },
+        {
+            key: "scheduled",
+            tab: "Scheduled/Cancelled/Moved Games",
+        },
+        {
+            key: "add",
+            tab: "Add Games"
+        },
+        {
+            key: "block",
+            tab: "Block Days"
+        }
+    ]
 
     //contains list of new games or message
     const listNew = gamesList.new[0] === undefined ?
@@ -224,7 +239,7 @@ const CategoryCard = (props: Props) => {
             //bodyStyle={{background: "#686868"}}
             headStyle={Headstyle}
             title={"Game Manager"}
-            tabList={tabList}
+            tabList={props.role != "ROLE_USER" ? adminTabList : tabList}
             activeTabKey={key}
             onTabChange={key => setKey(key)}
         >

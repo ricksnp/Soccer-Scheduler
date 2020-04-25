@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {addBlockedDay, editBlockedDay, getBlockedDays} from '../../utility/APIGameControl'
+import {addBlockedDay, editBlockedDay, getBlockedDays} from '../../utility/APIGameControl';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -36,6 +36,8 @@ const DayBlocker = () => {
             date: day.date
         }
 
+        console.log("New Day" + JSON.stringify(newDay) );
+
         let existFlag = false;
 
         let temp = [];
@@ -47,36 +49,59 @@ const DayBlocker = () => {
             if(daysToDelete[i].id == day.id && daysToDelete[i].name == day.name && daysToDelete[i].date == day.date)
             {
                 existFlag = true;
+                console.log("Exisitng flag" + existFlag)
+            }
+            else if(daysToDelete[i].id == -0)
+            {
+                    //Do Nothing
             }
             else{
                 temp.push(daysToDelete[i])
             }
         }
 
-        setDeleteDays(temp)
 
         if(existFlag == false)
         {
             setDisable(false)
-            daysToDelete.push(newDay);
+            temp.push(newDay);
+            setDeleteDays(temp)
         }
 
+        console.log("TEMP"  + JSON.stringify(temp));
+
+    }
+
+    function closeModal(){
+        setModal(false);
     }
 
     function removeModal(){
         setType("remove");
         setModal(true);
-        console.log("In Remove")
+    }
+
+    function addDay()
+    {
+        setType("add");
+        setModal(true);
     }
 
     const blockedList = blockedDays.map((day:any, i:any) =>{
         return(
-            <TableRow>
-                <TableCell>
-                    <Checkbox  onClick={()=>pushDelete(day)}/>
-                </TableCell>
-        <TableCell>{day.date}</TableCell>
-            </TableRow>
+            <>
+            {day.name == "blocked day" ? 
+                <TableRow key={i}>
+                    {console.log("Day" + JSON.stringify(day))}
+                    <TableCell>
+                        <Checkbox  onClick={()=>pushDelete(day)}/>
+                    </TableCell>
+                    <TableCell>{day.date}</TableCell>
+                </TableRow>
+                :
+                <></>
+            }
+            </>
         );
     })
 
@@ -94,7 +119,7 @@ const DayBlocker = () => {
 
     return(
         <>
-        <DayBlockModal show={showModal} setModal={setModal} type={modalType} delete={daysToDelete}/>
+        <DayBlockModal show={showModal} close={closeModal} type={modalType} delete={daysToDelete} blockedDays={blockedDays}/>
         <Table >
             <TableHead >
                 <TableCell>Select: </TableCell>
@@ -108,6 +133,7 @@ const DayBlocker = () => {
             }
         </Table>
         <Button disabled={buttonDisable} style={{marginTop: "2vh"}} type="primary" onClick={()=>removeModal()}>Remove Selected</Button>
+        <Button type="primary" style={{marginLeft: "2%"}} onClick={()=> addDay()}>Add Blocked Day</Button>
         </>
     )
 }
