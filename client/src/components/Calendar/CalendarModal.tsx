@@ -13,15 +13,13 @@ const openNotification = () => {
     })
 }
 
-const CalendarModal = (user: any) => {
+const CalendarModal = (schoolName: any, role: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
-
-    const [school, setSchool] = useState(user.schoolname)
     //getCurrentUser().then((response=>{setUser(response)}));
 
 
@@ -72,6 +70,9 @@ const CalendarModal = (user: any) => {
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
+                
+                // @ts-ignore
+                console.log(gameForm.getFieldValue("time")._i)
 
                 //send to backend
                 postGames(game)
@@ -87,8 +88,6 @@ const CalendarModal = (user: any) => {
                         description: "Game was not added"
                     })
                 })
-                console.log("VALUES" + JSON.stringify(values));
-                //console.log("GAMES: " + getGames())
 
 
                 // @ts-ignore
@@ -99,8 +98,8 @@ const CalendarModal = (user: any) => {
 
         if (showViewGame) {
             //opens edit modal if user is participant in game
-            if(school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER" ){
-                console.log( school + " " + user.role)
+            if(schoolName === clickedEvent[5] || schoolName === clickedEvent[6] || role !== "ROLE_USER" ){
+                console.log( schoolName + " " + role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
             } 
@@ -117,7 +116,6 @@ const CalendarModal = (user: any) => {
 
     }
 
-    const allowEdit = showViewGame && (user !== clickedEvent[5] || user!== clickedEvent[6]);
 
     return (
         <Modal

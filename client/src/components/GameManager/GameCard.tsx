@@ -3,6 +3,7 @@ import { Card, Button, notification} from 'antd';
 import styled from 'styled-components';
 import {apiUpdateGame} from '../../utility/APIGameControl'
 import { useGlobalState, useDispatch } from './GMProvider';
+import GMModal from './GMModals';
 
 
 const Title = styled.span`
@@ -205,7 +206,11 @@ const GameCard = ( props: Props ) => {
                     <></>
                 }
                 </Div>
+
+                
             </Card>
+
+            
         </>
     );
 }

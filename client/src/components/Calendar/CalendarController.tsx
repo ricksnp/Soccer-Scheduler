@@ -31,6 +31,7 @@ const CalendarController = (user: any) => {
         setCounter(counter + 1)
     }
 
+
     return (
         <>
             <Provider>
@@ -44,7 +45,8 @@ const CalendarController = (user: any) => {
 
                 <GameCalendar filter={filter} user={user} />
 
-                <CalendarModal user={user.user} />
+                
+                <CalendarModal schoolName={ user.user.schoolname } role={ user.user.role } />
 
 
             </Provider>

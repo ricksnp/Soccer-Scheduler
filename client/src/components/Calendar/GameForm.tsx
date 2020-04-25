@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Form, Select, Radio, Input, TimePicker } from 'antd';
 import { useGlobalState } from './Provider';
 import {getAllUsers} from '../../utility/APIUtility';
+import moment from 'moment';
 
 interface Props {
     form: any
@@ -36,6 +37,8 @@ function updateOptions(setter:any)
 
     console.log("list" + list);
 }
+
+
 
 //if "other", school is not in disctrict, make new field appear to type in school
 
@@ -171,7 +174,8 @@ const CreateEditGame = ( props: Props ) => {
                          <TimePicker 
                             use12Hours 
                             format="hh:mm"
-                            minuteStep={15} />
+                            minuteStep={15}
+                            />
                      ) }
             </Form.Item>
         </Form>

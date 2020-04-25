@@ -59,7 +59,7 @@ const GMModals = () => {
             okText={'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showEditGame && <GMGameForm ref={saveForm} /> }
+            <GMGameForm ref={saveForm} />
         </Modal>
     );
 }

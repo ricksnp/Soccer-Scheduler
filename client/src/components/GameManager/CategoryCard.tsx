@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import AddGameController from './AddGameController'
 import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
-import {GMProvider} from './GMProvider';
+import {GMProvider, useGlobalState } from './GMProvider';
 import BlockDays from '../Calendar/BlockDays';
 
 const Empty = styled.div`
@@ -102,6 +102,8 @@ interface Props {
 
 const CategoryCard = (props: Props) => {
 
+    let showEditGame = useGlobalState("showEditGame");
+
     //depending on category of curret card, gamesList is assigned list(s) of games
     const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role)
     const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
@@ -141,7 +143,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                     <GameCard game={game} index={i} role={props.role}/>
-                    <GMModal />
+                    { showEditGame && <GMModal /> }
                 </div>
             );
         })
@@ -154,7 +156,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                     <GameCard game={game} index={i} role={props.role}/>
-                    <GMModal />
+                    { showEditGame && <GMModal /> }
                 </div>
             );
         })
@@ -167,7 +169,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <GMProvider>
                     <GameCard game={game} index={i} role={props.role}/>
-                    <GMModal />
+                    { showEditGame && <GMModal /> }
                 </GMProvider>
             );
         })
