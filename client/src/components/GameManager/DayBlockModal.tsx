@@ -19,9 +19,6 @@ const Div = styled.div`
 const DayBlockModal = (props: Props) => {
 
     const [addDay, setDay] = useState("");
-    const [success, setSuccess] = useState(false);
-    const [errorMessage, setMessage] = useState(undefined);
-    const [badDay, setBadDay] = useState(false)
     
     function onChange(date:any, dateString:any)
     {
@@ -31,7 +28,7 @@ const DayBlockModal = (props: Props) => {
         {
             for(let i = 0; i < props.blockedDays.length; i++)
             {
-                if(props.blockedDays[i].date == dateString)
+                if(props.blockedDays[i].date == dateString && props.blockedDays[i].name == "blocked day")
                 {
                     notification.error({
                         message: "Cannot Block selected day",
@@ -47,7 +44,7 @@ const DayBlockModal = (props: Props) => {
         {
             setDay(dateString);
         }
-        
+
         console.log("date: " + date + " " + dateString)
     }
 
@@ -76,7 +73,7 @@ const DayBlockModal = (props: Props) => {
             .catch((error)=>{
                 notification.error({
                     message: "Day was not Blocked",
-                    description: errorMessage || "Something went wrong!"
+                    description: error.message || "Something went wrong!"
                 })
             })
         }
@@ -87,7 +84,6 @@ const DayBlockModal = (props: Props) => {
 
             if(props.delete != undefined)
             {
-                let goodDay: any = [];
 
                 for(let i =0; i < props.delete.length; i++)
                 {
@@ -103,7 +99,7 @@ const DayBlockModal = (props: Props) => {
                     .then((response)=>{
                         notification.success({
                             message: "Successfully unblocked days",
-                            description: goodDay[i].date + " was blocked"
+                            description: request.date + " was blocked"
                         })
                     })
                         notification.error({
@@ -131,7 +127,7 @@ const DayBlockModal = (props: Props) => {
                     <>Are you sure you want to unblock the selected {props.delete.length} days?</>
                 : props.type === "add" ?
                     <Div>
-                        <div style={{marginBottom: "2%"}}>Select The day to be blocked:</div>
+                        <div style={{marginBottom: "2%"}}>Select the day to be blocked:</div>
                         <div><DatePicker onChange={onChange}/></div>
                     </Div>
                 :
