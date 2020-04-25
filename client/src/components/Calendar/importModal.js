@@ -3,7 +3,7 @@ import { Modal, Button } from 'antd';
 import CSVReader1 from './importReader'
 
 class MyModal1 extends React.Component {
-    constructor(props){super(props)}
+    constructor(props) { super(props) }
     state = { visible: false };
 
     showModal = () => {
@@ -39,8 +39,8 @@ class MyModal1 extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <p>Download our template first:  <a href={`${process.env.PUBLIC_URL}/scheduletemplate.csv`} download="">Download</a></p>
-                    <CSVReader1 role={role} userHome={userHome}/>
+                    <p>Download our template first:  <a href={`${process.env.PUBLIC_URL}/gametemp.xlsx`} download="">Download</a></p>
+                    <CSVReader1 role={role} userHome={userHome} />
                 </Modal>
             </>
         );

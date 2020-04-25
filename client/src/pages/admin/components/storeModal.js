@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Modal } from 'antd';
+import {AssignorSignup} from '../../../utility/APIUtility';
 
 class StoreModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     onClose = () => {
         this.props.closeModal();

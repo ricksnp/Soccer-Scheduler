@@ -6,6 +6,7 @@ package com.java.project.onlinematchsim.service;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.*;
 import com.java.project.onlinematchsim.model.*;
 //import com.java.project.onlinematchsim.repos.UserRepository;
+import com.java.project.onlinematchsim.repos.BlockedDaysRepo;
 import com.java.project.onlinematchsim.repos.GamesRepository;
 import com.java.project.onlinematchsim.security.UserPrincipal;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
@@ -30,11 +31,17 @@ import org.springframework.stereotype.Service;
 //import java.util.function.Function;
 //import java.util.stream.Collectors;
 
+import com.java.project.onlinematchsim.apiCalls.responseCalls.BlockedDaysResponse;
+import com.java.project.onlinematchsim.apiCalls.requestCalls.BlockedDaysRequest;
+
 
 @Service
 public class CalendarService {
 	@Autowired 
 	private GamesRepository gamesRepository;
+
+	@Autowired
+	private BlockedDaysRepo blockedDaysRepo;
 	
 //	@Autowired
 //	private UserRepository userRepository;
@@ -130,7 +137,50 @@ public class CalendarService {
 
 		return gamesRepository.save(gamesCal);
 	}
-	
+
+	public BlockedDays editBlockedDays(BlockedDaysRequest blockedDaysRequest)
+	{
+		String date = blockedDaysRequest.getDate();
+		String name = blockedDaysRequest.getName();
+		Long id = blockedDaysRequest.getId();
+
+		BlockedDays blockedDays = blockedDaysRepo.findById(id).orElseThrow( () -> new ResourceNotFoundException("Game","id", id));
+
+		blockedDays.setName(name);
+		blockedDays.setDate(date);
+
+		return blockedDaysRepo.save(blockedDays);
+	}
+
+	public BlockedDays addBlockedDay(BlockedDaysRequest blockedDaysRequest)
+	{
+		String date = blockedDaysRequest.getDate();
+		String name = blockedDaysRequest.getName();
+
+		BlockedDays blockedDays = new BlockedDays();
+		blockedDays.setName(name);
+		blockedDays.setDate(date);
+
+		return blockedDaysRepo.save(blockedDays);
+	}
+
+	public List<BlockedDaysResponse> getBlockedGames( UserPrincipal currentuser)
+	{
+		List<BlockedDays> lii = blockedDaysRepo.findAll();
+		List<BlockedDaysResponse> lii1 = new ArrayList<>();
+		BlockedDaysResponse respo;
+		for(BlockedDays each : lii)
+		{
+			respo = new BlockedDaysResponse();
+			respo.setId(each.getId());
+			respo.setName(each.getName());
+			respo.setDate(each.getDate());
+			lii1.add(respo);
+		}
+		return lii1;
+
+	}
+
 	
 	
 	

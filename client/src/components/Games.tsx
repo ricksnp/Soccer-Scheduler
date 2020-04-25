@@ -46,8 +46,7 @@ setEvents(games);
 
 }
 
-
-export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
+export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
 
     const res = apiCall;
     
@@ -55,9 +54,44 @@ export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
+        if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
+        {
+            let resDate = res[i].date.split(" ")
+            let newDate = resDate[0];
+            let newTime = resDate[1]
+
+            console.log("RESDATE: " + resDate)
+
+            games.push({
+                HomeTeam: res[i].homeTeamName, 
+                AwayTeam: res[i].awayTeamName,
+                Date: newDate,
+                Time: newTime,
+                Location: res[i].location,
+                TeamLevel: res[i].teamLevel,
+                Gender: res[i].gender,
+                Status: res[i].status
+            })
+        }
+    }
+    
+    setEvents(games);
+    
+    }
+
+
+export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
+
+    const res = apiCall;
+    console.log("onlyscheduled res: " + JSON.stringify(res))
+    
+    let games:any = [];
+    
+    for(let i = 0; i < res.length; i++)
+    {
         if(res[i].status == "scheduled")
         {
-    
+            console.log("IN IF STATEMENT")
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -72,7 +106,7 @@ export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
         }
     }
     
-    console.log("Get scheduled games" + games)
+    console.log("Get scheduled games" + JSON.stringify(games))
     setEvents(games);
     
 }
@@ -92,7 +126,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
     
     for(let i = 0; i < res.length; i++)
     {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending") && 
+        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending" || res[i].status === "assignorPending") && 
             (res[i].homeTeamName === name || res[i].awayTeamName === name))
         {
 
@@ -103,7 +137,7 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
                 color = '#adadad';
             else if (res[i].status === 'cancelled')
                 color = '#ff5757';
-            else if (res[i].status === 'coachPending')
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
                 color = '#fdff87';
 
             games.push({
@@ -193,7 +227,7 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
     for(let i = 0; i < res.length; i++)
     {
 
-        if(res[i].status === "coachPending" && res[i].awayTeamName === name)
+        if(res[i].status === "coachPending" || res[i].status === "assignorPedning" && res[i].awayTeamName === name || res[i].awayTeamName == name)
         {
             console.log("IN IF")
             pending.push({

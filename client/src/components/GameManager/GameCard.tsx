@@ -194,7 +194,7 @@ const GameCard = ( props: Props ) => {
                  <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location} <Title>Gender:</Title> {game.gender}
                 
                 <Div>
-                {game.status =="coachPending" || game.status == "assignorPending" ? 
+                {game.status =="coachPending" || (game.status == "assignorPending" && props.role != "ROLE_USER") ? 
                   <>
                   {pendingButtons(game)}
                   </>
@@ -202,6 +202,8 @@ const GameCard = ( props: Props ) => {
                     <>
                     {scheduledButtons(game)}
                     </>
+                : game.status == "assignorPending" ?
+                    <></>
                 :
                     <></>
                 }

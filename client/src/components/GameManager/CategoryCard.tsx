@@ -8,6 +8,7 @@ import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
 import {GMProvider, useGlobalState } from './GMProvider';
 import BlockDays from '../Calendar/BlockDays';
+import DayBlocker from './DayBlocker';
 
 const Empty = styled.div`
     @media only screen and (max-width: 768px){
@@ -32,30 +33,48 @@ const Headstyle = isMobile ?
     }
 
 //sorts pending games based on status
-function sortGames(games: any, role: string) {
+function sortGames(games: any, role: string, homename: String) {
     let edit: any = [];
     let newGames: any = [];
+    let assignorPending: any = [];
 
     console.log("CategoryCard" + JSON.stringify(games))
     
     for (let i = 0; i < games.length; i++) {
 
+        console.log("All Pending Games " + JSON.stringify(games[i]))
+
+        var titleArray;
+        var awayName;
+
+        if(games[i].title != undefined)
+        {
+            titleArray = games[i].title.split("vs");
+            awayName = titleArray[1]
+        }
+
         if(role == "ROLE_USER")
         {
-            if (games[i].status === "coachPending") {
+            if (games[i].status === "coachPending" && homename != undefined && awayName.includes(homename)) {
                 console.log("GamesList" + games[i])
                 newGames.push(games[i]);
 
+            }
+            else if(games[i].status == "assignorPending")
+            {
+                console.log("Assignor Pending Games " + games[i])
+                assignorPending.push(games[i])
             }
             else if (games[i].status != undefined) {
                 if (games[i].status.includes("Edit")) { edit.push(games[i]) }
 
             }
+
         }
         else
         {
             if (games[i].status === "assignorPending") {
-                console.log("GamesList" + games[i])
+                console.log("Assignor Pending" + games[i])
                 newGames.push(games[i]);
 
             }
@@ -65,7 +84,7 @@ function sortGames(games: any, role: string) {
 
 
     console.log("EDITED" + edit)
-    return { "edited": edit, "new": newGames }
+    return { "edited": edit, "new": newGames, "assignor":assignorPending}
 }
 
 function sortScheduled(games: any) {
@@ -105,7 +124,7 @@ const CategoryCard = (props: Props) => {
     let showEditGame = useGlobalState("showEditGame");
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role)
+    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
     const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
 
     //sortGames(props.editGames);
@@ -127,12 +146,27 @@ const CategoryCard = (props: Props) => {
             {
                 key: "add",
                 tab: "Add Games"
-            },
-            {
-                key: "block",
-                tab: "Block Days"
             }
         ]
+
+    const adminTabList = [
+        {
+            key: 'pending',
+            tab: 'Pending Approval',
+        },
+        {
+            key: "scheduled",
+            tab: "Scheduled/Cancelled/Moved Games",
+        },
+        {
+            key: "add",
+            tab: "Add Games"
+        },
+        {
+            key: "block",
+            tab: "Block Days"
+        }
+    ]
 
     //contains list of new games or message
     const listNew = gamesList.new[0] === undefined ?
@@ -192,13 +226,22 @@ const CategoryCard = (props: Props) => {
             );
         })
 
+    const assignorList = gamesList.assignor[0] == undefined ?
+    <Empty>No games have been sent to the Assignor</Empty>
+    :
+    gamesList.assignor.map((game: any, i: any) => {
+        return (
+            <GameCard game={game} index={i} role={props.role}/>
+        );
+    })
+
     return (
         <Card
             style={{ width: '90%' }}
             //bodyStyle={{background: "#686868"}}
             headStyle={Headstyle}
             title={"Game Manager"}
-            tabList={tabList}
+            tabList={props.role != "ROLE_USER" ? adminTabList : tabList}
             activeTabKey={key}
             onTabChange={key => setKey(key)}
         >
@@ -208,6 +251,14 @@ const CategoryCard = (props: Props) => {
                     {listNew}
                     <Header>Edited Games</Header>
                     {listEdit}
+                    {props.role === "ROLE_USER" ? 
+                    <>
+                    <Header>Assignor pending</Header>
+                    {assignorList}
+                    </>
+                    :
+                    <></>
+                    }
                 </>
             }
             {key === "scheduled" &&
@@ -221,6 +272,7 @@ const CategoryCard = (props: Props) => {
                 </>
             }
             {key === "add" && <AddGameController  role={props.role} userHome={props.homeName}/>}
+            {key === "block" && props.role != "ROLE_USER" && <DayBlocker/>}
         </Card>
     );
 

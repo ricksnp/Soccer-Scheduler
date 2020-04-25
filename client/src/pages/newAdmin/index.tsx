@@ -59,7 +59,7 @@ const NewAdmin = (userInfo: any) => {
         {
            
     
-            if(newResponse[0].status !== 'null' && counter < 2)
+            if(newResponse !== undefined && newResponse[0].status !== 'null' && counter < 2)
             {
                 getCoachPending(newResponse, setPending, userSchool)
                 setCounter(counter + 1)
@@ -69,7 +69,7 @@ const NewAdmin = (userInfo: any) => {
         // if user isn't coach, find games where status == assignorPending || assignoredit
         else {
 
-            if(newResponse[0].status !== 'null' && counter < 2)
+            if(newResponse !== undefined && newResponse[0].status !== 'null' && counter < 2)
             {
                 getAdminPending(newResponse, setPending)
                 setCounter(counter + 1)
