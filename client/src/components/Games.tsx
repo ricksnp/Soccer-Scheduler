@@ -60,8 +60,6 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
             let newDate = resDate[0];
             let newTime = resDate[1]
 
-            console.log("RESDATE: " + resDate)
-
             games.push({
                 HomeTeam: res[i].homeTeamName, 
                 AwayTeam: res[i].awayTeamName,

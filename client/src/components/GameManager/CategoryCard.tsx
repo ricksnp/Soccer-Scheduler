@@ -8,6 +8,7 @@ import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
 import {GMProvider} from './GMProvider';
 import BlockDays from '../Calendar/BlockDays';
+import DayBlocker from './DayBlocker';
 
 const Empty = styled.div`
     @media only screen and (max-width: 768px){
@@ -143,12 +144,27 @@ const CategoryCard = (props: Props) => {
             {
                 key: "add",
                 tab: "Add Games"
-            },
-            {
-                key: "block",
-                tab: "Block Days"
             }
         ]
+
+    const adminTabList = [
+        {
+            key: 'pending',
+            tab: 'Pending Approval',
+        },
+        {
+            key: "scheduled",
+            tab: "Scheduled/Cancelled/Moved Games",
+        },
+        {
+            key: "add",
+            tab: "Add Games"
+        },
+        {
+            key: "block",
+            tab: "Block Days"
+        }
+    ]
 
     //contains list of new games or message
     const listNew = gamesList.new[0] === undefined ?
@@ -158,8 +174,10 @@ const CategoryCard = (props: Props) => {
 
             return (
                 <div>
+                 <GMProvider>
                     <GameCard game={game} index={i} role={props.role}/>
                     <GMModal />
+                  </GMProvider>
                 </div>
             );
         })
@@ -171,8 +189,10 @@ const CategoryCard = (props: Props) => {
         gamesList.edited.map((game: any, i: any) => {
             return (
                 <div>
+                    <GMProvider>
                     <GameCard game={game} index={i} role={props.role}/>
                     <GMModal />
+                    </GMProvider>
                 </div>
             );
         })
@@ -223,7 +243,7 @@ const CategoryCard = (props: Props) => {
             //bodyStyle={{background: "#686868"}}
             headStyle={Headstyle}
             title={"Game Manager"}
-            tabList={tabList}
+            tabList={props.role != "ROLE_USER" ? adminTabList : tabList}
             activeTabKey={key}
             onTabChange={key => setKey(key)}
         >
@@ -254,6 +274,7 @@ const CategoryCard = (props: Props) => {
                 </>
             }
             {key === "add" && <AddGameController  role={props.role} userHome={props.homeName}/>}
+            {key === "block" && props.role != "ROLE_USER" && <DayBlocker/>}
         </Card>
     );
 

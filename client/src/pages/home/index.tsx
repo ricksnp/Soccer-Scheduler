@@ -5,17 +5,6 @@ import {getAllUsers} from '../../utility/APIUtility'
 import AssignorExport from './AssignorExport';
 import {getOnlyScheduledGames} from '../../components/Games'
 
-// const getGames = (setApi: any) => {
-
-//     console.log("HHHHHHHHERE")
-//     apiGetGames().then(response => {
-//       setApi(response);
-//       console.log("HHHHHHHHERE2")
-//     })
-
-//     console.log("HHHHHHHHERE3")
-  
-//   }
 
 const Home = ({isAuthenticated, user}: any) => {
 
@@ -76,7 +65,7 @@ const Home = ({isAuthenticated, user}: any) => {
             {user.role != "ROLE_USER" && scheduledData != "" ?     
                 <AssignorExport newData={scheduledData}/>
             :
-                <>TEST</>
+                <></>
             }
         </>
     );

@@ -176,7 +176,7 @@ const GameCalendar = ({ filter }: any) => {
             <>{counter !== 0 && prevFilter !== filter && setCounter(0)}</>
         }
       </div>
-      <Button color="primary"><CSVLink data={csvData} filename={"schedule.csv"} className="hiddenOnPhone" >Export Games</CSVLink></Button>
+      <Button color="secondary"><CSVLink data={csvData} filename={"schedule.csv"} className="hiddenOnPhone" >Export Games</CSVLink></Button>
     </>
 
   );

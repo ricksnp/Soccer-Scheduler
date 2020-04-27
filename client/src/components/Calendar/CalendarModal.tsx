@@ -5,6 +5,7 @@ import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames } from '../../utility/APIGameControl';
 import {getCurrentUser} from '../../utility/APIUtility'
+import { userInfo } from 'os';
 
 const openNotification = () => {
     notification.open({
@@ -21,7 +22,11 @@ const CalendarModal = (user: any) => {
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
+    const [thisUser, setUser] = useState(user.user)
     const [school, setSchool] = useState(user.schoolname)
+
+    console.log("CalendarModal Role" + JSON.stringify(thisUser))
+
     //getCurrentUser().then((response=>{setUser(response)}));
 
 
@@ -72,6 +77,10 @@ const CalendarModal = (user: any) => {
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
+
+                console.log("Calendar modal game information" + JSON.stringify(game))
+
+                //game.homeTeamName = userInfo.
 
                 //send to backend
                 postGames(game)
@@ -128,7 +137,7 @@ const CalendarModal = (user: any) => {
             okText={showViewGame ? 'Edit' : 'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showAddGame && <GameForm ref={saveForm} /> }
+            { showAddGame && <GameForm ref={saveForm}/> }
             { showEditGame && <GameForm ref={saveForm} /> }
             { showViewGame && <EventDisplay event={clickedEvent} /> }
         </Modal>
