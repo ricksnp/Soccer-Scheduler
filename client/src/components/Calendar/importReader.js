@@ -101,7 +101,7 @@ export default class CSVReader1 extends Component {
                     .catch((error) => {
                         notification.error({
                             message: "Could not add games",
-                            description: error
+                            description: error.message
                         })
                     })
 

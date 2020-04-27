@@ -224,21 +224,23 @@ export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
 
     for(let i = 0; i < res.length; i++)
     {
-
-        if(res[i].status === "coachPending" || res[i].status === "assignorPedning" && res[i].awayTeamName === name || res[i].awayTeamName == name)
+        if(res[i].status === "coachPending" || res[i].status === "assignorPending")
         {
-            console.log("IN IF")
-            pending.push({
-                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
-                id: res[i].id,
-                home: res[i].homeTeamName,
-                away: res[i].awayTeamName,
-                start: res[i].date,
-                location: res[i].location,
-                teamLevel: res[i].teamLevel,
-                gender: res[i].gender,
-                status: res[i].status
-            })
+            if(res[i].awayTeamName === name || res[i].homeTeamName == name)
+            {
+                console.log("IN IF")
+                pending.push({
+                    title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                    id: res[i].id,
+                    home: res[i].homeTeamName,
+                    away: res[i].awayTeamName,
+                    start: res[i].date,
+                    location: res[i].location,
+                    teamLevel: res[i].teamLevel,
+                    gender: res[i].gender,
+                    status: res[i].status
+                })
+            }
         }
     }
 
