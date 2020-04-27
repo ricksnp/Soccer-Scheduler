@@ -13,6 +13,8 @@ const openNotification = () => {
     })
 }
 
+
+
 const CalendarModal = (schoolName: any, role: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
@@ -53,6 +55,7 @@ const CalendarModal = (schoolName: any, role: any) => {
                 if (err) {
                     return;
                 }
+
 
                 const game = {
                     // @ts-ignore
