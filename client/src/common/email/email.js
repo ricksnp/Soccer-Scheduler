@@ -14,7 +14,7 @@ const SESConfig = {
 
 export const sendAnEmail = (to, data) => {
     var params = {
-        Source: 'rickspnathan@gmail.com',
+        Source: 'Score A Match <support@scoreamatch.com>',
         Destination: {
             ToAddresses: [
                 to
