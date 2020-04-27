@@ -1,16 +1,20 @@
 import React, {useState} from 'react'
 import { Form, Select, Radio, Input, TimePicker } from 'antd';
 import { useGlobalState } from './Provider';
+<<<<<<< HEAD
 import {getAllUsers} from '../../utility/APIUtility';
 import moment from 'moment';
+=======
+import {getAllUsers, getCurrentUser} from '../../utility/APIUtility';
+import { cpus } from 'os';
+>>>>>>> 04f6e243d48305d67384d0c44039dcf51c1d3f0d
 
 interface Props {
-    form: any
+    form: any,
 }
 
 function updateOptions(setter:any)
 {
-    console.log("here");
 
     let list:any = []
 
@@ -24,7 +28,7 @@ function updateOptions(setter:any)
         console.log("res: " + response)
         for(let i=0;i<response.length;i++)
         {
-            if(!set.has(response[i].schoolname))
+            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor")
             {
                 list[i+2] = response[i].schoolname
                 set.add(response[i].schoolname)
@@ -34,14 +38,47 @@ function updateOptions(setter:any)
 
         setter(list)
     })
-
-    console.log("list" + list);
 }
 
 
+<<<<<<< HEAD
 
+=======
+function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any)
+{
+    let status = "coachPending";
+    let role = "";
+
+    getCurrentUser()
+        .then((response)=>{
+            setter(response);
+            roleSetter(response.role);
+            setSchool(response.schoolname)
+            role = response.role;
+
+            if(response.role != "ROLE_USER")
+            {
+                setStatus("Scheduled")
+            }
+            else{
+                setStatus("coachPending")
+            }
+        })
+
+    setStatus(status)
+
+}
+>>>>>>> 04f6e243d48305d67384d0c44039dcf51c1d3f0d
 //if "other", school is not in disctrict, make new field appear to type in school
+const userTemplate = {
+    role: "null",
+    schoolname: "null",
+    id: "null",
+    username: "null",
+    name: "null",
+    district: "null"
 
+}
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
     const showAddGame = useGlobalState('showAddGame');
@@ -49,11 +86,19 @@ const CreateEditGame = ( props: Props ) => {
     const clickedGame = useGlobalState('clickedGame');
     const showEditGame = useGlobalState('showEditGame');
 
+    const [user, setUser] = useState(userTemplate)
+    const [role, setRole] = useState("");
+    const [school, setSchool] = useState("");
+    const [status, setStatus] = useState("coachPending");
+    const [required, setRequired] = useState(false);
+
     //for home/away team Select element
     const teams: Array<string> = [ "Outside of District"]
 
     const [teamList, setTeamList] = useState(teams)
     const [counter, setCounter] = useState(0);
+
+    const [label, setLabel] = useState("");
 
 
     const teamOptions = teams.map((team, i) => {
@@ -73,6 +118,10 @@ const CreateEditGame = ( props: Props ) => {
         );
     });
     
+    function setHomeName(value: any)
+    {
+        setSchool(value)
+    }
 
     const { form } = props;
     const { getFieldDecorator } = form;
@@ -82,31 +131,65 @@ const CreateEditGame = ( props: Props ) => {
     {
 
         updateOptions(setTeamList);
+        getUserInfo(setUser, setRole,setSchool, setStatus)
+
+        console.log("ROLE =" + role)
+        if(role === "ROLE_USER")
+        {
+            setSchool(user.schoolname)
+            console.log("Required" + required)
+        }
+        else
+        {
+
+            setSchool("")
+            setLabel("Select Home Team")
+            setRequired(true)
+            console.log("Label: "  + label)
+            setSchool(user.schoolname)
+            console.log("Required" + required)
+        }
 
         setCounter(counter +1)
     }
 
     return (
-
+        <>
+        {user == null  && role == null? 
+            
+        <></> 
+        
+        :
+            
         <Form layout="vertical">
+            {console.log("role =" + school)}
+            {console.log("Game Form User" + JSON.stringify(user))}
+
             {/*showAddGame && addGameDate*/} 
-            <Form.Item label="Home Team">
+            <Form.Item label={role == "ROLE_USER" ? "" : "Select Home Team:"}>
                 {getFieldDecorator('homeTeamName', {
-                    rules: [{ required: true, message: 'Select Home Team' }],
-                    initialValue: showEditGame === true? clickedGame[5] : ""
+                    rules: [{ required: required, message: 'Select Home Team' }],
+                    initialValue: showEditGame === true? clickedGame[5] : school
                 })(
-                    <Select showSearch >
-                        {teamList.length === 1 ? 
-                           teamOptions
-                        :
-                            apiTeamOptions
-                        }
-                    </Select>
+                    <>
+                    {user.role != "ROLE_USER" ? 
+                    
+                        <Select showSearch onChange={setHomeName}>
+                            {teamList.length === 1 ? 
+                            teamOptions
+                            :
+                                apiTeamOptions
+                            }
+                            </Select>
+                        : 
+                        <></>
+                    }
+                    </>
                 )}
             </Form.Item>
-            <Form.Item label="Away Team">
+            <Form.Item label={role == "ROLE_USER" ? "Select Opposing Team" : "Select Away Team:"}>
                 {getFieldDecorator('awayTeamName', { 
-                    rules: [{ required: true, message: 'Select Away Team' }],
+                    rules: [{ required: true, message: 'Select Opposing Team' }],
                     initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >
@@ -151,7 +234,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Status" style={ {display: "none"} } >
                 {getFieldDecorator('status', {
                     rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: showEditGame === true? clickedGame[7] : "coachPending"
+                    initialValue: showEditGame === true? clickedGame[7] : status
                 })(
                     <Input/>
                 )}
@@ -179,6 +262,8 @@ const CreateEditGame = ( props: Props ) => {
                      ) }
             </Form.Item>
         </Form>
+        }
+        </>
       );
 };
 

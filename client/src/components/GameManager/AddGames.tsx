@@ -1,6 +1,11 @@
-import React from 'react';
-import {Form, Input, Select, TimePicker, DatePicker, Radio, Card} from 'antd';
+import React, {useState} from 'react';
+import {Form, Input, Select, TimePicker, DatePicker, Radio, Card, Button, notification} from 'antd';
 import { isMobile } from "react-device-detect";
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
 import styled from 'styled-components';
 
 
@@ -21,8 +26,6 @@ const layout =
     :
       {labelCol: { span: 4 },
       wrapperCol: { span: 5 }}
-    
-  
 
 
   const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
@@ -35,68 +38,103 @@ const layout =
       );
   });
 
-  
-const AddGames = () => {
+const baseGame = {
+    oppTeam: undefined,
+    level: undefined,
+    gender: undefined,
+    location: undefined,
+    date: undefined,
+    time: undefined
+}
 
-    
+interface Props{
+    remove: any,
+    index: any,
+    persistance: any,
+    control: any
+}
+const AddGames = (props:Props) => {
+
+    const [gameData, setData] = useState(baseGame);
+    const [counter, setCounter] = useState(0);
+    const [oppTeam, setOpp] = useState("");
+    const [level, setLevel] = useState("");
+    const [gender, setGender] = useState("");
+    const [location, setLocation] = useState("");
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
+
+    function deleteRow(index:any){
+
+        props.remove(index);
+        
+    }
+
+    function opChange(value: any)
+    {
+        props.persistance(value, props.index,"opp" )
+    }
+
+    if(counter === 0)
+    {
+        for(let i = 0; i < props.control.length; i++)
+        {
+            if(props.control[i].id == props.index)
+            {
+                setData(props.control[i].gameData);
+            }
+        }
+
+        setCounter(counter+1)
+    }
+
+    //Oppossing Team, Level, Gender, Location, Date, Time
     return(
-        <Card>
-            <Form.Item 
-                label="Away Team"
-                required
-                {...layout}
-            >
-                <Select showSearch>
-                    {teamOptions}
+       <TableRow style={{marginBottom: "2%"}}>
+           <TableCell>
+                <Select 
+                    defaultValue={gameData.oppTeam}
+                    onChange={opChange}
+                >
+                   {teamOptions}
                 </Select>
-            </Form.Item>
-            <Form.Item 
-                label="Time"
-                required
-                {...layout}
-            >
-                <TimePicker/>
-            </Form.Item>
-            <Form.Item 
-                label="Date"
-                required
-                {...layout}
-            >
+            </TableCell>
+
+            <TableCell>
+                <Radio.Group defaultValue={gameData.level}>
+                    <Radio.Button value={"v"}>Varsity</Radio.Button>
+                    <Radio.Button value={"jv"}>Junior Varsity</Radio.Button>
+                </Radio.Group>
+            </TableCell>
+
+            <TableCell>
+                <Radio.Group defaultValue={gameData.gender}>
+                    <Radio.Button value={"b"}>Boys</Radio.Button>
+                    <Radio.Button value={"g"}>Girls</Radio.Button>
+                </Radio.Group>
+            </TableCell>
+
+            <TableCell>
+                <Input defaultValue={gameData.location}/>
+            </TableCell>
+
+            <TableCell>
                 <DatePicker/>
-            </Form.Item>
-            <Form.Item 
-                label="Level"
-                required
-                {...layout}
-            >
-            <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="v">Varsity</Radio.Button>
-                        <Radio.Button value="jv">Junior Varsity</Radio.Button>
-                    </Radio.Group>
+            </TableCell>
 
-            </Form.Item>
-            <Form.Item 
-                label="Gender"
-                required
-                {...layout}
-            >
-            <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="v">Boys</Radio.Button>
-                        <Radio.Button value="jv">Girls</Radio.Button>
-                    </Radio.Group>
+            <TableCell>
+                <TimePicker/>
+            </TableCell>
 
-            </Form.Item>
+            <TableCell>
+                <Button type="primary" ><i className="fas fa-check"></i></Button>
+            </TableCell>
 
-            <Form.Item 
-                label="Location"
-                required
-                {...layout}
-            >
-            <Input />
+            <TableCell>
+                <Button type="danger" onClick={()=>deleteRow(props.index)}><i className="fas fa-times"></i></Button>
+            </TableCell>
 
-            </Form.Item>
-
-        </Card>
+       </TableRow>
     );
 }
 

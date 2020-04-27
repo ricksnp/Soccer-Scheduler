@@ -5,6 +5,7 @@ import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames } from '../../utility/APIGameControl';
 import {getCurrentUser} from '../../utility/APIUtility'
+import { userInfo } from 'os';
 
 const openNotification = () => {
     notification.open({
@@ -15,13 +16,19 @@ const openNotification = () => {
 
 
 
-const CalendarModal = (schoolName: any, role: any) => {
+const CalendarModal = (user: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
+
+    const [thisUser, setUser] = useState(user.user)
+    const [school, setSchool] = useState(user.schoolname)
+
+    console.log("CalendarModal Role" + JSON.stringify(thisUser))
+
     //getCurrentUser().then((response=>{setUser(response)}));
 
 
@@ -77,6 +84,10 @@ const CalendarModal = (schoolName: any, role: any) => {
                 // @ts-ignore
                 console.log(gameForm.getFieldValue("time")._i)
 
+                console.log("Calendar modal game information" + JSON.stringify(game))
+
+                //game.homeTeamName = userInfo.
+
                 //send to backend
                 postGames(game)
                 .then((response)=>{
@@ -101,8 +112,8 @@ const CalendarModal = (schoolName: any, role: any) => {
 
         if (showViewGame) {
             //opens edit modal if user is participant in game
-            if(schoolName === clickedEvent[5] || schoolName === clickedEvent[6] || role !== "ROLE_USER" ){
-                console.log( schoolName + " " + role)
+            if(school === clickedEvent[5] || school === clickedEvent[6] || thisUser.role !== "ROLE_USER" ){
+                console.log( school + " " + thisUser.role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
             } 
@@ -129,7 +140,7 @@ const CalendarModal = (schoolName: any, role: any) => {
             okText={showViewGame ? 'Edit' : 'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showAddGame && <GameForm ref={saveForm} /> }
+            { showAddGame && <GameForm ref={saveForm}/> }
             { showEditGame && <GameForm ref={saveForm} /> }
             { showViewGame && <EventDisplay event={clickedEvent} /> }
         </Modal>

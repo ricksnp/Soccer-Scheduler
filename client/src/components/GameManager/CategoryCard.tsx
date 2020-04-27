@@ -176,8 +176,10 @@ const CategoryCard = (props: Props) => {
 
             return (
                 <div>
+                 <GMProvider>
                     <GameCard game={game} index={i} role={props.role}/>
-                    { showEditGame && <GMModal /> }
+                    <GMModal />
+                  </GMProvider>
                 </div>
             );
         })
@@ -189,8 +191,10 @@ const CategoryCard = (props: Props) => {
         gamesList.edited.map((game: any, i: any) => {
             return (
                 <div>
+                    <GMProvider>
                     <GameCard game={game} index={i} role={props.role}/>
-                    { showEditGame && <GMModal /> }
+                    <GMModal />
+                    </GMProvider>
                 </div>
             );
         })

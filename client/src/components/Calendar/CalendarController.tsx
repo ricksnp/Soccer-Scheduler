@@ -23,6 +23,7 @@ const CalendarController = (user: any) => {
     //intital state must be "Scheduled" or else everything breaks
     const [filter, setFilter] = useState("Your Games")
     const [counter, setCounter] = useState(0)
+    const [thisUser, setThis] = useState(user.user)
     const userRole = user.user.role
 
     if(userRole === "ROLE_ASSIGNOR" && counter === 0)
@@ -31,6 +32,8 @@ const CalendarController = (user: any) => {
         setCounter(counter + 1)
     }
 
+    console.log("Calendar Contorller" + JSON.stringify(thisUser))
+    console.log("Calendar Contorller Role" + userRole)
 
     return (
         <>
@@ -45,8 +48,7 @@ const CalendarController = (user: any) => {
 
                 <GameCalendar filter={filter} user={user} />
 
-                
-                <CalendarModal schoolName={ user.user.schoolname } role={ user.user.role } />
+                <CalendarModal user={thisUser} />
 
 
             </Provider>
