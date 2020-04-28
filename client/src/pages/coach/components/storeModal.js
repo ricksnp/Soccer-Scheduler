@@ -12,6 +12,7 @@ import {
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH
 } from '../../../constants';
+
 import { signup, checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
 import { sign } from 'crypto';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -160,7 +161,7 @@ class StoreModal extends React.Component {
 
 
                 >
-                    <p className="addAssignor-title">Add Coaches</p>
+                    <p className="addAssignor-title">Add Coach</p>
                     <form onSubmit={this.handleSubmit} className="addAssignor-form">
                         <TextField id="standard-basic" label="First name" name="firstname" value={this.state.firstname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="Last name" name="lastname" value={this.state.lastname.value} onChange={(event) => this.handleNewChange(event)} />

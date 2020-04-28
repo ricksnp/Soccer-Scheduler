@@ -7,7 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import { getAllUsers } from '../../../utility/APIUtility';
 import { apiGetGames } from '../../../utility/APIGameControl';
 
@@ -51,18 +50,15 @@ class TableComp extends React.Component {
         });
     }
     componentDidMount() {
-        getAllUsers().then((response) => 
-        { 
+        getAllUsers().then((response) => {
             let userList = []
-            for(let i = 0; i < response.length; i++)
-            {
-                if(response[i].district == this.props.userDistrict && response[i].schoolname != "Assignor")
-                {
+            for (let i = 0; i < response.length; i++) {
+                if (response[i].district == this.props.userDistrict && response[i].schoolname != "Assignor") {
                     userList.push(response[i])
                 }
 
             }
-            this.setState({ tableData: userList }) 
+            this.setState({ tableData: userList })
         })
     }
 
@@ -79,7 +75,6 @@ class TableComp extends React.Component {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Select</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>School</TableCell>
@@ -90,11 +85,7 @@ class TableComp extends React.Component {
                     <TableBody>
                         {this.state.tableData.map((item, key) => (
                             <TableRow>
-                                <TableCell padding="checkbox" key="key">
-                                    <Checkbox
-                                        inputProps={{ 'aria-label': 'select all desserts' }}
-                                    />
-                                </TableCell>
+
                                 <TableCell component="th" scope="row">
                                     {item.name}
                                 </TableCell>
