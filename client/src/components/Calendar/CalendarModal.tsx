@@ -89,6 +89,8 @@ const CalendarModal = (user: any) => {
                         message: "Game Added",
                         description: "Game was successfully added"
                     })
+
+                    
                 })
                 .catch((error)=>{
                     notification.error({

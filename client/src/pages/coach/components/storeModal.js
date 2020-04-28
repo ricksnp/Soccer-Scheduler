@@ -107,13 +107,13 @@ class StoreModal extends React.Component {
             email: this.state.email.value,
             username: finUserName,
             schoolname: this.state.schoolname.value,
-            district: this.props.userDistrict,
+            district: "admin",
             password: 'Password1'
         };
         console.log(JSON.stringify(signupRequest));
 
 
-        signup(signupRequest)
+        AssignorSignup(signupRequest)
             .then((response) => {
                 notification.success({
                     message: 'Online Match Sim App',

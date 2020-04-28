@@ -78,8 +78,6 @@ const NewAdmin = (userInfo: any) => {
 
         }
 
-        console.log("NEWPENDING " + JSON.stringify(newPending))
-
         return newPending
     }
 
@@ -94,7 +92,6 @@ const NewAdmin = (userInfo: any) => {
             {
                 getTeamSchedule(newResponse, setScheduled, userSchool)
                 setCounter(counter + 1)
-                console.log("Scheduled" + JSON.stringify(newSchedulued))
             }
         }
         else
@@ -104,7 +101,6 @@ const NewAdmin = (userInfo: any) => {
             {
                 getScheduledGames(newResponse, setScheduled)
                 setCounter(counter + 1)
-                console.log("Assignor Scheduled" + JSON.stringify(newSchedulued))
             }
         }
 

@@ -38,7 +38,7 @@ class Page extends Component {
                     <Button variant="contained" color="primary" onClick={this.openStoreModal}><i className="fas fa-plus"></i> coach</Button>
                 </div>
                 <div class="assignor-table">
-                    <TableComp userDistrict={this.props.user.district}/>
+                    <TableComp userDistrict={this.props.user.district} role={this.props.user.role}/>
                 </div>
             </>
         );
