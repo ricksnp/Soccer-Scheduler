@@ -53,7 +53,7 @@ class TableComp1 extends React.Component {
         getAllUsers().then((response) => {
             let userList = []
             for (let i = 0; i < response.length; i++) {
-                if (response[i].schoolname === "Assignor") {
+                if ((response[i].schoolname === "Assignor") || (response[i].schoolname === "assignor")) {
                     userList.push(response[i])
                 }
 

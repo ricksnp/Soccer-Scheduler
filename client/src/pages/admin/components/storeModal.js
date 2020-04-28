@@ -110,8 +110,8 @@ class StoreModal extends React.Component {
             name: this.state.firstname.value + " " + this.state.lastname.value,
             email: this.state.email.value,
             username: finUserName,
-            schoolname: "Admin",
-            district: this.props.userDistrict,
+            schoolname: "Assignor",
+            district: this.state.district.value,
             password: 'Password1'
         };
         console.log(JSON.stringify(signupRequest));
@@ -121,7 +121,7 @@ class StoreModal extends React.Component {
             .then((response) => {
                 notification.success({
                     message: 'Online Match Sim App',
-                    description: "Sucessfully added a new admin!"
+                    description: "Sucessfully added a new assignor!"
                 });
                 sendAnEmail(signupRequest.email, emailContents(signupRequest.username, signupRequest.password));
             })
@@ -168,8 +168,8 @@ class StoreModal extends React.Component {
                     <form onSubmit={this.handleSubmit} className="addAssignor-form">
                         <TextField id="standard-basic" label="First name" name="firstname" value={this.state.firstname.value} onChange={(event) => this.handleNewChange(event)} />
                         <TextField id="standard-basic" label="Last name" name="lastname" value={this.state.lastname.value} onChange={(event) => this.handleNewChange(event)} />
-                        <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} />
-                        <TextField id="standard-basic" label="District" name="district" value={this.state.district.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
+                        <TextField id="standard-basic" label="E-mail" name="email" value={this.state.email.value} onBlur={this.validateEmailAvailability} onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
+                        <TextField id="standard-basic" label="District" name="district" value={this.state.district.value} onChange={(event) => this.handleNewChange(event)} />
 
 
                     </form>
