@@ -111,21 +111,11 @@ const CalendarModal = (user: any) => {
                         grabEmail(game);
 
                     })
-<<<<<<< HEAD
-
-                    
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Add Failed",
-                        description: error.message
-=======
                     .catch((error) => {
                         notification.error({
                             message: "Game Add Failed",
                             description: "Game was not added"
                         })
->>>>>>> 493e984ea7e4b5999a57d9b7ff0220b2c4ab8b7d
                     })
                 console.log("VALUES" + JSON.stringify(values));
                 //console.log("GAMES: " + getGames())

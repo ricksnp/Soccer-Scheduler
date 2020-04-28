@@ -212,27 +212,6 @@ export const getCoachPending = (apiCall: any, setPending: any, name: String) => 
 
     let pending = [];
 
-<<<<<<< HEAD
-    for(let i = 0; i < res.length; i++)
-    {
-        if(res[i].status === "coachPending" || res[i].status === "assignorPending")
-        {
-            if(res[i].awayTeamName === name || res[i].homeTeamName == name)
-            {
-                console.log("IN IF")
-                pending.push({
-                    title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
-                    id: res[i].id,
-                    home: res[i].homeTeamName,
-                    away: res[i].awayTeamName,
-                    start: res[i].date,
-                    location: res[i].location,
-                    teamLevel: res[i].teamLevel,
-                    gender: res[i].gender,
-                    status: res[i].status
-                })
-            }
-=======
     for (let i = 0; i < res.length; i++) {
 
         if (res[i].status === "coachPending" || res[i].status === "assignorPending" && res[i].awayTeamName === name || res[i].homeTeamName == name) {
@@ -248,7 +227,6 @@ export const getCoachPending = (apiCall: any, setPending: any, name: String) => 
                 gender: res[i].gender,
                 status: res[i].status
             })
->>>>>>> 493e984ea7e4b5999a57d9b7ff0220b2c4ab8b7d
         }
     }
 
