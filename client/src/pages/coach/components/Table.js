@@ -52,9 +52,22 @@ class TableComp extends React.Component {
     componentDidMount() {
         getAllUsers().then((response) => {
             let userList = []
-            for (let i = 0; i < response.length; i++) {
-                if (response[i].district == this.props.userDistrict && response[i].schoolname != "Assignor") {
-                    userList.push(response[i])
+
+            for(let i = 0; i < response.length; i++)
+            {
+                if(this.props.role == "ROLE_ASSIGNOR")
+                {
+                    if(response[i].schoolname != "Assignor" && response[i].schoolname != "admin" && this.props.userDistrict == response[i].district)
+                    {
+                        userList.push(response[i])
+                    }
+                }
+                else if(this.props.role == "ROLE_ADMIN")
+                {
+                    if(response[i].schoolname != "Assignor" && response[i].schoolname != "admin")
+                    {
+                        userList.push(response[i])
+                    }
                 }
 
             }
