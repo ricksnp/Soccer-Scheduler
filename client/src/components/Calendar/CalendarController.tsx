@@ -26,7 +26,7 @@ const CalendarController = (user: any) => {
     const [thisUser, setThis] = useState(user.user)
     const userRole = user.user.role
 
-    if(userRole == "ROLE_ASSIGNOR" && counter == 0)
+    if(userRole === "ROLE_ASSIGNOR" && counter === 0)
     {
         setFilter("Scheduled")
         setCounter(counter + 1)
@@ -48,7 +48,7 @@ const CalendarController = (user: any) => {
 
                 <GameCalendar filter={filter} user={user} />
 
-                <CalendarModal user={thisUser} />
+                <CalendarModal user={user.user} school={user.schoolname} />
 
 
             </Provider>

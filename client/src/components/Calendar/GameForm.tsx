@@ -3,9 +3,26 @@ import { Form, Select, Radio, Input, TimePicker } from 'antd';
 import { useGlobalState } from './Provider';
 import {getAllUsers, getCurrentUser} from '../../utility/APIUtility';
 import { cpus } from 'os';
+import moment from 'moment'
 
 interface Props {
     form: any,
+}
+
+//get date of game from clicked game to autofill date when editing
+const getDate = ( dateVar: Date ) => {
+    const year = dateVar.getFullYear();
+    const month = dateVar.getMonth() + 1;
+    const day = dateVar.getDate();
+
+    const date = year + '-' + month + '-' + day ;
+    console.log(dateVar)
+    return date;
+}
+
+const getTime = (dateVar: Date) => {
+    const time = dateVar.getHours() + ':' + dateVar.getMinutes();
+    return moment(time, 'HH:mm')
 }
 
 function updateOptions(setter:any)
@@ -82,6 +99,9 @@ const CreateEditGame = ( props: Props ) => {
     const [school, setSchool] = useState("");
     const [status, setStatus] = useState("coachPending");
     const [required, setRequired] = useState(false);
+    const [time, setTime] = useState(undefined)
+
+    
 
     //for home/away team Select element
     const teams: Array<string> = [ "Outside of District"]
@@ -116,6 +136,13 @@ const CreateEditGame = ( props: Props ) => {
 
     const { form } = props;
     const { getFieldDecorator } = form;
+
+    const timeChange = (chosenTime: any) => {
+        props.form.setFieldsValue({
+            time: chosenTime
+        });
+        console.log(chosenTime)
+    }
 
     
     if(counter === 0)
@@ -234,8 +261,9 @@ const CreateEditGame = ( props: Props ) => {
 
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
-                    rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: addGameDate
+                    rules: [{ required: true, message: 'Select Date' }],
+                    //@ts-ignore
+                    initialValue: showAddGame === true? addGameDate : getDate(clickedGame[1])
                 })(
                     <Input disabled style={{width:"50%"}} />
                 )}
@@ -244,11 +272,14 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Time">
                     { getFieldDecorator('time', { 
                         rules: [{ required: true, message: 'Select Time' }],
+                        initialValue: showEditGame === true? getTime(clickedGame[1]) : ""
                      })(
                          <TimePicker 
                             use12Hours 
                             format="hh:mm"
-                            minuteStep={15} />
+                            minuteStep={15}
+                            onChange={time => timeChange(time) }
+                            />
                      ) }
             </Form.Item>
         </Form>
