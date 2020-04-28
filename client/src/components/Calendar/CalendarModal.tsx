@@ -6,6 +6,8 @@ import EventDisplay from './EventDisplay';
 import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
 import {getCurrentUser} from '../../utility/APIUtility'
 import { userInfo } from 'os';
+import { sendAnEmail } from '../../common/email/email'
+import { getAllUsers } from '../../utility/APIUtility'
 
 const openNotification = () => {
     notification.open({
@@ -14,7 +16,22 @@ const openNotification = () => {
     })
 }
 
+const grabEmail = (game: any) => {
+    let desiredEmail = "";
+    getAllUsers().then((response) => {
 
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == game.awayTeamName) {
+
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+
+            }
+        }
+
+    })
+
+}
 
 const CalendarModal = (user: any, school: any) => {
     const showAddGame = useGlobalState('showAddGame');
@@ -108,18 +125,20 @@ const CalendarModal = (user: any, school: any) => {
 
                 //send to backend
                 postGames(game)
-                .then((response)=>{
-                    notification.success({
-                        message: "Game Added",
-                        description: "Game was successfully added"
+                    .then((response) => {
+                        notification.success({
+                            message: "Game Added",
+                            description: "Game was successfully added"
+                        })
+                        grabEmail(game);
+
                     })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Add Failed",
-                        description: "Game was not added"
+                    .catch((error) => {
+                        notification.error({
+                            message: "Game Add Failed",
+                            description: "Game was not added"
+                        })
                     })
-                })
 
 
                 // @ts-ignore
@@ -130,11 +149,11 @@ const CalendarModal = (user: any, school: any) => {
 
         if (showViewGame) {
             //opens edit modal if user is participant in game
-            if(school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER" ){
-                console.log( school + " " + user.role)
+            if (school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER") {
+                console.log(school + " " + user.role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
-            } 
+            }
             //opens notification if user attempts to edit a game in which they are not participant
             else {
                 openNotification();
@@ -207,9 +226,9 @@ const CalendarModal = (user: any, school: any) => {
             okText={showViewGame ? 'Edit' : 'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showAddGame && <GameForm ref={saveForm}/> }
-            { showEditGame && <GameForm ref={saveForm} /> }
-            { showViewGame && <EventDisplay event={clickedEvent} /> }
+            {showAddGame && <GameForm ref={saveForm} />}
+            {showEditGame && <GameForm ref={saveForm} />}
+            {showViewGame && <EventDisplay event={clickedEvent} />}
         </Modal>
     );
 }

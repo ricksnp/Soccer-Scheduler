@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-import { Form, Select, Radio, Input } from 'antd';
+import { Form, Select, Radio, Input, DatePicker, TimePicker } from 'antd';
 import { useGlobalState } from './GMProvider';
 import {getAllUsers} from '../../utility/APIUtility';
+import moment from 'moment'
 
 interface Props {
     form: any
@@ -49,6 +50,7 @@ const CreateEditGame = ( props: Props ) => {
 
     const [teamList, setTeamList] = useState(teams)
     const [counter, setCounter] = useState(0);
+    const [dateValue, setValue] = useState("")
 
 
     const teamOptions = teams.map((team, i) => {
@@ -79,7 +81,18 @@ const CreateEditGame = ( props: Props ) => {
         updateOptions(setTeamList);
 
         setCounter(counter +1)
+
+        console.log("Clicked" + JSON.stringify(clickedGame))
     }
+
+    const handleDate = (temp: any) => {
+        let split = temp.split("T");
+        console.log("SPLIT "+split[0])
+        setValue(split[0])
+
+        return split[0]
+    }
+
 
     return (
 
@@ -156,9 +169,9 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
                     rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: clickedGame[1]
-                })(
-                    <Input disabled style={{width:"50%"}} />
+                    initialValue: counter === 0 ? moment(handleDate(clickedGame[1]), 'YYYY/MM/DD') : moment(dateValue,'YYYY/MM/DD')
+                })(  
+                    <DatePicker  style={{width:"50%"}} />
                 )}
             </Form.Item>
                 <Form.Item/>

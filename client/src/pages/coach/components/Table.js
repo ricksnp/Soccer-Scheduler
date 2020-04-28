@@ -7,7 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import { getAllUsers } from '../../../utility/APIUtility';
 import { apiGetGames } from '../../../utility/APIGameControl';
 
@@ -51,25 +50,34 @@ class TableComp extends React.Component {
         });
     }
     componentDidMount() {
-        getAllUsers().then((response) => 
-        { 
+        getAllUsers().then((response) => {
             let userList = []
+
             for(let i = 0; i < response.length; i++)
             {
-                if(response[i].district == this.props.userDistrict && response[i].schoolname != "Assignor")
+                if(this.props.role == "ROLE_ASSIGNOR")
                 {
-                    userList.push(response[i])
+                    if(response[i].schoolname != "Assignor" && response[i].schoolname != "admin" && this.props.userDistrict == response[i].district)
+                    {
+                        userList.push(response[i])
+                    }
+                }
+                else if(this.props.role == "ROLE_ADMIN")
+                {
+                    if(response[i].schoolname != "Assignor" && response[i].schoolname != "admin")
+                    {
+                        userList.push(response[i])
+                    }
                 }
 
             }
-            this.setState({ tableData: userList }) 
+            this.setState({ tableData: userList })
         })
     }
 
 
 
     render() {
-        console.log("ADMIN DISTRICT: " + this.props.userDistrict)
         console.log(this.state.tableData);
         return (
 
@@ -79,7 +87,6 @@ class TableComp extends React.Component {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Select</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>School</TableCell>
@@ -90,11 +97,7 @@ class TableComp extends React.Component {
                     <TableBody>
                         {this.state.tableData.map((item, key) => (
                             <TableRow>
-                                <TableCell padding="checkbox" key="key">
-                                    <Checkbox
-                                        inputProps={{ 'aria-label': 'select all desserts' }}
-                                    />
-                                </TableCell>
+
                                 <TableCell component="th" scope="row">
                                     {item.name}
                                 </TableCell>

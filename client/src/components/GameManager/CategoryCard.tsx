@@ -42,7 +42,6 @@ function sortGames(games: any, role: string, homename: String) {
     
     for (let i = 0; i < games.length; i++) {
 
-        console.log("All Pending Games " + JSON.stringify(games[i]))
 
         var titleArray;
         var awayName;
@@ -56,13 +55,11 @@ function sortGames(games: any, role: string, homename: String) {
         if(role == "ROLE_USER")
         {
             if (games[i].status === "coachPending" && homename != undefined && awayName.includes(homename)) {
-                console.log("GamesList" + games[i])
                 newGames.push(games[i]);
 
             }
             else if(games[i].status == "assignorPending")
             {
-                console.log("Assignor Pending Games " + games[i])
                 assignorPending.push(games[i])
             }
             else if (games[i].status != undefined) {
@@ -74,7 +71,6 @@ function sortGames(games: any, role: string, homename: String) {
         else
         {
             if (games[i].status === "assignorPending") {
-                console.log("Assignor Pending" + games[i])
                 newGames.push(games[i]);
 
             }
@@ -82,8 +78,6 @@ function sortGames(games: any, role: string, homename: String) {
 
     }
 
-
-    console.log("EDITED" + edit)
     return { "edited": edit, "new": newGames, "assignor":assignorPending}
 }
 

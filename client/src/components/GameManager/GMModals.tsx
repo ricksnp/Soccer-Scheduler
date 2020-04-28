@@ -37,8 +37,6 @@ const GMModals = () => {
                 //send to backend
                 postGames(values);
                 console.log("VALUES" + JSON.stringify(values));
-                //console.log("GAMES: " + getGames())
-
 
                 // @ts-ignore
                 gameForm.resetFields();

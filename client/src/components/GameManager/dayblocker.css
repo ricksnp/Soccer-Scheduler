@@ -1,0 +1,10 @@
+#root > section > main > div > div > div.ant-card.ant-card-bordered.ant-card-contain-tabs > div.ant-card-body > table > thead > th:nth-child(1)
+{
+    font-weight: bold;
+
+}
+
+#root > section > main > div > div > div.ant-card.ant-card-bordered.ant-card-contain-tabs > div.ant-card-body > table > thead > th:nth-child(2)
+{
+    font-weight: bold;
+}
