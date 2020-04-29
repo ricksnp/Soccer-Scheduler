@@ -21,7 +21,6 @@ const Home = ({isAuthenticated, user}: any) => {
 
         if(data != "")
         {
-            console.log("Data from home/index" + JSON.stringify(data))
             getOnlyScheduledGames(data, setScheduled)
             setCounter(counter + 1)
         }

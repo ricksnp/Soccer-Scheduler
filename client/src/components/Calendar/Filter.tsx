@@ -28,10 +28,9 @@ function updateOptions(setter:any, userRole: string)
     getAllUsers().then((response)=>
     {
 
-        console.log("res: " + JSON.stringify(response))
         for(let i=0;i<response.length;i++)
         {
-            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor")
+            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor" && response[i].schoolname != "admin")
             {
                 list[i+count] = response[i].schoolname
                 set.add(response[i].schoolname)

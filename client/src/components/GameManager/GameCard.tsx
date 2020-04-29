@@ -54,7 +54,7 @@ const seasonStart = new Date("2020/02/20");
 
 const GameCard = (props: Props) => {
 
-    const [color, setColor] = useState("#484848")
+    const [color, setColor] = useState("white")
     const [counter, setCounter] = useState(0)
     const dispatch = useDispatch();
 

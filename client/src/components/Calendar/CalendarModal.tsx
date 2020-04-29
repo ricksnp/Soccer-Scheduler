@@ -114,7 +114,7 @@ const CalendarModal = (user: any) => {
                     .catch((error) => {
                         notification.error({
                             message: "Game Add Failed",
-                            description: "Game was not added"
+                            description: error.essage || "Game was not added"
                         })
                     })
                 console.log("VALUES" + JSON.stringify(values));

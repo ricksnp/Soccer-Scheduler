@@ -50,7 +50,7 @@ function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any
 
             if(response.role != "ROLE_USER")
             {
-                setStatus("Scheduled")
+                setStatus("scheduled")
             }
             else{
                 setStatus("coachPending")
