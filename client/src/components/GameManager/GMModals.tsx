@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Select } from 'antd';
+import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './GMProvider';
 import GMGameForm from './GMGameForm';
-import { postGames } from '../../utility/APIGameControl';
-import GameForm from './GMGameForm'
+import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
+import GameForm from '../Calendar/GameForm'
+
+const openNotification = () => {
+    notification.open({
+        message: 'Not a participant',
+        description: 'You cannot edit a game in which your team is not a participant.'
+    })
+}
+
 
 const GMModals = () => {
     const showEditGame = useGlobalState('showEditGame');
@@ -11,7 +19,9 @@ const GMModals = () => {
     const dispatch = useDispatch();
 
 
+
     const [gameForm, setGameForm] = useState(React.createRef());
+
 
     const saveForm = (form: any) => {
         setGameForm(form);
@@ -25,25 +35,58 @@ const GMModals = () => {
     }
 
     const handleOk = () => {
-                if (showEditGame) {
-            //Save edits
-            
-            // @ts-ignore
+        if (showEditGame) {
+            //@ts-ignore
             gameForm.validateFields((err: any, values: any) => {
                 if (err) {
                     return;
                 }
 
+
+                const game = {
+                    // @ts-ignore
+                    homeTeamName: gameForm.getFieldValue("homeTeamName"),
+                    // @ts-ignore
+                    awayTeamName: gameForm.getFieldValue("awayTeamName"),
+                    // @ts-ignore
+                    teamLevel: gameForm.getFieldValue("teamLevel"),
+                    // @ts-ignore
+                    gender: gameForm.getFieldValue("gender"),
+                    // @ts-ignore
+                    location: gameForm.getFieldValue("location"),
+                    // @ts-ignore
+                    status: gameForm.getFieldValue("status"),
+                    // @ts-ignore
+                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                }
+                
+                // @ts-ignore
+                console.log(gameForm.getFieldValue("time")._i)
+
+                console.log("Calendar modal game information" + JSON.stringify(game))
+
+                //game.homeTeamName = userInfo.
+
                 //send to backend
-                postGames(values);
-                console.log("VALUES" + JSON.stringify(values));
+                apiUpdateGame(game)
+                .then((response)=>{
+                    notification.success({
+                        message: "Game Edited",
+                        description: "Game was successfully edited"
+                    })
+                })
+                .catch((error)=>{
+                    notification.error({
+                        message: "Game Edit Failed",
+                        description: "Game was not edited"
+                    })
+                })
+
 
                 // @ts-ignore
                 gameForm.resetFields();
-                dispatch({ type: 'CLOSE_EDIT_GAME' });
+                dispatch({ type: 'CLOSE_EDIT_GAME' })
             });
-
-            
         }
 
     }
@@ -57,7 +100,7 @@ const GMModals = () => {
             okText={'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showEditGame && <GMGameForm ref={saveForm} /> }
+            <GMGameForm ref={saveForm} />
         </Modal>
     );
 }

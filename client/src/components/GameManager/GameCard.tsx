@@ -22,10 +22,21 @@ interface Props {
     role: string
 }
 
-const grabEmail = (h: any, a: any, d: any, contents: any) => {
+
+
+const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
     let desiredEmail = "";
     let desiredEmail2 = "";
+    let assignorEmail = "";
+    let assignorarray: any[] = [];
     getAllUsers().then((response) => {
+
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname === "Assignor") {
+
+                assignorarray.push(response[i])
+            }
+        }
 
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == a) {
@@ -39,14 +50,54 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
 
-                desiredEmail2 = response[i].email;
-                sendAnEmail(desiredEmail2, contents + d);
+                for (let j = 0; j < assignorarray.length; j++) {
+
+                    if (response[i].district === assignorarray[j].district) {
+                        desiredEmail2 = response[i].email;
+                        assignorEmail = assignorarray[j].email;
+                    }
+
+                }
 
             }
+
+            sendAnEmail(desiredEmail2, contents + d);
+            sendAnEmail(assignorEmail, contents + d);
         }
 
     })
 
+}
+
+const grabEmail = (h: any, a: any, d: any, contents: any) => {
+    let desiredEmail = "";
+    let desiredEmail2 = "";
+    let assignorEmail = "";
+    let assignorarray: any[] = [];
+    getAllUsers().then((response) => {
+
+
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == a) {
+
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, contents + d);
+
+            }
+        }
+
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == h) {
+
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, contents + d);
+
+            }
+        }
+
+    }
+
+    )
 }
 
 const seasonStart = new Date("2020/02/20");
@@ -61,7 +112,7 @@ const GameCard = (props: Props) => {
     const handleEdit = (game: any) => {
 
         dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
-        console.log("ID = " + game.id + " HomeTeam = " + game.home);
+        console.log("ID = " + game.id + " HomeTeam = " + game.home + ' start: ' +game.start);
     }
 
     const handleConfirm = (game: any) => {
@@ -166,7 +217,7 @@ const GameCard = (props: Props) => {
 
         }
 
-        grabEmail(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
+        grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
 
 
 
