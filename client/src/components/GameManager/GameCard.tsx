@@ -19,7 +19,8 @@ const Div = styled.div`
 interface Props {
     game: any,
     index: any,
-    role: string
+    role: string,
+    onUpdate: any
 }
 
 
@@ -176,7 +177,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-
+            props.onUpdate(0)
     }
 
     const handleDelete = (game: any) => {
@@ -204,6 +205,8 @@ const GameCard = (props: Props) => {
                     description: error
                 })
             })
+
+            props.onUpdate(0)
     }
 
     const handleCancel = (game: any) => {
@@ -234,6 +237,8 @@ const GameCard = (props: Props) => {
                     description: error
                 })
             })
+
+            props.onUpdate(0)
     }
 
 

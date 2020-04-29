@@ -33,7 +33,7 @@ const grabEmail = (game: any) => {
 
 }
 
-const CalendarModal = (user: any, school: any) => {
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -108,7 +108,7 @@ const CalendarModal = (user: any, school: any) => {
                     // @ts-ignore
                     location: gameForm.getFieldValue("location"),
                     // @ts-ignore
-                    status: user.role === "ROLE_USER"? gameForm.getFieldValue("status") : "scheduled",
+                    status: gameForm.getFieldValue("status"),
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
@@ -128,7 +128,6 @@ const CalendarModal = (user: any, school: any) => {
                             description: "Game was successfully added"
                         })
                         grabEmail(game);
-
                     })
                     .catch((error) => {
                         notification.error({
@@ -137,6 +136,8 @@ const CalendarModal = (user: any, school: any) => {
                         })
                     })
 
+
+                setUpdate(!onUpdate);
 
                 // @ts-ignore
                 gameForm.resetFields();

@@ -5,15 +5,6 @@ import Filter from './Filter';
 import { Provider } from './Provider';
 import SecondFilter from './SecondFilter'
 
-
-// const Scheduled = styled.span`background: #78e388`;
-
-// const Pending = styled.span`background: #fdff87`;
-
-// const Cancelled = styled.span`background: #ff5757`;
-
-// const Moved = styled.span`background: #adadad`;
-
 const secondObj = {
     varsity: true,
     jv: true,
@@ -34,6 +25,7 @@ const CalendarController = (user: any) => {
     const [counter, setCounter] = useState(0)
     const [thisUser, setThis] = useState(user.user)
     const [secondFilter, setSecond] = useState(secondObj)
+    const [onUpdate, setUpdate] = useState(false)
     const userRole = user.user.role
 
     if(userRole === "ROLE_ASSIGNOR" && counter === 0)
@@ -112,16 +104,8 @@ const CalendarController = (user: any) => {
             <Provider>
                 <Filter setFilter={setFilter} userRole={userRole} />
                 <SecondFilter secondFilter={secondFilter} setSecond={setSecond} secondChange={secondChange}/>
-                {/* <div style={{marginTop: "2%"}} className="inline-bloccc">
-                    <Scheduled className="game-status-tab">Scheduled Game</Scheduled>
-                    <Pending className="game-status-tab">Pending Game</Pending>
-                    <Cancelled className="game-status-tab">Cancelled Game</Cancelled>
-                    <Moved className="game-status-tab">Moved Game</Moved>
-                </div> */}
-
-                <GameCalendar filter={filter} user={user} secondFilter={secondFilter}/>
-
-                <CalendarModal user={user.user} school={user.schoolname} />
+                <GameCalendar update={onUpdate} filter={filter} user={user} secondFilter={secondFilter}/>
+                <CalendarModal setUpdate={setUpdate} onUpdate={onUpdate} user={user.user} school={user.schoolname} />
 
 
             </Provider>

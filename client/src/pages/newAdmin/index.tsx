@@ -107,6 +107,12 @@ const NewAdmin = (userInfo: any) => {
         return newSchedulued
     }
 
+    useEffect(()=>{
+        setCounter(0)
+    },
+    [counter]
+    
+    )
 
     //map game categories to be displayed (pending games v scheduled games)
     const displayCards = categories.map((categoryName, i) => {
@@ -126,6 +132,7 @@ const NewAdmin = (userInfo: any) => {
                                 editGames={pendingGames()} 
                                 scheduledGames={scheduledGames()}
                                 homeName={userHome}
+                                onUpdate={setCounter}
                             />}
                     </>
                 }

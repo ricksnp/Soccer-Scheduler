@@ -75,6 +75,7 @@ function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any
         })
 
     setStatus(status)
+    console.log("GAME STATUS" + status)
 
 }
 //if "other", school is not in disctrict, make new field appear to type in school

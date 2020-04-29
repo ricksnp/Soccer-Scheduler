@@ -110,7 +110,8 @@ interface Props {
     editGames: any,
     scheduledGames: any,
     role: string,
-    homeName: String
+    homeName: String,
+    onUpdate: any
 }
 
 const CategoryCard = (props: Props) => {
@@ -171,7 +172,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                  <GMProvider>
-                    <GameCard game={game} index={i} role={props.role}/>
+                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     <GMModal />
                   </GMProvider>
                 </div>
@@ -186,7 +187,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                     <GMProvider>
-                    <GameCard game={game} index={i} role={props.role}/>
+                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     <GMModal />
                     </GMProvider>
                 </div>
@@ -200,7 +201,7 @@ const CategoryCard = (props: Props) => {
         scheduledList.scheduled.map((game: any, i: any) => {
             return (
                 <GMProvider>
-                    <GameCard game={game} index={i} role={props.role}/>
+                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     { showEditGame && <GMModal /> }
                 </GMProvider>
             );
@@ -211,7 +212,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.canceled.map((game: any, i: any) => {
             return (
-                <GameCard game={game} index={i} role={props.role}/>
+                <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
             );
         })
 
@@ -220,7 +221,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.moved.map((game: any, i: any) => {
             return (
-                <GameCard game={game} index={i} role={props.role}/>
+                <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
             );
         })
 
@@ -229,7 +230,7 @@ const CategoryCard = (props: Props) => {
     :
     gamesList.assignor.map((game: any, i: any) => {
         return (
-            <GameCard game={game} index={i} role={props.role}/>
+            <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
         );
     })
 
@@ -245,13 +246,17 @@ const CategoryCard = (props: Props) => {
         >
             {key === "pending" &&
                 <>
-                    <Header>Recently Added</Header>
+                    
+                    <Header>Recently Added</Header> 
+                    There are {listNew.length === undefined ? <>0 pending games</> : <>{listNew.length} game(s) that need approval </>} 
                     {listNew}
                     <Header>Edited Games</Header>
+                    There are {listEdit.length === undefined ? <>0 edited games</> : <>{listEdit.length} games that have been editied </>} 
                     {listEdit}
                     {props.role === "ROLE_USER" ? 
                     <>
                     <Header>Assignor pending</Header>
+                    There are {assignorList.length === undefined ? <>0 games that need assignor approval</> : <>{assignorList.length} game(s) that need assignor aproval </>} 
                     {assignorList}
                     </>
                     :
@@ -262,6 +267,7 @@ const CategoryCard = (props: Props) => {
             {key === "scheduled" &&
                 <>
                     <Header>Scheduled</Header>
+                    There are {listScheduled.length === undefined ? <>0 scheduled games</> : <>{listScheduled.length} scheduled games </>} 
                     {listScheduled}
                     <Header>Moved</Header>
                     {movedList}
