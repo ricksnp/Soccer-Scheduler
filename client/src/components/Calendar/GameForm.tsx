@@ -20,7 +20,7 @@ const getDate = ( dateVar: Date ) => {
     return date;
 }
 
-const getTime = (dateVar: Date) => {
+const getTime = ( dateVar: Date ) => {
     const time = dateVar.getHours() + ':' + dateVar.getMinutes();
     return moment(time, 'HH:mm')
 }

@@ -82,9 +82,6 @@ const CalendarModal = (user: any, school: any) => {
         //away team edited game
         else if ( clickedEvent[6] === school ) {
             return "awayEdit"
-        } 
-        else {
-            return "scheduled"
         }
 
         //how to know if team approved edit?
