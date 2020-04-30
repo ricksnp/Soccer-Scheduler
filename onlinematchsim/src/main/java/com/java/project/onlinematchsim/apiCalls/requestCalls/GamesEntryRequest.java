@@ -26,6 +26,8 @@ public class GamesEntryRequest {
 	@NotBlank
 	private String status;
 	
+
+
 	public String getStatus() {
 		return status;
 	}
