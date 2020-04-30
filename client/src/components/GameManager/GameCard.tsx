@@ -56,7 +56,6 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
             if (response[i].schoolname == a) {
 
                 desiredEmail = response[i].email;
-                //sendAnEmail(desiredEmail, contents + d);
 
             }
         }
@@ -68,19 +67,15 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
                 for (let j = 0; j < assignorarray.length; j++) {
 
                     if (response[i].district === assignorarray[j].district) {
-                       // desiredEmail2 = response[i].email;
-                        //assignorEmail = assignorarray[j].email;
+                        desiredEmail2 = response[i].email;
+                        assignorEmail = assignorarray[j].email;
                     }
 
                 }
 
             }
 
-            // sendAnEmail(desiredEmail2, contents + d);
-            // sendAnEmail(assignorEmail, contents + d);
         }
-        sendAnEmail(desiredEmail2, contents + d);
-        sendAnEmail(assignorEmail, contents + d);
 
     })
 
@@ -100,8 +95,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == a) {
 
-                // desiredEmail = response[i].email;
-                // sendAnEmail(desiredEmail, contents + d);
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, contents + d);
 
             }
         }
@@ -109,8 +104,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
 
-                // desiredEmail = response[i].email;
-                // sendAnEmail(desiredEmail, contents + d);
+                desiredEmail2 = response[i].email;
+                sendAnEmail(desiredEmail2, contents + d);
 
             }
         }
@@ -218,7 +213,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-        props.onUpdate(0)
+        props.onUpdate(props.change + 1)
     }
 
     const handleCancel = (game: any) => {
@@ -252,7 +247,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-        props.onUpdate(0)
+        props.onUpdate(props.change + 1)
     }
 
 
@@ -314,7 +309,7 @@ const GameCard = (props: Props) => {
                                 : game.status == "assignorPending" ?
                                     <></>
                                     :
-                                    <></>
+                                    <><Button style={{ background: "#f5222d" }} onClick={() => handleDelete(game)}><i className="fas fa-trash-alt"></i></Button></>
                         }
                     </Div>
                 </Card>

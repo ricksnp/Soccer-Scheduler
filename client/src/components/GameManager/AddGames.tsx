@@ -9,8 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import styled from 'styled-components';
 import moment from 'moment';
-import { getAllUsers } from '../../utility/APIUtility'
-import { sendAnEmail } from '../../common/email/email'
+import { getAllUsers } from '../../utility/APIUtility';
+import { sendAnEmail } from '../../common/email/email';
+import Conflict from '../Calendar/Conflict';
 
 const Wrapper = styled.div`
     @media only screen and (max-width: 768px){
@@ -95,6 +96,8 @@ const AddGames = (props: Props) => {
     const [bgColor, setbgColor] = useState("white")
     const [input, setInput] = useState("")
     const [outsideFlag, setOutsideflag] = useState(false)
+    const [gameID,setID] = useState(0);
+    const [conflict, setConflict] = useState(false)
 
 
 
@@ -240,15 +243,11 @@ const AddGames = (props: Props) => {
 
     const timeChange = (newE: any) => {
         console.log("value: " + JSON.stringify(newE))
-        let split = JSON.stringify(newE).split("T")
-
-        let split1 = split[1].split("/")
-        let split2 = split1[0].split("\"");
-        let split3 = split2[0].split(".")
+        
         let e = {
             target: {
-                value: split3[0],
-                dataset: {
+                value: newE,
+                dataset:{
                     idx: props.index,
                 },
                 class: "time"
@@ -263,6 +262,28 @@ const AddGames = (props: Props) => {
         let status = "coachPending"
         let home = props.control.homeTeam;
         let away = props.control.awayTeam;
+        var d = new Date(props.control.time);
+        let h = d.getHours();
+        let m = d.getMinutes();
+        let s = d.getSeconds();
+
+        let hours;
+        let min;
+        let sec;
+
+        if(h < 10)
+        {hours = "0" + h;}
+        else{hours = h;}
+
+        if(m < 10)
+        {min = "0" + m}
+        else
+        {min = m }
+
+        if(s < 10)
+        {sec = "0" + s}
+        else
+        {sec = s;}
 
         if (props.role != "ROLE_USER") {
             status = "scheduled";
@@ -281,7 +302,7 @@ const AddGames = (props: Props) => {
         let addGame = {
             homeTeamName: home,
             awayTeamName: away,
-            date: props.control.date + "T" + props.control.time,
+            date: props.control.date + "T" + hours +":"+min+":"+s,
             location: props.control.location,
             teamLevel: props.control.level,
             gender: props.control.gender,
@@ -289,49 +310,88 @@ const AddGames = (props: Props) => {
         }
 
         console.log(addGame)
+        console.log("Time: " + d.getHours())
 
         postGames(addGame)
             .then((response) => {
-                notification.success({
-                    message: "Game Added successfully",
-                    description: "Game on " + props.control.date + " was added"
+                if(response.success)
+                {
+                    let mess = response.message
+                    if(response.message != undefined && mess.includes("arning"))
+                    {
+                        console.log("Message: " + response.messsage)
+                        let splitter = mess.split(" ");
+                        setID(splitter[0])
+                        setConflict(true);
+                        console.log("HERE")
+                    }
+                    else{
 
-                })
-                grabEmail(addGame.awayTeamName, addGame.homeTeamName, addGame.date)
-                console.log("RESPONSE" + JSON.stringify(response))
-                setbgColor("#73d13d")
-                props.updateAbove()
-            })
-            .catch((error) => {
-                notification.error({
-                    message: "Game was not added",
-                    description: error.essage
-                })
+                        notification.success({
+                            message: "Game Added",
+                            description: response.message
+                        })
+                    }
+                    setbgColor("#73d13d")
+                }
+                else
+                {
+                    if(response.message != undefined && response.message.includes("onflict"))
+                    {
+                        notification.error({
+                            message: "Game Not Added",
+                            description: "There is a scheduling conflict, try chagning the date or time" 
+                        })
+                    }
+                    notification.error({
+                        message: "Game was not added",
+                        description: response.message
+                    })
 
-                setbgColor("#ff4d4f")
+                    setbgColor("#ff4d4f")
+                }
+            //     notification.success({
+            //         message: "Game Added successfully",
+            //         description: "Game on " + props.control.date + " was added"
+
+            //     })
+            //     grabEmail(addGame.awayTeamName, addGame.homeTeamName, addGame.date)
+            //     console.log("RESPONSE" + JSON.stringify(response))
+            //     setbgColor("#73d13d")
+            //     props.updateAbove()
+            // })
+            // .catch((error) => {
+            //     notification.error({
+            //         message: "Game was not added",
+            //         description: error.essage
+            //     })
+
+            //     setbgColor("#ff4d4f")
+            // })
             })
     }
 
     //Oppossing Team, Level, Gender, Location, Date, Time
     return (
         <>
-            <TableRow style={{ background: bgColor }}>
+       <TableRow style={{background: bgColor}}>
 
-                {props.role != "ROLE_USER" ?
-                    <TableCell>
-                        <Select
-                            defaultValue={gameData.homeTeam}
-                            onChange={homeChange}
-                            data-idx={props.index}
-                            value={props.control.homeTeam === "Assignor" ? "" : props.control.homeTeam}
-                        >
-                            {teamOptions}
-                        </Select>
-                    </TableCell>
-                    :
-                    <></>
-                }
-                <TableCell>
+           {props.role != "ROLE_USER" ? 
+               <TableCell>
+                    <Select 
+                        style={{width: "100%"}}
+                        defaultValue={gameData.homeTeam}
+                        onChange={homeChange}
+                        data-idx={props.index}
+                        value={props.control.homeTeam != "Assignor" && props.control.homeTeam != "admin" ? props.control.homeTeam : "" }
+                    >
+                        {teamOptions}
+                    </Select>
+                </TableCell>
+                :
+            <></>
+            }
+           <TableCell>
                     <Select
                         style={{ width: "100%" }}
                         defaultValue={gameData.oppTeam}

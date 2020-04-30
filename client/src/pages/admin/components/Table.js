@@ -72,7 +72,7 @@ class TableComp1 extends React.Component {
         return (
 
             <>
-                <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} />
+                <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} user={this.state.user}/>
                 <EditModal showModal={this.state.showEditModal} closeModal={this.closeEditModal} />
                 <Table aria-label="simple table">
                     <TableHead>

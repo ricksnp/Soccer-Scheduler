@@ -34,10 +34,13 @@ class TableComp extends React.Component {
         });
     }
 
-    openEditModal = () => {
+    openEditModal = (item) => {
         this.setState({
             showEditModal: true,
+            user: item
         });
+
+        console.log("Item: " + JSON.stringify(item))
     }
 
     closeEditModal = () => {
@@ -80,7 +83,7 @@ class TableComp extends React.Component {
 
             <>
                 <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} user={this.state.user}/>
-                <EditModal showModal={this.state.showEditModal} closeModal={this.closeEditModal} />
+                <EditModal showModal={this.state.showEditModal} closeModal={this.closeEditModal} user={this.state.user}/>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -108,7 +111,7 @@ class TableComp extends React.Component {
                                     {item.district}
                                 </TableCell>
                                 <TableCell component="th" align="right" scope="row">
-                                    <Button variant="contained" className="btn-edit" onClick={this.openEditModal} color="primary">
+                                    <Button variant="contained" className="btn-edit" onClick={()=>this.openEditModal(item)} color="primary">
                                         <i class="fas fa-edit"></i>
                                     </Button>
                                     <Button variant="contained" className="btn-delete" onClick={()=>this.openRemoveModal(item.id)} color="secondary">

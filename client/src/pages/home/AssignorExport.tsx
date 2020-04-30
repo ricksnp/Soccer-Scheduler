@@ -207,7 +207,7 @@ const AssignorExport = (newData: any) => {
             {csvData == "" ?
                 <>New Test</>
                 :
-                <Button><CSVLink data={csvData} headers={header} className="hiddenOnPhone">Arbiter Export</CSVLink></Button>
+                <Button><CSVLink data={csvData} headers={header} >Arbiter Export</CSVLink></Button>
             }
         </>
     )

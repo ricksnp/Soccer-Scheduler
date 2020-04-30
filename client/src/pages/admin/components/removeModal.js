@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Modal } from 'antd';
+import {deleteUser} from '../../../utility/APIUtility'
+import { Modal, notification } from 'antd';
 
 class RemoveModal extends React.Component {
     constructor(props) {
@@ -11,6 +12,23 @@ class RemoveModal extends React.Component {
         this.props.closeModal();
     }
 
+    onDelete= () =>{
+
+        deleteUser(this.props.user.id)
+            .then((response)=>{
+                notification.success({
+                message: "User Successfully deleted"
+            })
+        })
+        .catch((error)=>{
+            notification.error({
+                message: "User could not be deleted",
+                description: error.message
+            })
+        })
+        this.props.closeModal();
+    }
+
     render() {
         return (
             <>
@@ -18,7 +36,7 @@ class RemoveModal extends React.Component {
                     visible={this.props.showModal}
                     onCancel={this.onClose}
                     closable
-                    okText="Delete"
+                    okText={this.delete}
                 >
                     <p className="addAssignor-title">Are you sure want to remove this user?</p>
                 </Modal>
