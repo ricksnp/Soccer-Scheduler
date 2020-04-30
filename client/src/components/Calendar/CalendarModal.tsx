@@ -16,22 +16,22 @@ const openNotification = () => {
     })
 }
 
-const grabEmail = (game: any) => {
-    let desiredEmail = "";
-    getAllUsers().then((response) => {
+// const grabEmail = (game: any) => {
+//     let desiredEmail = "";
+//     getAllUsers().then((response) => {
 
-        for (let i = 0; i < response.length; i++) {
-            if (response[i].schoolname == game.awayTeamName) {
+//         for (let i = 0; i < response.length; i++) {
+//             if (response[i].schoolname == game.awayTeamName) {
 
-                desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+//                 desiredEmail = response[i].email;
+//                 sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
 
-            }
-        }
+//             }
+//         }
 
-    })
+//     })
 
-}
+// }
 
 const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
     const showAddGame = useGlobalState('showAddGame');
@@ -144,8 +144,8 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                                 description: response.message
                             })
                         }
-                        grabEmail(game);
-                        console.log("RESPONSE: " + JSON.stringify(response))
+                         //grabEmail(game);
+                         console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
                     .catch((error) => {
