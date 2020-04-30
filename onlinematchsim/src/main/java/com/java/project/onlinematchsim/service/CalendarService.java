@@ -62,13 +62,13 @@ public class CalendarService {
 //	private UserRepository userRepository;
 //	
 	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
-	private List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
+	
 	public GamesCalendar createGame(GamesEntryRequest gamesEntryRequest)
 	{
 		
 		   
 		    
-			
+		List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
 			String[] dateadd1 = gamesEntryRequest.getDate().split("T");
 			String dateadd = dateadd1[0];
 			
@@ -77,8 +77,11 @@ public class CalendarService {
 		
 			for(int i = 0;i<blockDaysList.size();i++)
 			{
+				if(blockDaysList.get(i).getName().equalsIgnoreCase("BLOCKED DAY"))
+				{
 				
-				blockDate.add(blockDaysList.get(i).getDate());
+					blockDate.add(blockDaysList.get(i).getDate());
+				}
 			}
 			
 			 
@@ -87,7 +90,9 @@ public class CalendarService {
 			GamesCalendar gameCal = new GamesCalendar();
 			
 			List<GamesCalendar> gameCal1 = gamesRepository.findAll();
+			
 			setGameDesc("GOOD");
+			
 		for(GamesCalendar each: gameCal1 )
 		{
 			if(each.getHomeTeamName().equalsIgnoreCase(gamesEntryRequest.getHomeTeamName()) &&
@@ -99,7 +104,7 @@ public class CalendarService {
 			{	
 				
 				
-
+				
 				if(each.getDate().split(" ")[0].equalsIgnoreCase(gamesEntryRequest.getDate().split("T")[0]))
 				{
 					int time = Integer.parseInt(each.getDate().split(" ")[1].split(":")[0])*3600+
@@ -111,7 +116,10 @@ public class CalendarService {
 					System.out.println(time+" "+timeGame);
 					if(Math.abs(time-timeGame)>=0 && Math.abs(time-timeGame)<=3600)
 					{
+						
 						setGameDesc("CONFLICT");
+						
+								
 						break;
 
 					}
@@ -119,43 +127,27 @@ public class CalendarService {
 					{				
 					
 							setGameDesc("WARN");
-							if(!blockDate.contains(dateadd))
-							{
-								
-								gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
-								gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
-								gameCal.setDate(gamesEntryRequest.getDate());
-								gameCal.setLocation(gamesEntryRequest.getLocation());
-								gameCal.setGender(gamesEntryRequest.getGender());
-								gameCal.setStatus(gamesEntryRequest.getStatus());
-								gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
-								
-								
-							}
+							
 							break;
 					}
 				}
-				else
-				{
-					if(!blockDate.contains(dateadd))
-					{
-						
-						gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
-						gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
-						gameCal.setDate(gamesEntryRequest.getDate());
-						gameCal.setLocation(gamesEntryRequest.getLocation());
-						gameCal.setGender(gamesEntryRequest.getGender());
-						gameCal.setStatus(gamesEntryRequest.getStatus());
-						gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
-						
-						
-					}
-				}
+				
+				
 			  }
+			
 			}
-		
 			
-			
+			if((getGameDesc().equalsIgnoreCase("GOOD") || getGameDesc().equalsIgnoreCase("WARN")) && !blockDate.contains(dateadd))
+			{
+				
+				gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
+				gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
+				gameCal.setDate(gamesEntryRequest.getDate());
+				gameCal.setLocation(gamesEntryRequest.getLocation());
+				gameCal.setGender(gamesEntryRequest.getGender());
+				gameCal.setStatus(gamesEntryRequest.getStatus());
+				gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
+			}
 			
 			try 
 			{
@@ -164,7 +156,11 @@ public class CalendarService {
 			catch(Exception e)
 			{
 				job = false;
-				return gameCal;
+				if(getGameDesc().equalsIgnoreCase("CONFLICT"))
+				{
+					job = true;
+				}
+				return gameCal;	
 			}
 			job = true;
 			 return gameCal;
@@ -206,7 +202,7 @@ public class CalendarService {
 			
 			Set<String> blockDate = new HashSet<>();
 			 
-		
+			List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
 			for(int j = 0;j<blockDaysList.size();j++)
 			{
 				

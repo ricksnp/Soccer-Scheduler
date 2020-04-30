@@ -148,7 +148,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                                 description: response.message
                             })
                         }
-                        grabEmail(game);
+                        //grabEmail(game);
                         console.log("RESPONSE: " + JSON.stringify(response))
 
                     })

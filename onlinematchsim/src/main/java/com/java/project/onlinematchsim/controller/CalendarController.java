@@ -45,10 +45,19 @@ public class CalendarController
 		GamesCalendar gamesCalendar = calendarService.createGame(gameReq);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendar.getMatchId()).toUri();
 		if(calendarService.checkGame())
-		{
+		{	
+			if(calendarService.getGameDesc().equalsIgnoreCase("CONFLICT"))
+			{
+				return ResponseEntity.created(location).body(new ApiResponse(false, gamesCalendar.getMatchId()+" Game conflict"));
+			}
 			
-			return ResponseEntity.created(location).body(new ApiResponse(true, gamesCalendar.getMatchId()+" "+calendarService.getGameDesc()+" Game Created Successfully"));
+			else if(calendarService.getGameDesc().equalsIgnoreCase("WARN"))
+			{
+				return ResponseEntity.created(location).body(new ApiResponse(true, gamesCalendar.getMatchId()+" Game Warning"));
+			}
+			return ResponseEntity.created(location).body(new ApiResponse(true, gamesCalendar.getMatchId()+" Game Created Successfully"));
 		}
+		
 		return ResponseEntity.created(location).body(new ApiResponse(false, "Game on a blocked day!"));
 
 	}
