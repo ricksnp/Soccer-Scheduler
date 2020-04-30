@@ -15,6 +15,7 @@ const openNotification = () => {
 
 const GMModals = () => {
     const showEditGame = useGlobalState('showEditGame');
+    const clickedGame = useGlobalState('clickedGame')
     const visible = showEditGame ? true : false;
     const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const GMModals = () => {
 
     const handleCancel = () => {
         if (showEditGame) {
-            dispatch({ type: 'CLOSE_EDIT_GAME' });
+            dispatch({ type: 'CLOSE_EDIT_GAME', payload: clickedGame });
         }
 
     }
@@ -42,6 +43,9 @@ const GMModals = () => {
                     return;
                 }
 
+                //@ts-ignore
+                const dateObj = gameForm.getFieldValue("time")._d.split(' ');
+                console.log(dateObj);
 
                 const game = {
                     // @ts-ignore
@@ -61,7 +65,7 @@ const GMModals = () => {
                 }
                 
                 // @ts-ignore
-                console.log(gameForm.getFieldValue("time")._i)
+                console.log( "TIME OBJECT" + gameForm.getFieldValue("time"))
 
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
@@ -85,7 +89,7 @@ const GMModals = () => {
 
                 // @ts-ignore
                 gameForm.resetFields();
-                dispatch({ type: 'CLOSE_EDIT_GAME' })
+                dispatch({ type: 'CLOSE_EDIT_GAME', payload: clickedGame })
             });
         }
 
