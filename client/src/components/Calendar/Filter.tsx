@@ -38,12 +38,8 @@ function updateOptions(setter:any, userRole: string)
             }
         }
 
-        console.log(list)
-
         setter(list)
     })
-
-    console.log("list" + list);
 }
 
 

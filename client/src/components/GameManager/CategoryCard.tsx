@@ -120,13 +120,11 @@ const CategoryCard = (props: Props) => {
 
     const [newGamesList, setGamesList] = useState(props.editGames)
     const [newScheduledList, setNewScheduled] =useState(props.scheduledGames)
+    const role = props.role;
 
     //depending on category of curret card, gamesList is assigned list(s) of games
     const gamesList = newGamesList === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
-    const scheduledList = newScheduledList === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
-
-    //sortGames(props.editGames);
-
+    const scheduledList = newScheduledList === "" ? props.scheduledGames : sortScheduled(props.scheduledGames);
 
     const [key, setKey] = useState("pending");
 
@@ -188,7 +186,7 @@ const CategoryCard = (props: Props) => {
                 <div>
                  <GMProvider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    <GMModal />
+                    <GMModal home={props.homeName} />
                   </GMProvider>
                 </div>
             );
@@ -203,7 +201,7 @@ const CategoryCard = (props: Props) => {
                 <div>
                     <GMProvider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    <GMModal />
+                    <GMModal home={props.homeName} />
                     </GMProvider>
                 </div>
             );
@@ -217,7 +215,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <GMProvider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    { showEditGame && <GMModal /> }
+                    { showEditGame && <GMModal home={props.homeName} /> }
                 </GMProvider>
             );
         })
@@ -252,8 +250,6 @@ const CategoryCard = (props: Props) => {
     useEffect(()=>{
         setGamesList(props.editGames)
         setNewScheduled(props.scheduledGames)
-
-        console.log("IN Category Card Use Effect")
     },
         [props.change]
     )

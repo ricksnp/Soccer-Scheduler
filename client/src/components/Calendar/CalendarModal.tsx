@@ -41,13 +41,10 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-    console.log("CalendarModal Role" + JSON.stringify(user))
-    console.log(clickedEvent)
-
-    //getCurrentUser().then((response=>{setUser(response)}));
-
-
     const [gameForm, setGameForm] = useState(React.createRef());
+
+    const schoolName = user.user.schoolname;
+    const role = user.user.role;
 
     const saveForm = (form: any) => {
         setGameForm(form);
@@ -70,22 +67,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
     }
 
-    //update game status based on who edited game
-    const updateStatusEdit = (  ) => {
-        const role = user.role;
-
-        //home team edited game
-        if( clickedEvent[5] === school ) {
-            return "homeEdit"
-        } 
-        //away team edited game
-        else if ( clickedEvent[6] === school ) {
-            return "awayEdit"
-        }
-
-        //how to know if team approved edit?
-    }
-
     const handleOk = () => {
         if (showAddGame) {
             // @ts-ignore
@@ -102,7 +83,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 const timeArray = timeArraySplit[0].split(':')
                 const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
                 const selectedTime = correctedHour + ":" + timeArray[1];
-                console.log("selectedTime" + selectedTime);
 
 
                 const game = {
@@ -121,11 +101,8 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + selectedTime,
                 }
-                
 
-                console.log("Calendar modal game information" + JSON.stringify(game))
-
-                //game.homeTeamName = userInfo.
+                console.log(game)
 
                 //send to backend
                 postGames(game)
@@ -145,7 +122,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                             })
                         }
                         grabEmail(game);
-                        console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
                     .catch((error) => {
@@ -164,7 +140,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
         if (showViewGame) {
             //opens edit modal if user is participant in game
             if (school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER") {
-                console.log(school + " " + user.role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
             }
@@ -180,52 +155,82 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 if (err) {
                     return;
                 }
+            console.log(JSON.stringify(values))
 
+            //@ts-ignore
+            const dateObj = gameForm.getFieldValue("time")._d;
+            const dateObjSplit = JSON.stringify(dateObj).split('T');
+            const timeArraySplit = dateObjSplit[1].split('.')
+            const timeArray = timeArraySplit[0].split(':')
+            const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
+            const selectedTime = correctedHour + ":" + timeArray[1];
+            const selectedDate = dateObjSplit[0].substring(1);
 
-                const game = {
-                    // @ts-ignore
-                    homeTeamName: gameForm.getFieldValue("homeTeamName"),
-                    // @ts-ignore
-                    awayTeamName: gameForm.getFieldValue("awayTeamName"),
-                    // @ts-ignore
-                    teamLevel: gameForm.getFieldValue("teamLevel"),
-                    // @ts-ignore
-                    gender: gameForm.getFieldValue("gender"),
-                    // @ts-ignore
-                    location: gameForm.getFieldValue("location"),
-                    // @ts-ignore
-                    status: updateStatusEdit(),
-                    // @ts-ignore
-                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
-                }
-                
+            // @ts-ignore
+            console.log( gameForm.getFieldValue('date') );
+
+            // @ts-ignore
+            let status = clickedEvent[5];
+
+            //home team edited game
+            if( clickedEvent[5] === schoolName ) {
                 // @ts-ignore
-                console.log(gameForm.getFieldValue("time")._i)
-
-                console.log("Calendar modal game information" + JSON.stringify(game))
-
-                //game.homeTeamName = userInfo.
-
-                //send to backend
-                apiUpdateGame(game)
-                .then((response)=>{
-                    notification.success({
-                        message: "Game Edited",
-                        description: "Game was successfully edited"
-                    })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Edit Failed",
-                        description: "Game was not edited"
-                    })
-                })
-
-
+                status = "homeEdit"
+            } 
+            //away team edited game
+            else if ( clickedEvent[6] === schoolName ) {
                 // @ts-ignore
-                gameForm.resetFields();
-                dispatch({ type: 'CLOSE_EDIT_GAME' })
-            });
+                status = "awayEdit"
+            }
+            else if ( role !== 'ROLE_USER' ) {
+                // @ts-ignore
+                status = "scheduled"
+            }
+
+            console.log(clickedEvent);
+
+            const game = {
+                // @ts-ignore
+                homeTeamName: gameForm.getFieldValue("homeTeamName"),
+                // @ts-ignore
+                awayTeamName: gameForm.getFieldValue("awayTeamName"),
+                // @ts-ignore
+                teamLevel: gameForm.getFieldValue("teamLevel"),
+                // @ts-ignore
+                gender: gameForm.getFieldValue("gender"),
+                // @ts-ignore
+                location: gameForm.getFieldValue("location"),
+                // @ts-ignore
+                status: status,
+                // @ts-ignore
+                date: gameForm.getFieldValue('date') + 'T' + selectedTime,
+                // @ts-ignore
+                id: clickedEvent[8]
+            }
+
+                console.log(game)
+
+            //send to backend
+            apiUpdateGame(game)
+            .then((response)=>{
+                notification.success({
+                    message: "Game Edited",
+                    description: "Game was successfully edited"
+                })
+            })
+            .catch((error)=>{
+                notification.error({
+                    message: "Game Edit Failed",
+                    description: error.message,
+                    duration: 10
+                })
+            })
+
+
+            // @ts-ignore
+            gameForm.resetFields();
+            dispatch({ type: 'CLOSE_EDIT_GAME' })
+        });
         }
 
     }

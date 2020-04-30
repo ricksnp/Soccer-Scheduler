@@ -39,8 +39,6 @@ const CalendarController = (user: any) => {
     {
         const filter = {...secondFilter}
 
-        console.log("New Filter: "  + JSON.stringify(filter))
-
         let newObj = {
             varsity: filter.varsity,
             jv: filter.jv,
@@ -94,14 +92,11 @@ const CalendarController = (user: any) => {
             if(filter.moved){newObj.moved = false}
             else(newObj.moved = true)
         }
-
-        console.log("NewObj: " + JSON.stringify(newObj))
         setSecond(newObj)
     }
 
     return (
         <>
-        {console.log("Filter In Calendar Controller: " + JSON.stringify(secondFilter))}
             <Provider>
                 <Filter setFilter={setFilter} userRole={userRole} />
                 <SecondFilter secondFilter={secondFilter} setSecond={setSecond} secondChange={secondChange}/>

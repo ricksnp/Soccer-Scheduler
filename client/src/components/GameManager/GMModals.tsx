@@ -3,6 +3,7 @@ import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './GMProvider';
 import GMGameForm from './GMGameForm';
 import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
+import { getCurrentUser } from '../../utility/APIUtility';
 import GameForm from '../Calendar/GameForm'
 
 const openNotification = () => {
@@ -13,16 +14,18 @@ const openNotification = () => {
 }
 
 
-const GMModals = () => {
+const GMModals = (home: any) => {
     const showEditGame = useGlobalState('showEditGame');
     const clickedGame = useGlobalState('clickedGame')
     const visible = showEditGame ? true : false;
     const dispatch = useDispatch();
 
-
-
     const [gameForm, setGameForm] = useState(React.createRef());
 
+    const currentTeam = home.home;
+    const currentRole = home.role;
+    
+    console.log(clickedGame)
 
     const saveForm = (form: any) => {
         setGameForm(form);
@@ -43,9 +46,49 @@ const GMModals = () => {
                     return;
                 }
 
+                
+                let status = clickedGame[7];
+                const title = clickedGame[0];
+
                 //@ts-ignore
-                const dateObj = gameForm.getFieldValue("time")._d.split(' ');
-                console.log(dateObj);
+                const homeAwayTeams = title.split(' vs ');
+                const homeTeam = homeAwayTeams[0];
+                const awayTeam = homeAwayTeams[1];
+                
+        
+                //home team edited game
+                if( homeTeam === currentTeam ) {
+                    // @ts-ignore
+                    status = "homeEdit";
+                } 
+                //away team edited game
+                else if ( awayTeam === currentTeam ) {
+                    // @ts-ignore
+                    status = "awayEdit";
+                } 
+                //set to scheduled if assignor edits
+                else if ( currentRole === "ROLE_ASSIGNOR" ) {
+                    // @ts-ignore
+                    status = "scheduled";
+                }
+                //if creating new game (doesn't happen here?? just a catch in case all else fails)
+                else {
+                    // @ts-ignore
+                    status = "coachPending";
+                }
+
+                //@ts-ignore
+                const dateObj = gameForm.getFieldValue("time")._d;
+                const dateObjSplit = JSON.stringify(dateObj).split('T');
+                const timeArraySplit = dateObjSplit[1].split('.')
+                const timeArray = timeArraySplit[0].split(':')
+                const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
+                const selectedTime = correctedHour + ":" + timeArray[1] + ":00";
+                const selectedDate = dateObjSplit[0].substring(1);
+
+                // @ts-ignore
+                console.log(gameForm.getFieldValue('date'));
+
 
                 const game = {
                     // @ts-ignore
@@ -59,14 +102,13 @@ const GMModals = () => {
                     // @ts-ignore
                     location: gameForm.getFieldValue("location"),
                     // @ts-ignore
-                    status: gameForm.getFieldValue("status"),
+                    status: status,
                     // @ts-ignore
-                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                    date: selectedDate + 'T' + selectedTime,
+                    // @ts-ignore
+                    id: clickedGame[8]
                 }
                 
-                // @ts-ignore
-                console.log( "TIME OBJECT" + gameForm.getFieldValue("time"))
-
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
                 //game.homeTeamName = userInfo.

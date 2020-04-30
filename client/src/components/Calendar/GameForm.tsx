@@ -16,7 +16,6 @@ const getDate = ( dateVar: Date ) => {
     const day = dateVar.getDate();
 
     const date = year + '-' + month + '-' + day ;
-    console.log(dateVar)
     return date;
 }
 
@@ -36,8 +35,6 @@ function updateOptions(setter:any)
 
     getAllUsers().then((response)=>
     {
-
-        console.log("res: " + response)
         for(let i=0;i<response.length;i++)
         {
             if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor" && response[i].schoolname != "admin")
@@ -75,7 +72,6 @@ function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any
         })
 
     setStatus(status)
-    console.log("GAME STATUS" + status)
 
 }
 //if "other", school is not in disctrict, make new field appear to type in school
@@ -88,6 +84,9 @@ const userTemplate = {
     district: "null"
 
 }
+
+
+
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
     const showAddGame = useGlobalState('showAddGame');
@@ -100,7 +99,7 @@ const CreateEditGame = ( props: Props ) => {
     const [school, setSchool] = useState("");
     const [status, setStatus] = useState("coachPending");
     const [required, setRequired] = useState(false);
-    const [time, setTime] = useState(undefined)
+    const [time, setTime] = useState(undefined);
 
     
 
@@ -138,18 +137,21 @@ const CreateEditGame = ( props: Props ) => {
     const { form } = props;
     const { getFieldDecorator } = form;
 
+
+    const handleChange = ( key: any, value: any ) => {
+        props.form.setFieldsValue({
+            [key]: value,
+        })
+    }
     
     if(counter === 0)
     {
 
         updateOptions(setTeamList);
         getUserInfo(setUser, setRole,setSchool, setStatus)
-
-        console.log("ROLE =" + role)
         if(role === "ROLE_USER")
         {
             setSchool(user.schoolname)
-            console.log("Required" + required)
         }
         else
         {
@@ -157,9 +159,7 @@ const CreateEditGame = ( props: Props ) => {
             setSchool("")
             setLabel("Select Home Team")
             setRequired(true)
-            console.log("Label: "  + label)
             setSchool(user.schoolname)
-            console.log("Required" + required)
         }
 
         setCounter(counter +1)
@@ -174,8 +174,6 @@ const CreateEditGame = ( props: Props ) => {
         :
             
         <Form layout="vertical">
-            {console.log("role =" + school)}
-            {console.log("Game Form User" + JSON.stringify(user))}
 
             {/*showAddGame && addGameDate*/} 
             <Form.Item label={role == "ROLE_USER" ? "" : "Select Home Team:"}>
@@ -227,10 +225,11 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Team">
                     { getFieldDecorator( 'gender', {
                         rules: [{ required: true }],
-                        initialValue: showEditGame === true? clickedGame[4] : ""
+                        initialValue: showEditGame === true? clickedGame[4] : "",
+                        onChange: handleChange
                     } )(
                         <Radio.Group buttonStyle="solid">
-                            <Radio.Button value="b">Boys</Radio.Button>
+                            <Radio.Button value="b" >Boys</Radio.Button>
                             <Radio.Button value="g">Girls</Radio.Button>
                         </Radio.Group>
                     ) }
@@ -266,7 +265,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Time">
                     { getFieldDecorator('time', { 
                         rules: [{ required: true, message: 'Select Time' }],
-                        initialValue: showEditGame === true? getTime(clickedGame[1]) : ""
+                        initialValue: showEditGame === true? getTime(clickedGame[1]) : moment( '00:00', 'HH:mm a' )
                      })(
                          <TimePicker 
                             use12Hours 

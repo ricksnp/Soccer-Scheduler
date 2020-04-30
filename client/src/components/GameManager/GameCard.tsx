@@ -68,9 +68,6 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
         sendAnEmail(assignorEmail, contents + d);
 
     })
-    console.log('-=-=AWAYEMAIL' + desiredEmail)
-    console.log('-=-=HOMEEMAIL' + desiredEmail2)
-    console.log('-=-=ASSIGNOREMAIL' + assignorEmail)
 
     sendAnEmail(desiredEmail, contents + d);
     sendAnEmail(desiredEmail2, contents + d);
@@ -120,12 +117,10 @@ const GameCard = (props: Props) => {
     const handleEdit = (game: any) => {
 
         dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
-        console.log("ID = " + game.id + " HomeTeam = " + game.home + ' start: ' + game.start);
     }
 
     const handleConfirm = (game: any) => {
 
-        console.log("ID" + game.id)
         let addMessage = "Games successfully Scheduled";
 
         let update = {

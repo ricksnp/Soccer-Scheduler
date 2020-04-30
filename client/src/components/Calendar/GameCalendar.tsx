@@ -101,7 +101,6 @@ const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
       else if (filter === "Your Games" || filter === currentUser.schoolname) {
         if (currentUser.role.includes("USER")) {
           getUserSecondFilter(api, setEvents, currentUser.schoolname, secondFilter)
-          //console.log("getCoachSchedule")
         }
         else {
           //TODO ADMIN STUFF
@@ -119,11 +118,15 @@ const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
   }
 
   useEffect(()=>{
-    console.log("inside use effect")
     setCounter(0)
   },
     [secondFilter, update, change]
   )
+
+  const clickAnEvent = (calEvent: any) => {
+    dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status, calEvent.event.id] })
+  }
+
   //apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
   return (
     <>
@@ -170,7 +173,7 @@ const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
           plugins={[dayGridPlugin, interactionPlugin]}
           dateClick={(info) => dayClick(info)}
           events={events}
-          eventClick={(calEvent) => dispatch({ type: 'VIEW_GAME', payload: [calEvent.event.title, calEvent.event.start, calEvent.event.extendedProps.location, calEvent.event.extendedProps.teamLevel, calEvent.event.extendedProps.gender, calEvent.event.extendedProps.home, calEvent.event.extendedProps.away, calEvent.event.extendedProps.status, calEvent.event.extendedProps.id] })}
+          eventClick={(calEvent) => clickAnEvent(calEvent) }
         />
 
         {//Conditional rendering with filter hook is used to force rerender when state changes

@@ -22,8 +22,6 @@ function updateOptions(setter:any)
 
     getAllUsers().then((response)=>
     {
-
-        console.log("res: " + response)
         for(let i=0;i<response.length;i++)
         {
             if(!set.has(response[i].schoolname))
@@ -36,8 +34,6 @@ function updateOptions(setter:any)
 
         setter(list)
     })
-
-    console.log("list" + list);
 }
 
 function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any, title:any, school: any)
@@ -52,31 +48,6 @@ function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any
             setSchool(response.schoolname)
             role = response.role;
 
-            const homeAwayTeams = title.split(' vs ');
-            const home = homeAwayTeams[0];
-            const away = homeAwayTeams[1];
-    
-            //home team edited game
-            if( home === school ) {
-                console.log("homeEdit");
-                setStatus("homeEdit");
-                status = "homeEdit"
-            } 
-            //away team edited game
-            else if ( away === school ) {
-                console.log("awayEdot");
-                setStatus("awayEdit");
-                status = "awayEdit"
-            } 
-            else if ( role === "ROLE_ASSIGNOR" ) {
-                console.log("scheduled");
-                setStatus("scheduled");
-                status = "scheduled"
-            }
-            else {
-                setStatus("coachPending");
-                status="coachPending"
-            }
         })
 
     setStatus(status)
@@ -150,8 +121,6 @@ const CreateEditGame = ( props: Props ) => {
         getUserInfo(setUser, setRole,setSchool, setStatus, clickedGame[0], school)
 
         setCounter(counter +1)
-
-        console.log("Clicked" + JSON.stringify(clickedGame))
     }
 
     const handleDate = (temp: any) => {
@@ -159,13 +128,6 @@ const CreateEditGame = ( props: Props ) => {
         setValue(split[0])
 
         return split[0]
-    }
-
-    const timeChange = (chosenTime: any) => {
-        props.form.setFieldsValue({
-            time: chosenTime
-        });
-        console.log(chosenTime)
     }
 
     return (
@@ -243,7 +205,7 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
                     rules: [{ required: true, message: 'Select Date' }],
-                    initialValue: counter === 0 ? moment(getDate(clickedGame[1]), 'YYYY/MM/DD') : moment(dateValue,'YYYY/MM/DD')
+                    initialValue: showEditGame ? moment(getDate(clickedGame[1]), 'YYYY/MM/DD') : moment(dateValue,'YYYY/MM/DD')
                 })(  
                     <DatePicker  style={{width:"50%"}} />
                 )}
@@ -258,7 +220,6 @@ const CreateEditGame = ( props: Props ) => {
                             use12Hours 
                             format="hh:mm"
                             minuteStep={15}
-                            onChange={time => timeChange(time) }
                             />
                      ) }
             </Form.Item>

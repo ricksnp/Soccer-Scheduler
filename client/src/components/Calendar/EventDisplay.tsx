@@ -18,6 +18,9 @@ const EventDisplay = ( props: Props ) => {
             return "Cancelled";
         else if(props.event[7] === "assignorPending")
             return "Assignor Pending"
+        else if ( props.event[7].includes("Edit") ) {
+            return 'Pending Approval'
+        }
         else
             return "Not Covered"
     }

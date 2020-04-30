@@ -315,7 +315,7 @@ export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, 
         const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
         const moved = secondFilter.moved ? res[i].status === "moved" : false;
         const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
-        const pending = secondFilter.pending ? res[i].status === "coachPending" : false;
+        const pending = secondFilter.pending ? res[i].status === "coachPending" || res[i].status.includes("Edit") : false;
         const varsity = secondFilter.varsity ? res[i].teamLevel === "v" : false;
         const jv = secondFilter.jv ? res[i].teamLevel === "jv" : false;
         const boys = secondFilter.boys ? res[i].gender === "b" : false;
@@ -332,7 +332,7 @@ export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, 
                 color = '#adadad';
             else if (res[i].status === 'cancelled')
                 color = '#ff5757';
-            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending" || res[i].status.includes('Edit') )
                 color = '#fdff87';
 
             second.push({
@@ -385,6 +385,8 @@ export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String,
             else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
                 color = '#fdff87';
 
+            
+
             second.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -435,6 +437,7 @@ export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter
             else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
                 color = '#fdff87';
 
+
             second.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -450,7 +453,6 @@ export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter
             })
         }
     }
-
     setSecond(second)
 
 }
