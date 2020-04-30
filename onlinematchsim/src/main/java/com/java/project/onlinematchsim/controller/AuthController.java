@@ -107,19 +107,30 @@ public class AuthController {
     @PostMapping("/resetpassword")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
        
+    	User delUser = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
+    	userRepository.delete(delUser);
 
         // Creating user's account
     	
        
 
-        User result = calendarService.reSet(resetPasswordRequest); 
-        		
+    	 User user = new User(resetPasswordRequest.getName(), resetPasswordRequest.getUsername(),
+                 resetPasswordRequest.getEmail(), resetPasswordRequest.getPassword(), resetPasswordRequest.getDistrict(), resetPasswordRequest.getSchoolname());
+         
+         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                 .orElseThrow(() -> new AppException("User Role not set."));
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+         user.setRoles(Collections.singleton(userRole));
+
+         User result = userRepository.save(user);
+
+         URI location = ServletUriComponentsBuilder
+                 .fromCurrentContextPath().path("/users/{username}")
+                 .buildAndExpand(result.getUsername()).toUri();
+
+         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
     
     
@@ -128,7 +139,7 @@ public class AuthController {
     public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteUserRequest deleteUserRequest)
     {
     	User delUser = userRepository.findById(Long.parseLong(deleteUserRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
-    	userRepository.delete(delUser);;
+    	userRepository.delete(delUser);
     	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(deleteUserRequest.getId()).toUri();
     	return ResponseEntity.created(location).body(new ApiResponse(true, "User deleted successfully"));

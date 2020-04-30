@@ -63,14 +63,7 @@ public class CalendarService {
 	private boolean job;
 	private String gameDesc;
 	
-	@Autowired
-	private UserRepository userRepository;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private RoleRepository roleRepository;
 //	
 	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
 	
@@ -185,19 +178,7 @@ public class CalendarService {
 	
 	
 	
-	
-	public User reSet(ResetPasswordRequest resetPasswordRequest)
-	{
-		 User user1 = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
-	        
-	        user1.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
 
-	        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-	                .orElseThrow(() -> new AppException("User Role not set."));
-
-	        user1.setRoles(Collections.singleton(userRole));
-	        return userRepository.save(user1);
-	}
 	
 
 	public String getGameDesc() {
