@@ -9,7 +9,7 @@ import {getOnlyScheduledGames} from '../../components/Games'
 const Home = ({isAuthenticated, user}: any) => {
 
     const [data, setData] = useState("")
-    const [counter, setCounter] = useState(0)
+    const [counter, setCounter] = useState(1)
     const [scheduledData, setScheduled] = useState("")
 
     if(counter == 0)

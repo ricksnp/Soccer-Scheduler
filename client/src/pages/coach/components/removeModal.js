@@ -10,6 +10,10 @@ class RemoveModal extends React.Component {
 
     onClose = () => {
         this.props.closeModal();
+    }
+
+    onDelete= () =>{
+
         deleteUser(this.props.user.id)
             .then((response)=>{
                 notification.success({
@@ -22,6 +26,7 @@ class RemoveModal extends React.Component {
                 description: error.message
             })
         })
+        this.props.closeModal();
     }
 
     render() {
@@ -33,7 +38,7 @@ class RemoveModal extends React.Component {
                     onCancel={this.onClose}
                     closable
                     okText="Delete"
-                    onOk={this.onClose}
+                    onOk={this.onDelete}
                 >
                     <p className="addAssignor-title">Are you sure want to remove {this.props.user.name}</p>
                 </Modal>

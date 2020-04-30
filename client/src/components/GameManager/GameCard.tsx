@@ -170,7 +170,6 @@ const GameCard = (props: Props) => {
                     description: addMessage
                 })
                 props.onUpdate(props.change + 1)
-                console.log("YABBA DABBA")
             })
             .catch((error) => {
                 notification.error({
@@ -207,7 +206,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-            props.onUpdate(0)
+            props.onUpdate(props.change + 1)
     }
 
     const handleCancel = (game: any) => {
@@ -239,7 +238,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-            props.onUpdate(0)
+            props.onUpdate(props.change + 1)
     }
 
 
@@ -300,7 +299,7 @@ const GameCard = (props: Props) => {
                                 : game.status == "assignorPending" ?
                                     <></>
                                     :
-                                    <></>
+                                    <><Button style={{ background: "#f5222d" }} onClick={() => handleDelete(game)}><i className="fas fa-trash-alt"></i></Button></>
                         }
                     </Div>
                 </Card>

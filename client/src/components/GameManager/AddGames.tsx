@@ -221,14 +221,10 @@ const AddGames = (props:Props) => {
     const timeChange =(newE: any) =>
     {
         console.log("value: " + JSON.stringify(newE))
-        let split = JSON.stringify(newE).split("T")
-
-        let split1 = split[1].split("/")
-        let split2 = split1[0].split("\"");
-        let split3 = split2[0].split(".")
+        
         let e = {
             target: {
-                value: split3[0],
+                value: newE,
                 dataset:{
                     idx: props.index,
                 },
@@ -274,26 +270,27 @@ const AddGames = (props:Props) => {
         }
 
         console.log(addGame)
+        console.log("Time: " + props.control.time.toTimeString())
 
-        postGames(addGame)
-            .then((response)=>{
-                notification.success({
-                    message: "Game Added successfully",
-                    description: "Game on " + props.control.date + " was added"
+        // postGames(addGame)
+        //     .then((response)=>{
+        //         notification.success({
+        //             message: "Game Added successfully",
+        //             description: "Game on " + props.control.date + " was added"
                     
-                })
-                console.log("RESPONSE" + JSON.stringify(response))
-                setbgColor("#73d13d")
-                props.updateAbove()
-            })
-            .catch((error)=>{
-                notification.error({
-                    message: "Game was not added",
-                    description: error.essage
-                })
+        //         })
+        //         console.log("RESPONSE" + JSON.stringify(response))
+        //         setbgColor("#73d13d")
+        //         props.updateAbove()
+        //     })
+        //     .catch((error)=>{
+        //         notification.error({
+        //             message: "Game was not added",
+        //             description: error.essage
+        //         })
 
-                setbgColor("#ff4d4f")
-            })
+        //         setbgColor("#ff4d4f")
+        //     })
     }
 
     //Oppossing Team, Level, Gender, Location, Date, Time
@@ -304,10 +301,11 @@ const AddGames = (props:Props) => {
            {props.role != "ROLE_USER" ? 
                <TableCell>
                     <Select 
+                        style={{width: "100%"}}
                         defaultValue={gameData.homeTeam}
                         onChange={homeChange}
                         data-idx={props.index}
-                        value={props.control.homeTeam === "Assignor" ? "" : props.control.homeTeam}
+                        value={props.control.homeTeam != "Assignor" ? "" : props.control.homeTeam}
                     >
                         {teamOptions}
                     </Select>
