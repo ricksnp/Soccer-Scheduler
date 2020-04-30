@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import {resetPassword} from '../../../utility/APIGameControl'
+import {resetPassword} from '../../../utility/APIUtility'
 import { Modal, Button, notification } from 'antd';
 
 class EditModal extends React.Component {
@@ -52,10 +52,10 @@ class EditModal extends React.Component {
                 >
                     <p className="addAssignor-title">Edit Coaches</p>
                     <form className="addAssignor-form">
-                        <TextField id="standard-basic" label="Name" />
+                        {/* <TextField id="standard-basic" label="Name" />
                         <TextField id="standard-basic" label="E-Mail" />
                         <TextField id="standard-basic" label="District" />
-                        <TextField id="standard-basic" label="School" />
+                        <TextField id="standard-basic" label="School" /> */}
                         <Button onClick={this.resetPassword}>Reset User's Password</Button>
                     </form>
                 </Modal>

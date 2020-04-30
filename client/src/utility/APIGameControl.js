@@ -23,14 +23,6 @@ const request = (options) => {
 	);
 };
 
-export function resetPassword(user)
-{
-	return request({
-		url    : API_BASE_URL + '/calendar/resetpassword',
-		method : 'POST',
-		body   : JSON.stringify(user)
-	});
-}
 
 
 export function postGames(games) {

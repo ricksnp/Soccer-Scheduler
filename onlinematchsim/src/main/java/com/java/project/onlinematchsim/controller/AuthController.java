@@ -11,6 +11,8 @@ import com.java.project.onlinematchsim.apiCalls.responseCalls.JwtAuthenticationR
 import com.java.project.onlinematchsim.apiCalls.responseCalls.ApiResponse;
 import com.java.project.onlinematchsim.repos.*;
 import com.java.project.onlinematchsim.security.JwtTokenProvider;
+import com.java.project.onlinematchsim.service.CalendarService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,9 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    CalendarService calendarService;
 
     @Autowired
     JwtTokenProvider tokenProvider;
@@ -104,16 +109,11 @@ public class AuthController {
        
 
         // Creating user's account
-        User user = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
-        
-        user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
+    	
+       
 
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        user.setRoles(Collections.singleton(userRole));
-
-        User result = userRepository.save(user);
+        User result = calendarService.reSet(resetPasswordRequest); 
+        		
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")

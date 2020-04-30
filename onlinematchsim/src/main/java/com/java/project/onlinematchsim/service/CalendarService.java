@@ -9,13 +9,17 @@ import com.java.project.onlinematchsim.model.*;
 import com.java.project.onlinematchsim.repos.BlockedDaysRepo;
 
 import com.java.project.onlinematchsim.repos.GamesRepository;
+import com.java.project.onlinematchsim.repos.RoleRepository;
+import com.java.project.onlinematchsim.repos.UserRepository;
 import com.java.project.onlinematchsim.security.UserPrincipal;
+import com.java.project.onlinematchsim.exception.AppException;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +31,7 @@ import org.slf4j.LoggerFactory;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.dao.DataIntegrityViolationException;
 //import org.springframework.data.domain.Page;
 //import org.springframework.data.domain.PageRequest;
@@ -42,7 +47,7 @@ import org.springframework.stereotype.Service;
 //import java.util.stream.Collectors;
 
 import com.java.project.onlinematchsim.apiCalls.responseCalls.BlockedDaysResponse;
-import com.java.project.onlinematchsim.apiCalls.requestCalls.BlockedDaysRequest;
+
 import java.util.Set;
 
 
@@ -58,18 +63,24 @@ public class CalendarService {
 	private boolean job;
 	private String gameDesc;
 	
-//	@Autowired
-//	private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 //	
 	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
 	
 	public GamesCalendar createGame(GamesEntryRequest gamesEntryRequest)
 	{
 		
-		   
-		    
+		
 		List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
 			String[] dateadd1 = gamesEntryRequest.getDate().split("T");
+			
 			String dateadd = dateadd1[0];
 			
 			Set<String> blockDate = new HashSet<>();
@@ -107,13 +118,12 @@ public class CalendarService {
 				
 				if(each.getDate().split(" ")[0].equalsIgnoreCase(gamesEntryRequest.getDate().split("T")[0]))
 				{
+					System.out.println(Arrays.toString(gamesEntryRequest.getDate().split("T")[1].split(":")));
 					int time = Integer.parseInt(each.getDate().split(" ")[1].split(":")[0])*3600+
-							Integer.parseInt(each.getDate().split(" ")[1].split(":")[1])*60+
-							Integer.parseInt(each.getDate().split(" ")[1].split(":")[2]);
+							Integer.parseInt(each.getDate().split(" ")[1].split(":")[1])*60;
 					int timeGame = Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[0])*3600+
-							Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[1])*60+
-							Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[2]);
-					System.out.println(time+" "+timeGame);
+							Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[1])*60;
+					
 					if(Math.abs(time-timeGame)>=0 && Math.abs(time-timeGame)<=3600)
 					{
 						
@@ -147,6 +157,7 @@ public class CalendarService {
 				gameCal.setGender(gamesEntryRequest.getGender());
 				gameCal.setStatus(gamesEntryRequest.getStatus());
 				gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
+				
 			}
 			
 			try 
@@ -165,8 +176,7 @@ public class CalendarService {
 			job = true;
 			 return gameCal;
 	}
-		  
-		   
+	
 			 
 	public  boolean checkGame()
 	{
@@ -176,7 +186,18 @@ public class CalendarService {
 	
 	
 	
-	
+	public User reSet(ResetPasswordRequest resetPasswordRequest)
+	{
+		 User user1 = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
+	        
+	        user1.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
+
+	        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+	                .orElseThrow(() -> new AppException("User Role not set."));
+
+	        user1.setRoles(Collections.singleton(userRole));
+	        return userRepository.save(user1);
+	}
 	
 
 	public String getGameDesc() {

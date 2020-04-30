@@ -4,7 +4,7 @@ import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
-import {getCurrentUser} from '../../utility/APIUtility'
+import { getCurrentUser } from '../../utility/APIUtility'
 import { userInfo } from 'os';
 import { sendAnEmail } from '../../common/email/email'
 import { getAllUsers } from '../../utility/APIUtility'
@@ -18,6 +18,12 @@ const openNotification = () => {
     })
 }
 
+const emailContents = (away: string, on: string) => {
+    return "<h2>PENDING GAME CONFIRMATION:</h2>" +
+        "You have a new game to confirm against " +
+        away + " on " + on
+}
+
 const grabEmail = (game: any) => {
     let desiredEmail = "";
     getAllUsers().then((response) => {
@@ -26,7 +32,7 @@ const grabEmail = (game: any) => {
             if (response[i].schoolname == game.awayTeamName) {
 
                 desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+                sendAnEmail(desiredEmail, emailContents(game.awayTeamName, game.date));
 
             }
         }
@@ -34,11 +40,8 @@ const grabEmail = (game: any) => {
     })
 
 }
-
 const baseGame = {homeTeamName: "null", awayTeamName: "null", teamLevel: "null", gender: "null", location: "null", status: "null", date: "null"}
-
-
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -80,15 +83,15 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
     }
 
     //update game status based on who edited game
-    const updateStatusEdit = (  ) => {
+    const updateStatusEdit = () => {
         const role = user.role;
 
         //home team edited game
-        if( clickedEvent[5] === school ) {
+        if (clickedEvent[5] === school) {
             return "homeEdit"
-        } 
+        }
         //away team edited game
-        else if ( clickedEvent[6] === school ) {
+        else if (clickedEvent[6] === school) {
             return "awayEdit"
         }
 
@@ -130,7 +133,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + selectedTime,
                 }
-                
+
 
                 setNewGame(game);
 
@@ -228,7 +231,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
-                
+
                 // @ts-ignore
                 console.log(gameForm.getFieldValue("time")._i)
 
@@ -238,18 +241,18 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
                 //send to backend
                 apiUpdateGame(game)
-                .then((response)=>{
-                    notification.success({
-                        message: "Game Edited",
-                        description: "Game was successfully edited"
+                    .then((response) => {
+                        notification.success({
+                            message: "Game Edited",
+                            description: "Game was successfully edited"
+                        })
                     })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Edit Failed",
-                        description: "Game was not edited"
+                    .catch((error) => {
+                        notification.error({
+                            message: "Game Edit Failed",
+                            description: "Game was not edited"
+                        })
                     })
-                })
 
 
                 // @ts-ignore

@@ -22,10 +22,10 @@ class EditModal extends React.Component {
                 >
                     <p className="addAssignor-title">Edit Assignor</p>
                     <form className="addAssignor-form">
-                        <TextField id="standard-basic" label="Name" />
+                        {/* <TextField id="standard-basic" label="Name" />
                         <TextField id="standard-basic" label="E-Mail" />
                         <TextField id="standard-basic" label="District" />
-                        <TextField id="standard-basic" label="School" />
+                        <TextField id="standard-basic" label="School" /> */}
                     </form>
                 </Modal>
             </>

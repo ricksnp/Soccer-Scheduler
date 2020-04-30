@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Form, Input, Select, TimePicker, DatePicker, Radio, Card, Button, notification} from 'antd';
-import {postGames}from '../../utility/APIGameControl'
+import React, { useState } from 'react';
+import { Form, Input, Select, TimePicker, DatePicker, Radio, Card, Button, notification } from 'antd';
+import { postGames } from '../../utility/APIGameControl'
 import { isMobile } from "react-device-detect";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import styled from 'styled-components';
 import moment from 'moment';
+import { getAllUsers } from '../../utility/APIUtility';
+import { sendAnEmail } from '../../common/email/email';
+import Conflict from '../Calendar/Conflict';
 
 const Wrapper = styled.div`
     @media only screen and (max-width: 768px){
@@ -18,15 +21,42 @@ const Wrapper = styled.div`
     }
 `;
 
+const emailContents = (away: string, on: string) => {
+    return "<h2>PENDING GAME CONFIRMATION:</h2>" +
+        "You have a new game to confirm against " +
+        away + " on " + on
+}
 
-const layout = 
-  isMobile ?
-    
-      {wrapperCol: { span: 14 },
-      labelCol: { span: 12 }}
-    :
-      {labelCol: { span: 4 },
-      wrapperCol: { span: 5 }}
+const grabEmail = (away: string, home: string, date: string) => {
+    let desiredEmail = "";
+    getAllUsers().then((response) => {
+
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == away) {
+
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, emailContents(home, date));
+
+            }
+        }
+
+    })
+
+}
+
+
+const layout =
+    isMobile ?
+
+        {
+            wrapperCol: { span: 14 },
+            labelCol: { span: 12 }
+        }
+        :
+        {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 5 }
+        }
 
 const baseGame = {
     homeTeam: undefined,
@@ -48,7 +78,7 @@ const assignorBase = {
     time: undefined
 }
 
-interface Props{
+interface Props {
     remove: any,
     index: any,
     control: any,
@@ -59,37 +89,36 @@ interface Props{
 }
 
 
-const AddGames = (props:Props) => {
+const AddGames = (props: Props) => {
 
     const [gameData, setData] = useState(baseGame);
     const [counter, setCounter] = useState(0);
     const [bgColor, setbgColor] = useState("white")
     const [input, setInput] = useState("")
     const [outsideFlag, setOutsideflag] = useState(false)
+    const [gameID,setID] = useState(0);
+    const [conflict, setConflict] = useState(false)
 
-    
 
-    function deleteRow(index:any){
+
+    function deleteRow(index: any) {
 
         props.remove(index);
-        
+
     }
-    if(counter === 0)
-    {
-        for(let i = 0; i < props.control.length; i++)
-        {
-            if(props.control[i].id == props.index)
-            {
+    if (counter === 0) {
+        for (let i = 0; i < props.control.length; i++) {
+            if (props.control[i].id == props.index) {
                 setData(props.control[i].gameData);
             }
         }
 
-        setCounter(counter+1)
+        setCounter(counter + 1)
     }
 
     const Option = Select.Option
     const options = props.teamData
-    const teamOptions = options.map((team:any, i:any) => {
+    const teamOptions = options.map((team: any, i: any) => {
         return (
             <Option value={team} key={i}>
                 {team}
@@ -97,15 +126,15 @@ const AddGames = (props:Props) => {
         );
     });
 
-    const levelOpt = [{label: "Varsity",value: "v"},{label: "Junior Varsity", value: "jv"}]
-    const genderOpt = [{label: "Boys",value: "b"},{label: "Girls", value: "g"}]
-    
+    const levelOpt = [{ label: "Varsity", value: "v" }, { label: "Junior Varsity", value: "jv" }]
+    const genderOpt = [{ label: "Boys", value: "b" }, { label: "Girls", value: "g" }]
+
     const inputChange = (newE: any) => {
 
         let e = {
             target: {
                 value: newE.target.value,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "input"
@@ -115,14 +144,13 @@ const AddGames = (props:Props) => {
         setOutsideflag(true)
         props.handleChange(e)
     }
-    
-    const homeChange =(newE: any) =>
-    {
+
+    const homeChange = (newE: any) => {
         console.log("value: " + newE)
         let e = {
             target: {
                 value: newE,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "homeTeam"
@@ -131,13 +159,12 @@ const AddGames = (props:Props) => {
 
         props.handleChange(e)
     }
-    const awayChange =(newE: any) =>
-    {
+    const awayChange = (newE: any) => {
         console.log("value: " + newE)
         let e = {
             target: {
                 value: newE,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "awayTeam"
@@ -147,13 +174,12 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const levelChange =(newE: any) =>
-    {
+    const levelChange = (newE: any) => {
         console.log("value: " + newE.target.value)
         let e = {
             target: {
                 value: newE.target.value,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "level"
@@ -163,13 +189,12 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const genderChange =(newE: any) =>
-    {
+    const genderChange = (newE: any) => {
         console.log("value: " + newE.target.value)
         let e = {
             target: {
                 value: newE.target.value,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "gender"
@@ -179,13 +204,12 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const locationChange =(newE: any) =>
-    {
+    const locationChange = (newE: any) => {
         console.log("value: " + newE.target.value)
         let e = {
             target: {
                 value: newE.target.value,
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "location"
@@ -195,8 +219,7 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const dateChange =(newE: any) =>
-    {
+    const dateChange = (newE: any) => {
         console.log("value: " + JSON.stringify(newE))
 
         let split = JSON.stringify(newE).split("T")
@@ -208,7 +231,7 @@ const AddGames = (props:Props) => {
         let e = {
             target: {
                 value: split2[1],
-                dataset:{
+                dataset: {
                     idx: props.index,
                 },
                 class: "date"
@@ -218,8 +241,7 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const timeChange =(newE: any) =>
-    {
+    const timeChange = (newE: any) => {
         console.log("value: " + JSON.stringify(newE))
         
         let e = {
@@ -235,7 +257,7 @@ const AddGames = (props:Props) => {
         props.handleChange(e)
     }
 
-    const confirmGame = () =>{
+    const confirmGame = () => {
 
         let status = "coachPending"
         let home = props.control.homeTeam;
@@ -263,20 +285,16 @@ const AddGames = (props:Props) => {
         else
         {sec = s;}
 
-        if(props.role != "ROLE_USER")
-        {
-            status="scheduled";
+        if (props.role != "ROLE_USER") {
+            status = "scheduled";
         }
-        else if(outsideFlag)
-        {
+        else if (outsideFlag) {
             status = "assignorPending"
 
-            if(home === "Outside of District")
-            {
+            if (home === "Outside of District") {
                 home = props.control.input
             }
-            else if(away === "Outside of District")
-            {
+            else if (away === "Outside of District") {
                 away = props.control.input
             }
         }
@@ -295,28 +313,66 @@ const AddGames = (props:Props) => {
         console.log("Time: " + d.getHours())
 
         postGames(addGame)
-            .then((response)=>{
-                notification.success({
-                    message: "Game Added successfully",
-                    description: "Game on " + props.control.date + " was added"
-                    
-                })
-                console.log("RESPONSE" + JSON.stringify(response))
-                setbgColor("#73d13d")
-                props.updateAbove()
-            })
-            .catch((error)=>{
-                notification.error({
-                    message: "Game was not added",
-                    description: error.essage
-                })
+            .then((response) => {
+                if(response.success)
+                {
+                    let mess = response.message
+                    if(response.message != undefined && mess.includes("arning"))
+                    {
+                        console.log("Message: " + response.messsage)
+                        let splitter = mess.split(" ");
+                        setID(splitter[0])
+                        setConflict(true);
+                        console.log("HERE")
+                    }
+                    else{
 
-                setbgColor("#ff4d4f")
+                        notification.success({
+                            message: "Game Added",
+                            description: response.message
+                        })
+                    }
+                    setbgColor("#73d13d")
+                }
+                else
+                {
+                    if(response.message != undefined && response.message.includes("onflict"))
+                    {
+                        notification.error({
+                            message: "Game Not Added",
+                            description: "There is a scheduling conflict, try chagning the date or time" 
+                        })
+                    }
+                    notification.error({
+                        message: "Game was not added",
+                        description: response.message
+                    })
+
+                    setbgColor("#ff4d4f")
+                }
+            //     notification.success({
+            //         message: "Game Added successfully",
+            //         description: "Game on " + props.control.date + " was added"
+
+            //     })
+            //     grabEmail(addGame.awayTeamName, addGame.homeTeamName, addGame.date)
+            //     console.log("RESPONSE" + JSON.stringify(response))
+            //     setbgColor("#73d13d")
+            //     props.updateAbove()
+            // })
+            // .catch((error) => {
+            //     notification.error({
+            //         message: "Game was not added",
+            //         description: error.essage
+            //     })
+
+            //     setbgColor("#ff4d4f")
+            // })
             })
     }
 
     //Oppossing Team, Level, Gender, Location, Date, Time
-    return(
+    return (
         <>
        <TableRow style={{background: bgColor}}>
 
@@ -337,7 +393,7 @@ const AddGames = (props:Props) => {
             }
            <TableCell>
                     <Select
-                        style={{width: "100%"}} 
+                        style={{ width: "100%" }}
                         defaultValue={gameData.oppTeam}
                         onChange={awayChange}
                         data-idx={props.index}
@@ -345,48 +401,48 @@ const AddGames = (props:Props) => {
                     >
                         {teamOptions}
                     </Select>
-            </TableCell>
+                </TableCell>
 
-            <TableCell>
-                <Radio.Group value={props.control.level} options={levelOpt} onChange={levelChange} />
-            </TableCell>
+                <TableCell>
+                    <Radio.Group value={props.control.level} options={levelOpt} onChange={levelChange} />
+                </TableCell>
 
-            <TableCell>
-                <Radio.Group value={props.control.gender} options={genderOpt} onChange={genderChange}/>
-            </TableCell>
+                <TableCell>
+                    <Radio.Group value={props.control.gender} options={genderOpt} onChange={genderChange} />
+                </TableCell>
 
-            <TableCell>
-                <Input value={props.control.location} onChange={locationChange} defaultValue={gameData.location}/>
-            </TableCell>
+                <TableCell>
+                    <Input value={props.control.location} onChange={locationChange} defaultValue={gameData.location} />
+                </TableCell>
 
-            <TableCell>
-                <DatePicker value={props.control.date == '' ? null : moment(props.control.date, 'YYYY-MM-DD')} onChange={dateChange}/>
-            </TableCell>
+                <TableCell>
+                    <DatePicker value={props.control.date == '' ? null : moment(props.control.date, 'YYYY-MM-DD')} onChange={dateChange} />
+                </TableCell>
 
-            <TableCell>
-                <TimePicker onChange={timeChange}/>
-            </TableCell>
+                <TableCell>
+                    <TimePicker onChange={timeChange} />
+                </TableCell>
 
-            <TableCell>
-                <Button type="primary" onClick={confirmGame}><i className="fas fa-check"></i></Button>
-            </TableCell>
+                <TableCell>
+                    <Button type="primary" onClick={confirmGame}><i className="fas fa-check"></i></Button>
+                </TableCell>
 
-            <TableCell>
-                <Button type="danger" onClick={()=>deleteRow(props.index)}><i className="fas fa-times"></i></Button>
-            </TableCell>
-       </TableRow>
+                <TableCell>
+                    <Button type="danger" onClick={() => deleteRow(props.index)}><i className="fas fa-times"></i></Button>
+                </TableCell>
+            </TableRow>
 
-            {props.control.homeTeam === "Outside of District" ? 
-                 <>Type in home team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{margin: "10% 0%"}} /><br/></>
-                 :
-                 <></>
-                }
-            {props.control.awayTeam === "Outside of District" ? 
-                <>Type in away team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{marginTop: "10%"}} /><br/></>
+            {props.control.homeTeam === "Outside of District" ?
+                <>Type in home team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{ margin: "10% 0%" }} /><br /></>
                 :
                 <></>
             }
-       </>
+            {props.control.awayTeam === "Outside of District" ?
+                <>Type in away team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{ marginTop: "10%" }} /><br /></>
+                :
+                <></>
+            }
+        </>
     );
 }
 
