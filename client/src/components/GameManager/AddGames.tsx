@@ -240,6 +240,28 @@ const AddGames = (props:Props) => {
         let status = "coachPending"
         let home = props.control.homeTeam;
         let away = props.control.awayTeam;
+        var d = new Date(props.control.time);
+        let h = d.getHours();
+        let m = d.getMinutes();
+        let s = d.getSeconds();
+
+        let hours;
+        let min;
+        let sec;
+
+        if(h < 10)
+        {hours = "0" + h;}
+        else{hours = h;}
+
+        if(m < 10)
+        {min = "0" + m}
+        else
+        {min = m }
+
+        if(s < 10)
+        {sec = "0" + s}
+        else
+        {sec = s;}
 
         if(props.role != "ROLE_USER")
         {
@@ -262,7 +284,7 @@ const AddGames = (props:Props) => {
         let addGame = {
             homeTeamName: home,
             awayTeamName: away,
-            date: props.control.date + "T" + props.control.time,
+            date: props.control.date + "T" + hours +":"+min+":"+s,
             location: props.control.location,
             teamLevel: props.control.level,
             gender: props.control.gender,
@@ -270,27 +292,27 @@ const AddGames = (props:Props) => {
         }
 
         console.log(addGame)
-        console.log("Time: " + props.control.time.toTimeString())
+        console.log("Time: " + d.getHours())
 
-        // postGames(addGame)
-        //     .then((response)=>{
-        //         notification.success({
-        //             message: "Game Added successfully",
-        //             description: "Game on " + props.control.date + " was added"
+        postGames(addGame)
+            .then((response)=>{
+                notification.success({
+                    message: "Game Added successfully",
+                    description: "Game on " + props.control.date + " was added"
                     
-        //         })
-        //         console.log("RESPONSE" + JSON.stringify(response))
-        //         setbgColor("#73d13d")
-        //         props.updateAbove()
-        //     })
-        //     .catch((error)=>{
-        //         notification.error({
-        //             message: "Game was not added",
-        //             description: error.essage
-        //         })
+                })
+                console.log("RESPONSE" + JSON.stringify(response))
+                setbgColor("#73d13d")
+                props.updateAbove()
+            })
+            .catch((error)=>{
+                notification.error({
+                    message: "Game was not added",
+                    description: error.essage
+                })
 
-        //         setbgColor("#ff4d4f")
-        //     })
+                setbgColor("#ff4d4f")
+            })
     }
 
     //Oppossing Team, Level, Gender, Location, Date, Time
@@ -305,7 +327,7 @@ const AddGames = (props:Props) => {
                         defaultValue={gameData.homeTeam}
                         onChange={homeChange}
                         data-idx={props.index}
-                        value={props.control.homeTeam != "Assignor" ? "" : props.control.homeTeam}
+                        value={props.control.homeTeam != "Assignor" && props.control.homeTeam != "admin" ? props.control.homeTeam : "" }
                     >
                         {teamOptions}
                     </Select>

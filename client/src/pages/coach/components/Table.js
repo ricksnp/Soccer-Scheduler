@@ -111,7 +111,7 @@ class TableComp extends React.Component {
                                     <Button variant="contained" className="btn-edit" onClick={this.openEditModal} color="primary">
                                         <i class="fas fa-edit"></i>
                                     </Button>
-                                    <Button variant="contained" className="btn-delete" onClick={()=>this.openRemoveModal(item)} color="secondary">
+                                    <Button variant="contained" className="btn-delete" onClick={()=>this.openRemoveModal(item.id)} color="secondary">
                                         <i class="fas fa-trash-alt"></i>
                                     </Button>
                                 </TableCell>

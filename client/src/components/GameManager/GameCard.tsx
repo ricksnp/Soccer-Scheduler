@@ -208,11 +208,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-<<<<<<< HEAD
             props.onUpdate(props.change + 1)
-=======
-        props.onUpdate(0)
->>>>>>> 2cc55c1f9ad5274cceef3f9d89d241f3df4becb8
     }
 
     const handleCancel = (game: any) => {

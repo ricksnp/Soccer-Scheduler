@@ -41,10 +41,11 @@ const openPastDateNotif = () => {
 }
 
 
-const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
+const GameCalendar = ({ filter, secondFilter, update, change, filteredBlocked }: any) => {
 
+  const blankEvent:any = []
   const dispatch = useDispatch();
-  const [events, setEvents] = useState('null');
+  const [events, setEvents] = useState(blankEvent);
   const [api, setApi] = useState("null");
   const [counter, setCounter] = useState(0);
   const [prevFilter, setPrev] = useState("Your Games");
@@ -116,6 +117,9 @@ const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
       setPrev(filter);
       setCounter(counter + 1);
     }
+
+    // let newEvents = [events, filteredBlocked]
+    // setEvents(newEvents)
   }
 
   useEffect(()=>{
@@ -123,6 +127,13 @@ const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
     setCounter(0)
   },
     [secondFilter, update, change]
+  )
+
+  useEffect(()=>{
+    console.log("EVENTS" +  JSON.stringify({events}))
+    console.log("filtered " + JSON.stringify({filteredBlocked}))
+  },
+    [events]
   )
   //apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
   return (

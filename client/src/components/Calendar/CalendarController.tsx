@@ -18,7 +18,7 @@ const secondObj = {
 
 //CalendarController controls all aspects of the control,
 // it returns the Provider, GameCalendar, and Calendar Modal
-const CalendarController = (user: any) => {
+const CalendarController = (user: any, filteredBlocked: any) => {
 
     //intital state must be "Scheduled" or else everything breaks
     const [filter, setFilter] = useState("Your Games")
@@ -105,10 +105,8 @@ const CalendarController = (user: any) => {
             <Provider>
                 <Filter setFilter={setFilter} userRole={userRole} />
                 <SecondFilter secondFilter={secondFilter} setSecond={setSecond} secondChange={secondChange}/>
-                <GameCalendar change={change} update={onUpdate} filter={filter} user={user} secondFilter={secondFilter}/>
+                <GameCalendar change={change} update={onUpdate} filter={filter} user={user} secondFilter={secondFilter} filteredBlocked={filteredBlocked}/>
                 <CalendarModal change={change} setChange={setChange} setUpdate={setUpdate} onUpdate={onUpdate} user={user.user} school={user.schoolname} />
-
-
             </Provider>
         </>
     );
