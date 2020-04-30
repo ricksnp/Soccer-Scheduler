@@ -14,8 +14,6 @@ const Home = ({ isAuthenticated, user }: any) => {
 
     if (counter == 0) {
 
-        // apiGetGames().then((response)=>{setData(response); console.log("New Response" + JSON.stringify("Home Index: " + response))})
-
         apiGetGames().then((response) => { setData(response) })
 
         if (data != "") {

@@ -22,13 +22,15 @@ class TableComp1 extends React.Component {
         this.state = {
             showRemoveModal: false,
             showEditModal: false,
-            tableData: []
+            tableData: [],
+            user: ''
         };
     }
 
-    openRemoveModal = () => {
+    openRemoveModal = (item) => {
         this.setState({
             showRemoveModal: true,
+            user: item
         });
     }
 
@@ -102,7 +104,7 @@ class TableComp1 extends React.Component {
                                     <Button variant="contained" className="btn-edit" onClick={this.openEditModal} color="primary">
                                         <i class="fas fa-edit"></i>
                                     </Button>
-                                    <Button variant="contained" className="btn-delete" onClick={this.openRemoveModal} color="secondary">
+                                    <Button variant="contained" className="btn-delete" onClick={()=>this.openRemoveModal(item)} color="secondary">
                                         <i class="fas fa-trash-alt"></i>
                                     </Button>
                                 </TableCell>

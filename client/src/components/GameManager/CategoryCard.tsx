@@ -299,7 +299,7 @@ const CategoryCard = (props: Props) => {
                     {canceledList}
                 </>
             }
-            {key === "add" && isBrowser && <AddGameController  role={props.role} userHome={props.homeName}/>}
+            {key === "add" && isBrowser && <AddGameController onUpdate={props.onUpdate} change={props.change} role={props.role} userHome={props.homeName}/>}
             {key === "block" && props.role != "ROLE_USER" && <DayBlocker/>}
         </Card>
     );

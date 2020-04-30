@@ -54,7 +54,8 @@ interface Props{
     control: any,
     handleChange: any,
     teamData: any,
-    role: any
+    role: any,
+    updateAbove: any
 }
 
 
@@ -283,6 +284,7 @@ const AddGames = (props:Props) => {
                 })
                 console.log("RESPONSE" + JSON.stringify(response))
                 setbgColor("#73d13d")
+                props.updateAbove()
             })
             .catch((error)=>{
                 notification.error({

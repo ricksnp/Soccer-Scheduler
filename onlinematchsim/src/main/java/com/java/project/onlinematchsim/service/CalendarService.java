@@ -62,13 +62,13 @@ public class CalendarService {
 //	private UserRepository userRepository;
 //	
 	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
-	
+	private List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
 	public GamesCalendar createGame(GamesEntryRequest gamesEntryRequest)
 	{
 		
 		   
 		    
-			List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
+			
 			String[] dateadd1 = gamesEntryRequest.getDate().split("T");
 			String dateadd = dateadd1[0];
 			
@@ -119,30 +119,43 @@ public class CalendarService {
 					{				
 					
 							setGameDesc("WARN");
+							if(!blockDate.contains(dateadd))
+							{
+								
+								gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
+								gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
+								gameCal.setDate(gamesEntryRequest.getDate());
+								gameCal.setLocation(gamesEntryRequest.getLocation());
+								gameCal.setGender(gamesEntryRequest.getGender());
+								gameCal.setStatus(gamesEntryRequest.getStatus());
+								gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
+								
+								
+							}
 							break;
 					}
 				}
 				else
 				{
-					
+					if(!blockDate.contains(dateadd))
+					{
+						
+						gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
+						gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
+						gameCal.setDate(gamesEntryRequest.getDate());
+						gameCal.setLocation(gamesEntryRequest.getLocation());
+						gameCal.setGender(gamesEntryRequest.getGender());
+						gameCal.setStatus(gamesEntryRequest.getStatus());
+						gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
+						
+						
+					}
 				}
 			  }
 			}
 		
 			
-			if(!blockDate.contains(dateadd))
-			{
-				
-				gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
-				gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
-				gameCal.setDate(gamesEntryRequest.getDate());
-				gameCal.setLocation(gamesEntryRequest.getLocation());
-				gameCal.setGender(gamesEntryRequest.getGender());
-				gameCal.setStatus(gamesEntryRequest.getStatus());
-				gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
-				
-				
-			}
+			
 			
 			try 
 			{
@@ -155,7 +168,7 @@ public class CalendarService {
 			}
 			job = true;
 			 return gameCal;
-		   }
+	}
 		  
 		   
 			 
@@ -186,7 +199,20 @@ public class CalendarService {
 	{
 
 		for(int i = 0; i < gamesCalendarList.size(); i++) {
+			
 
+			String[] dateadd1 = gamesCalendarList.get(i).getDate().split("T");
+			String dateadd = dateadd1[0];
+			
+			Set<String> blockDate = new HashSet<>();
+			 
+		
+			for(int j = 0;j<blockDaysList.size();j++)
+			{
+				
+				blockDate.add(blockDaysList.get(j).getDate());
+			}
+			
 			GamesCalendar gameCal = new GamesCalendar();
 			gameCal.setHomeTeamName(gamesCalendarList.get(i).getHomeTeamName());
 			gameCal.setAwayTeamName(gamesCalendarList.get(i).getAwayTeamName());
