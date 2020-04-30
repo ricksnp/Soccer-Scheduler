@@ -44,7 +44,13 @@ public class CalendarController
 	{
 		GamesCalendar gamesCalendar = calendarService.createGame(gameReq);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(gamesCalendar.getMatchId()).toUri();
-		return ResponseEntity.created(location).body(new ApiResponse(true, "Game Created Successfully"));
+		if(calendarService.checkGame())
+		{
+			
+			return ResponseEntity.created(location).body(new ApiResponse(true, gamesCalendar.getMatchId()+" "+calendarService.getGameDesc()+" Game Created Successfully"));
+		}
+		return ResponseEntity.created(location).body(new ApiResponse(false, "Game on a blocked day!"));
+
 	}
 	
 	@GetMapping("/allgames")

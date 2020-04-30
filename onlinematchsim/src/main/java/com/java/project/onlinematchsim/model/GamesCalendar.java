@@ -36,6 +36,10 @@ public class GamesCalendar
 
 	@NotBlank
 	private String status;
+	
+	
+	
+	
 
 	public GamesCalendar(long matchId, String homeTeamName, String awayTeamName,
 			 String date,  String location,  String teamLevel,  String gender, String status) {
@@ -53,6 +57,12 @@ public class GamesCalendar
 	public GamesCalendar() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	
+
+	
 
 	public long getMatchId() {
 		return matchId;

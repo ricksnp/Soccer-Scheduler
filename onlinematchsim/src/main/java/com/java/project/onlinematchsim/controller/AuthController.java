@@ -2,6 +2,7 @@ package com.java.project.onlinematchsim.controller;
 
 import com.java.project.onlinematchsim.exception.AppException;
 import com.java.project.onlinematchsim.model.*;
+import com.java.project.onlinematchsim.apiCalls.requestCalls.DeleteUserRequest;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.LoginRequest;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.SignUpRequest;
 import com.java.project.onlinematchsim.apiCalls.responseCalls.JwtAuthenticationResponse;
@@ -92,6 +93,14 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+    
+    @PostMapping("/deleteuser")
+    public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteUserRequest deleteUserRequest)
+    {
+    	userRepository.deleteById(Long.parseLong(deleteUserRequest.getId()));
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(deleteUserRequest.getId()).toUri();
+    	return ResponseEntity.created(location).body(new ApiResponse(true, "Game successfully deleted!"));
     }
 
     @PostMapping("/signup/assignor")

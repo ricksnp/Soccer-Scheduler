@@ -7,12 +7,22 @@ import com.java.project.onlinematchsim.apiCalls.requestCalls.*;
 import com.java.project.onlinematchsim.model.*;
 //import com.java.project.onlinematchsim.repos.UserRepository;
 import com.java.project.onlinematchsim.repos.BlockedDaysRepo;
+
 import com.java.project.onlinematchsim.repos.GamesRepository;
 import com.java.project.onlinematchsim.security.UserPrincipal;
 import com.java.project.onlinematchsim.exception.ResourceNotFoundException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +43,7 @@ import org.springframework.stereotype.Service;
 
 import com.java.project.onlinematchsim.apiCalls.responseCalls.BlockedDaysResponse;
 import com.java.project.onlinematchsim.apiCalls.requestCalls.BlockedDaysRequest;
+import java.util.Set;
 
 
 @Service
@@ -43,25 +54,133 @@ public class CalendarService {
 	@Autowired
 	private BlockedDaysRepo blockedDaysRepo;
 	
+	
+	private boolean job;
+	private String gameDesc;
+	
 //	@Autowired
 //	private UserRepository userRepository;
 //	
-//	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);s
+	private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
 	
 	public GamesCalendar createGame(GamesEntryRequest gamesEntryRequest)
 	{
-		GamesCalendar gameCal = new GamesCalendar();
-		gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
-		gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
-		gameCal.setDate(gamesEntryRequest.getDate());
-		gameCal.setLocation(gamesEntryRequest.getLocation());
-		gameCal.setGender(gamesEntryRequest.getGender());
-		gameCal.setStatus(gamesEntryRequest.getStatus());
-		gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
-		return gamesRepository.save(gameCal);
 		
+		   
+		    
+			List<BlockedDays> blockDaysList = blockedDaysRepo.findAll();
+			String[] dateadd1 = gamesEntryRequest.getDate().split("T");
+			String dateadd = dateadd1[0];
+			
+			Set<String> blockDate = new HashSet<>();
+			 
 		
+			for(int i = 0;i<blockDaysList.size();i++)
+			{
+				
+				blockDate.add(blockDaysList.get(i).getDate());
+			}
+			
+			 
+			
+			
+			GamesCalendar gameCal = new GamesCalendar();
+			
+			List<GamesCalendar> gameCal1 = gamesRepository.findAll();
+			setGameDesc("GOOD");
+		for(GamesCalendar each: gameCal1 )
+		{
+			if(each.getHomeTeamName().equalsIgnoreCase(gamesEntryRequest.getHomeTeamName()) &&
+					each.getAwayTeamName().equalsIgnoreCase(gamesEntryRequest.getAwayTeamName()) &&
+					each.getGender().equalsIgnoreCase(gamesEntryRequest.getGender()) &&
+					each.getLocation().equalsIgnoreCase(gamesEntryRequest.getLocation()) &&
+					each.getStatus().equalsIgnoreCase(gamesEntryRequest.getStatus()) &&
+					each.getTeamLevel().equalsIgnoreCase(gamesEntryRequest.getTeamLevel()))
+			{	
+				
+				
+
+				if(each.getDate().split(" ")[0].equalsIgnoreCase(gamesEntryRequest.getDate().split("T")[0]))
+				{
+					int time = Integer.parseInt(each.getDate().split(" ")[1].split(":")[0])*3600+
+							Integer.parseInt(each.getDate().split(" ")[1].split(":")[1])*60+
+							Integer.parseInt(each.getDate().split(" ")[1].split(":")[2]);
+					int timeGame = Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[0])*3600+
+							Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[1])*60+
+							Integer.parseInt(gamesEntryRequest.getDate().split("T")[1].split(":")[2]);
+					System.out.println(time+" "+timeGame);
+					if(Math.abs(time-timeGame)>=0 && Math.abs(time-timeGame)<=3600)
+					{
+						setGameDesc("CONFLICT");
+						break;
+
+					}
+					else if(Math.abs(time-timeGame)>3600)
+					{				
+					
+							setGameDesc("WARN");
+							break;
+					}
+				}
+				else
+				{
+					
+				}
+			  }
+			}
+		
+			
+			if(!blockDate.contains(dateadd))
+			{
+				
+				gameCal.setHomeTeamName(gamesEntryRequest.getHomeTeamName());
+				gameCal.setAwayTeamName(gamesEntryRequest.getAwayTeamName());
+				gameCal.setDate(gamesEntryRequest.getDate());
+				gameCal.setLocation(gamesEntryRequest.getLocation());
+				gameCal.setGender(gamesEntryRequest.getGender());
+				gameCal.setStatus(gamesEntryRequest.getStatus());
+				gameCal.setTeamLevel(gamesEntryRequest.getTeamLevel());
+				
+				
+			}
+			
+			try 
+			{
+				gamesRepository.save(gameCal);
+			}
+			catch(Exception e)
+			{
+				job = false;
+				return gameCal;
+			}
+			job = true;
+			 return gameCal;
+		   }
+		  
+		   
+			 
+	public  boolean checkGame()
+	{
+		return job;
 	}
+	
+	
+	
+	
+	
+	
+
+	public String getGameDesc() {
+		return gameDesc;
+	}
+
+
+
+	public void setGameDesc(String gameDesc) {
+		this.gameDesc = gameDesc;
+	}
+
+
 
 	public void createMultipleGames(List<GamesCalendar> gamesCalendarList)
 	{

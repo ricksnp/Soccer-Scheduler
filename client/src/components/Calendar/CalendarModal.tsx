@@ -85,6 +85,7 @@ const CalendarModal = (user: any) => {
                 //send to backend
                 postGames(game)
                 .then((response)=>{
+                    console.log(JSON.stringify(response))
                     notification.success({
                         message: "Game Added",
                         description: "Game was successfully added"
@@ -93,7 +94,8 @@ const CalendarModal = (user: any) => {
                 .catch((error)=>{
                     notification.error({
                         message: "Game Add Failed",
-                        description: "Game was not added"
+
+                        description: error.message||"Game was not added"
                     })
                 })
                 console.log("VALUES" + JSON.stringify(values));
