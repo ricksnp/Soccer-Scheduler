@@ -3,14 +3,18 @@ import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
-import { getCoachPending, getCoachSchedule, getTeamSchedule, getAdminPending, getScheduledGames} from '../../components/Games';
+import { getCoachPending, getCoachSchedule, getTeamSchedule, getAdminPending, getScheduledGames } from '../../components/Games';
 import { LoadingIndicator } from '../../common'
-import {Form, Select} from 'antd';
+import { Form, Select } from 'antd';
 
- function getNewGames(setNew: any) {
+function getNewGames(setNew: any) {
 
-     apiGetGames().then(response => {
-        setNew(response);
+    apiGetGames().then(response => {
+        if (response != undefined) {
+
+            setNew(response);
+
+        }
         console.log("CHANGE LOADING")
     })
 }
@@ -44,15 +48,12 @@ const NewAdmin = (userInfo: any) => {
     const categories = ['Pending Approval', 'Scheduled Games'];
 
     //store list of pending games based on user role
-    const pendingGames = () => 
-    {
+    const pendingGames = () => {
         //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
-        if (user === "ROLE_USER") 
-        {
-           
-    
-            if(newResponse !== undefined && newResponse[0].status !== 'null' && counter < 2)
-            {
+        if (user === "ROLE_USER") {
+
+
+            if (newResponse[0] !== undefined && newResponse[0].status !== 'null' && counter < 2) {
                 getCoachPending(newResponse, setPending, userSchool)
                 setCounter(counter + 1)
             }
@@ -60,8 +61,7 @@ const NewAdmin = (userInfo: any) => {
         // if user isn't coach, find games where status == assignorPending || assignoredit
         else {
 
-            if(newResponse !== undefined && newResponse[0].status !== 'null' && counter < 2)
-            {
+            if (newResponse !== undefined && newResponse[0].status !== 'null' && counter < 2) {
                 getAdminPending(newResponse, setPending)
                 setCounter(counter + 1)
             }
@@ -75,20 +75,15 @@ const NewAdmin = (userInfo: any) => {
     const scheduledGames = () => {
 
         if (user === "ROLE_USER") {
-            
-            console.log("COUNTER1:" + counter + " RES= " + newResponse[0].status);
 
-            if(newResponse[0].status !== 'null' && counter < 2)
-            {
+            if (newResponse[0] != undefined && newResponse[0].status !== 'null' && counter < 2) {
                 getTeamSchedule(newResponse, setScheduled, userSchool)
                 setCounter(counter + 1)
             }
         }
-        else
-        {
-            
-            if(newResponse[0].status !== 'null' && counter < 2)
-            {
+        else {
+
+            if (newResponse[0].status !== 'null' && counter < 2) {
                 getScheduledGames(newResponse, setScheduled)
                 setCounter(counter + 1)
             }
@@ -102,17 +97,17 @@ const NewAdmin = (userInfo: any) => {
         setCounter(counter + 1);
         setUser(userInfo.user.role)
         setHome(userInfo.user.schoolname)
-        
+
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setCounter(0)
         pendingGames()
         scheduledGames()
     },
-    [change, newResponse]
-    
+        [change, newResponse]
+
     )
 
     //map game categories to be displayed (pending games v scheduled games)
@@ -120,16 +115,17 @@ const NewAdmin = (userInfo: any) => {
 
         return (
             <>
-                {newResponse[0].status === "null" ?
-                
+
+                {newResponse == undefined && newResponse[0].status === "null" ?
+
                     <>{console.log(newResponse)}</>
                     :
                     <>
                         {categoryName === 'Pending Approval' &&
-                            <CategoryCard 
+                            <CategoryCard
                                 role={userInfo.user.role}
-                                category={categoryName} 
-                                editGames={newPending} 
+                                category={categoryName}
+                                editGames={newPending}
                                 scheduledGames={newSchedulued}
                                 homeName={userHome}
                                 change={change}
@@ -145,7 +141,7 @@ const NewAdmin = (userInfo: any) => {
     return (
         <div>
             {console.log("RENDER")}
-             <div>You are signed in as {userInfo.user.schoolname}</div>
+            <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>
     );
