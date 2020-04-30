@@ -4,12 +4,14 @@ import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
 import { getGames } from '../../components/Calendar/Provider';
 import { getCoachPending, getCoachSchedule, getTeamSchedule, getAdminPending, getScheduledGames} from '../../components/Games';
+import { LoadingIndicator } from '../../common'
 import {Form, Select} from 'antd';
 
-async function getNewGames(setNew: any) {
+ function getNewGames(setNew: any) {
 
-    await apiGetGames().then(response => {
+     apiGetGames().then(response => {
         setNew(response);
+        console.log("CHANGE LOADING")
     })
 }
 
@@ -35,17 +37,7 @@ const NewAdmin = (userInfo: any) => {
     const [newSchedulued, setScheduled] = useState(initialResponse);
     const [userSchool, setSchool] = useState(userInfo.user.schoolname)
     const [userHome, setHome] = useState("null")
-
-
-
-   console.log("NEWADMIN USERINFO: " + JSON.stringify(userInfo.user.role))
-
-    if (counter === 0) {
-        getNewGames(setNew);
-        setCounter(counter + 1);
-        setUser(userInfo.user.role)
-        setHome(userInfo.user.schoolname)
-    }
+    const [change, setChange] = useState(1)
 
 
     //list of categories to display
@@ -63,7 +55,6 @@ const NewAdmin = (userInfo: any) => {
             {
                 getCoachPending(newResponse, setPending, userSchool)
                 setCounter(counter + 1)
-                console.log("Current" + JSON.stringify(newPending))
             }
         }
         // if user isn't coach, find games where status == assignorPending || assignoredit
@@ -73,7 +64,6 @@ const NewAdmin = (userInfo: any) => {
             {
                 getAdminPending(newResponse, setPending)
                 setCounter(counter + 1)
-                console.log("Current Assignor Games" + JSON.stringify(newPending))
             }
 
         }
@@ -107,10 +97,21 @@ const NewAdmin = (userInfo: any) => {
         return newSchedulued
     }
 
+    if (counter === 0) {
+        getNewGames(setNew);
+        setCounter(counter + 1);
+        setUser(userInfo.user.role)
+        setHome(userInfo.user.schoolname)
+        
+    }
+
+
     useEffect(()=>{
         setCounter(0)
+        pendingGames()
+        scheduledGames()
     },
-    [counter]
+    [change, newResponse]
     
     )
 
@@ -119,20 +120,20 @@ const NewAdmin = (userInfo: any) => {
 
         return (
             <>
-                {newResponse.status === "null" ?
-
-                    <div>There Are No Games</div>
+                {newResponse[0].status === "null" ?
+                
+                    <>{console.log(newResponse)}</>
                     :
                     <>
-                    {console.log("INPENDING" + newPending) }
                         {categoryName === 'Pending Approval' &&
                             <CategoryCard 
                                 role={userInfo.user.role}
                                 category={categoryName} 
-                                editGames={pendingGames()} 
-                                scheduledGames={scheduledGames()}
+                                editGames={newPending} 
+                                scheduledGames={newSchedulued}
                                 homeName={userHome}
-                                onUpdate={setCounter}
+                                change={change}
+                                onUpdate={setChange}
                             />}
                     </>
                 }
@@ -143,7 +144,7 @@ const NewAdmin = (userInfo: any) => {
 
     return (
         <div>
-            {console.log("USER ROLE: " + user)}
+            {console.log("RENDER")}
              <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>

@@ -33,14 +33,13 @@ const grabEmail = (game: any) => {
 
 }
 
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) => {
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
-
 
     console.log("CalendarModal Role" + JSON.stringify(user))
     console.log(clickedEvent)
@@ -131,11 +130,23 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
                 //send to backend
                 postGames(game)
                     .then((response) => {
-                        notification.success({
-                            message: "Game Added",
-                            description: "Game was successfully added"
-                        })
+                        if(response.success)
+                        {
+                            notification.success({
+                                message: "Game Added",
+                                description: "Game was successfully added"
+                            })
+                        }
+                        else
+                        {
+                            notification.error({
+                                message: "Game was not added",
+                                description: response.message
+                            })
+                        }
                         grabEmail(game);
+                        console.log("RESPONSE: " + JSON.stringify(response))
+
                     })
                     .catch((error) => {
                         notification.error({

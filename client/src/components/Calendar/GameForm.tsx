@@ -40,7 +40,7 @@ function updateOptions(setter:any)
         console.log("res: " + response)
         for(let i=0;i<response.length;i++)
         {
-            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor")
+            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor" && response[i].schoolname != "admin")
             {
                 list[i+2] = response[i].schoolname
                 set.add(response[i].schoolname)

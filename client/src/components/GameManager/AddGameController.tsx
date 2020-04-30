@@ -10,7 +10,9 @@ import MyModal1 from '../Calendar/importModal'
 
 interface Props{
     role:String,
-    userHome: String
+    userHome: String,
+    onUpdate: any,
+    change: any
 }
 
 const getUsers = (setter: any, userHome: any) =>{
@@ -79,6 +81,11 @@ const AddGameController = (props: Props) => {
         updateArray[e.target.dataset.idx][e.target.class] = e.target.value
         setArray(updateArray)
     }
+
+    const updateAbove = ()=> {
+
+        props.onUpdate(props.change + 1)
+    }
     return (
         
         <>
@@ -107,7 +114,7 @@ const AddGameController = (props: Props) => {
                         {controlArray.map((controlArray, i) => {
                             return (
                                 <>
-                                    <AddGames role={props.role} teamData={teamData} handleChange={handleChange} control={controlArray} key={i} remove={removeCard} index={i} />
+                                    <AddGames updateAbove={updateAbove} role={props.role} teamData={teamData} handleChange={handleChange} control={controlArray} key={i} remove={removeCard} index={i} />
                                 </>
                             )
                         })}
