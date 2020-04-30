@@ -16,7 +16,7 @@ const Home = ({ isAuthenticated, user }: any) => {
 
         apiGetGames().then((response) => { setData(response) })
 
-        if (data != "") {
+        if (data != undefined) {
             getOnlyScheduledGames(data, setScheduled)
             setCounter(counter + 1)
         }

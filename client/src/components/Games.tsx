@@ -210,7 +210,7 @@ export const getCoachPending = (apiCall: any, setPending: any, name: String) => 
     for (let i = 0; i < res.length; i++) {
 
         if (res[i].status === "coachPending" || res[i].status === "assignorPending" && res[i].awayTeamName === name || res[i].homeTeamName == name) {
-        
+
             pending.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -304,26 +304,23 @@ export const getEdit = (apiCall: any, setEdit: any, name: any) => {
 
 }
 
-export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) =>
-{
+export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) => {
     const res = apiCall;
 
     let second: any = []
 
-    for(let i = 0; i < res.length;i++)
-    {
+    for (let i = 0; i < res.length; i++) {
         const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
         const moved = secondFilter.moved ? res[i].status === "moved" : false;
         const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
-        const pending = secondFilter.pending ? res[i].status === "coachPending" || res[i].status.includes("Edit") : false;
+        const pending = secondFilter.pending ? res[i].status === "coachPending" || res[i].status.includes("Edit") || res[i].status === "assignorPending" : false;
         const varsity = secondFilter.varsity ? res[i].teamLevel === "v" : false;
         const jv = secondFilter.jv ? res[i].teamLevel === "jv" : false;
         const boys = secondFilter.boys ? res[i].gender === "b" : false;
         const girls = secondFilter.girls ? res[i].gender === "g" : false;
 
 
-        if((scheduled || moved || canceled || pending ) && (varsity || jv) && (boys || girls ) && (res[i].awayTeamName === name || res[i].homeTeamName == name))
-        {
+        if ((scheduled || moved || canceled || pending) && (varsity || jv) && (boys || girls) && (res[i].awayTeamName === name || res[i].homeTeamName == name)) {
 
             let color;
             if (res[i].status === "scheduled")
@@ -355,14 +352,12 @@ export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, 
 
 }
 
-export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) =>
-{
+export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) => {
     const res = apiCall;
 
     let second: any = []
 
-    for(let i = 0; i < res.length;i++)
-    {
+    for (let i = 0; i < res.length; i++) {
         const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
         const moved = secondFilter.moved ? res[i].status === "moved" : false;
         const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
@@ -372,8 +367,7 @@ export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String,
         const girls = secondFilter.girls ? res[i].gender === "g" : false;
 
 
-        if((scheduled || moved || canceled ) && (varsity || jv) && (boys || girls ) && (res[i].awayTeamName === name || res[i].homeTeamName == name))
-        {
+        if ((scheduled || moved || canceled) && (varsity || jv) && (boys || girls) && (res[i].awayTeamName === name || res[i].homeTeamName == name)) {
 
             let color;
             if (res[i].status === "scheduled")
@@ -407,14 +401,12 @@ export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String,
 
 }
 
-export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter: any) =>
-{
+export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter: any) => {
     const res = apiCall;
 
     let second: any = []
 
-    for(let i = 0; i < res.length;i++)
-    {
+    for (let i = 0; i < res.length; i++) {
         const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
         const moved = secondFilter.moved ? res[i].status === "moved" : false;
         const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
@@ -424,8 +416,7 @@ export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter
         const girls = secondFilter.girls ? res[i].gender === "g" : false;
 
 
-        if((scheduled || moved || canceled ) && (varsity || jv) && (boys || girls ))
-        {
+        if ((scheduled || moved || canceled) && (varsity || jv) && (boys || girls)) {
 
             let color;
             if (res[i].status === "scheduled")

@@ -10,17 +10,20 @@ class RemoveModal extends React.Component {
 
     onClose = () => {
         this.props.closeModal();
-        deleteUser(this.props.user.id)
+       
+        deleteUser(JSON.stringify(this.props.user))
             .then((response)=>{
                 notification.success({
                 message: "User Successfully deleted"
             })
+            
         })
         .catch((error)=>{
             notification.error({
                 message: "User could not be deleted",
                 description: error.message
             })
+            
         })
     }
 

@@ -24,6 +24,18 @@ interface Props {
     change: any
 }
 
+let emailContents = (away: string, on: string) => {
+    return "<h2>PENDING GAME CONFIRMATION:</h2>" +
+        "You have a new game to confirm against " +
+        away + "on " + on
+}
+
+let emailContents2 = (away: string, on: string) => {
+    return "<h2>GAME CONFIRMATION:</h2>" +
+        "Your game was approved and is now scheduled against" +
+        away + "on " + on
+}
+
 
 
 const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
@@ -44,6 +56,7 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
             if (response[i].schoolname == a) {
 
                 desiredEmail = response[i].email;
+                //sendAnEmail(desiredEmail, contents + d);
 
             }
         }
@@ -55,14 +68,16 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
                 for (let j = 0; j < assignorarray.length; j++) {
 
                     if (response[i].district === assignorarray[j].district) {
-                        desiredEmail2 = response[i].email;
-                        assignorEmail = assignorarray[j].email;
+                       // desiredEmail2 = response[i].email;
+                        //assignorEmail = assignorarray[j].email;
                     }
 
                 }
 
             }
 
+            // sendAnEmail(desiredEmail2, contents + d);
+            // sendAnEmail(assignorEmail, contents + d);
         }
         sendAnEmail(desiredEmail2, contents + d);
         sendAnEmail(assignorEmail, contents + d);
@@ -85,8 +100,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == a) {
 
-                desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, contents + d);
+                // desiredEmail = response[i].email;
+                // sendAnEmail(desiredEmail, contents + d);
 
             }
         }
@@ -94,8 +109,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
 
-                desiredEmail2 = response[i].email;
-                sendAnEmail(desiredEmail2, contents + d);
+                // desiredEmail = response[i].email;
+                // sendAnEmail(desiredEmail, contents + d);
 
             }
         }
@@ -111,6 +126,7 @@ const seasonStart = new Date("2020/02/20");
 const GameCard = (props: Props) => {
 
     const [color, setColor] = useState("white")
+
     const [counter, setCounter] = useState(0)
     const dispatch = useDispatch();
 
@@ -154,9 +170,8 @@ const GameCard = (props: Props) => {
             }
 
         }
-
         if (addMessage === ('Games successfully Scheduled')) {
-            grabEmail(game.home, game.away, game.start, "Your game was approved and will take place on")
+            grabEmail(game.home, game.away, game.start, emailContents2(game.away, game.start))
 
         }
 
@@ -276,6 +291,7 @@ const GameCard = (props: Props) => {
         setCounter(counter + 1)
     }
 
+
     return (
         props.game === undefined ?
             <>THERE ARE NO GAMES </>
@@ -283,8 +299,8 @@ const GameCard = (props: Props) => {
 
             <>
                 <Card title={game.home + " vs " + game.away} style={cardStyle} >
-                    <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel}
-                    <Title>Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location} <Title>Gender:</Title> {game.gender}
+                    <Title>Home:</Title> {game.home} <Title>Away:</Title> {game.away} <Title>Level: </Title> {game.teamLevel === 'v' ? <> Varsity</> : <> Junior Varsity</>}
+                    <Title> Date and Time:</Title> {game.start} <Title>Location:</Title> {game.location} <Title>Gender:</Title> {game.gender === 'b' ? <> Boys</> : <> Girls</>}
 
                     <Div>
                         {game.status == "coachPending" || (game.status == "assignorPending" && props.role != "ROLE_USER") ?

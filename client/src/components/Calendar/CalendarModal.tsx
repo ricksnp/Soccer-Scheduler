@@ -4,7 +4,7 @@ import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
-import {getCurrentUser} from '../../utility/APIUtility'
+import { getCurrentUser } from '../../utility/APIUtility'
 import { userInfo } from 'os';
 import { sendAnEmail } from '../../common/email/email'
 import { getAllUsers } from '../../utility/APIUtility'
@@ -16,6 +16,12 @@ const openNotification = () => {
     })
 }
 
+const emailContents = (away: string, on: string) => {
+    return "<h2>PENDING GAME CONFIRMATION:</h2>" +
+        "You have a new game to confirm against " +
+        away + " on " + on
+}
+
 const grabEmail = (game: any) => {
     let desiredEmail = "";
     getAllUsers().then((response) => {
@@ -24,7 +30,7 @@ const grabEmail = (game: any) => {
             if (response[i].schoolname == game.awayTeamName) {
 
                 desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+                sendAnEmail(desiredEmail, emailContents(game.awayTeamName, game.date));
 
             }
         }
@@ -33,7 +39,7 @@ const grabEmail = (game: any) => {
 
 }
 
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -107,15 +113,13 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 //send to backend
                 postGames(game)
                     .then((response) => {
-                        if(response.success)
-                        {
+                        if (response.success) {
                             notification.success({
                                 message: "Game Added",
                                 description: "Game was successfully added"
                             })
                         }
-                        else
-                        {
+                        else {
                             notification.error({
                                 message: "Game was not added",
                                 description: response.message
@@ -164,13 +168,13 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
             const timeArray = timeArraySplit[0].split(':')
             const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
             const selectedTime = correctedHour + ":" + timeArray[1];
-            const selectedDate = dateObjSplit[0].substring(1);
-
-            // @ts-ignore
-            console.log( gameForm.getFieldValue('date') );
 
             // @ts-ignore
             let status = clickedEvent[5];
+            // @ts-ignore
+            let gender = gameForm.getFieldValue("gender");
+            // @ts-ignore
+            let level = gameForm.getFieldValue('teamLevel');
 
             //home team edited game
             if( clickedEvent[5] === schoolName ) {
@@ -195,9 +199,9 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 // @ts-ignore
                 awayTeamName: gameForm.getFieldValue("awayTeamName"),
                 // @ts-ignore
-                teamLevel: gameForm.getFieldValue("teamLevel"),
+                teamLevel: level,
                 // @ts-ignore
-                gender: gameForm.getFieldValue("gender"),
+                gender: gender,
                 // @ts-ignore
                 location: gameForm.getFieldValue("location"),
                 // @ts-ignore
@@ -208,6 +212,8 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 id: clickedEvent[8]
             }
 
+            //@ts-ignore
+                console.log("level: " + gameForm.getFieldValue("teamLevel") + "gender: " + gameForm.getFieldValue("gender"))
                 console.log(game)
 
             //send to backend

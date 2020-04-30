@@ -104,7 +104,7 @@ const GMModals = (home: any) => {
                     // @ts-ignore
                     status: status,
                     // @ts-ignore
-                    date: selectedDate + 'T' + selectedTime,
+                    date: gameForm.getFieldValue('date') + 'T' + selectedTime,
                     // @ts-ignore
                     id: clickedGame[8]
                 }

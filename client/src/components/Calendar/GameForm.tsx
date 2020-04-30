@@ -99,7 +99,13 @@ const CreateEditGame = ( props: Props ) => {
     const [school, setSchool] = useState("");
     const [status, setStatus] = useState("coachPending");
     const [required, setRequired] = useState(false);
-    const [time, setTime] = useState(undefined);
+    const [time, setTime] = useState(undefined)
+    const [ level, setLevel ] = useState(clickedGame[3]);
+
+    const updateLevel = (e: any) => {
+        console.log(e.target.value)
+        return e.target.value;
+    }
 
     
 
@@ -214,9 +220,13 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Level">
                 { getFieldDecorator('teamLevel', {
                     rules: [{ required: true }],
-                    initialValue: showEditGame === true? clickedGame[3] : ""
+                    initialValue: showEditGame === true? clickedGame[3] : "",
+                    getValueFromEvent: updateLevel,
                 })(
-                    <Radio.Group buttonStyle="solid">
+                    <Radio.Group 
+                        buttonStyle="solid"
+                        onChange={(e) => updateLevel(e)}
+                        >
                         <Radio.Button value="v">Varsity</Radio.Button>
                         <Radio.Button value="jv">Junior Varsity</Radio.Button>
                     </Radio.Group>
@@ -226,7 +236,6 @@ const CreateEditGame = ( props: Props ) => {
                     { getFieldDecorator( 'gender', {
                         rules: [{ required: true }],
                         initialValue: showEditGame === true? clickedGame[4] : "",
-                        onChange: handleChange
                     } )(
                         <Radio.Group buttonStyle="solid">
                             <Radio.Button value="b" >Boys</Radio.Button>
