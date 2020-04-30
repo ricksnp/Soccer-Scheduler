@@ -44,10 +44,6 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
             if (response[i].schoolname == a) {
 
                 desiredEmail = response[i].email;
-<<<<<<< Updated upstream
-=======
-                //sendAnEmail(desiredEmail, contents + d);
->>>>>>> Stashed changes
 
             }
         }
@@ -67,11 +63,6 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
 
             }
 
-<<<<<<< Updated upstream
-=======
-            // sendAnEmail(desiredEmail2, contents + d);
-            // sendAnEmail(assignorEmail, contents + d);
->>>>>>> Stashed changes
         }
         sendAnEmail(desiredEmail2, contents + d);
         sendAnEmail(assignorEmail, contents + d);
@@ -106,13 +97,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
 
-<<<<<<< Updated upstream
                 desiredEmail2 = response[i].email;
                 sendAnEmail(desiredEmail2, contents + d);
-=======
-                // desiredEmail = response[i].email;
-                // sendAnEmail(desiredEmail, contents + d);
->>>>>>> Stashed changes
 
             }
         }

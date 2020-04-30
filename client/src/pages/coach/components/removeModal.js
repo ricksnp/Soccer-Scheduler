@@ -11,6 +11,10 @@ class RemoveModal extends React.Component {
     onClose = () => {
         this.props.closeModal();
        
+    }
+
+    onDelete = () => {
+
         deleteUser(JSON.stringify(this.props.user))
             .then((response)=>{
                 notification.success({
@@ -25,6 +29,7 @@ class RemoveModal extends React.Component {
             })
             
         })
+
     }
 
     render() {

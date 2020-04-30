@@ -8,6 +8,8 @@ import {getCurrentUser} from '../../utility/APIUtility'
 import { userInfo } from 'os';
 import { sendAnEmail } from '../../common/email/email'
 import { getAllUsers } from '../../utility/APIUtility'
+import Conflict from './Conflict';
+
 
 const openNotification = () => {
     notification.open({
@@ -16,22 +18,25 @@ const openNotification = () => {
     })
 }
 
-// const grabEmail = (game: any) => {
-//     let desiredEmail = "";
-//     getAllUsers().then((response) => {
+const grabEmail = (game: any) => {
+    let desiredEmail = "";
+    getAllUsers().then((response) => {
 
-//         for (let i = 0; i < response.length; i++) {
-//             if (response[i].schoolname == game.awayTeamName) {
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == game.awayTeamName) {
 
-//                 desiredEmail = response[i].email;
-//                 sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
 
-//             }
-//         }
+            }
+        }
 
-//     })
+    })
 
-// }
+}
+
+const baseGame = {homeTeamName: "null", awayTeamName: "null", teamLevel: "null", gender: "null", location: "null", status: "null", date: "null"}
+
 
 const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
     const showAddGame = useGlobalState('showAddGame');
@@ -43,6 +48,10 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
     console.log("CalendarModal Role" + JSON.stringify(user))
     console.log(clickedEvent)
+
+    const [conflict, setConflict] = useState(false);
+    const [newGame, setNewGame] = useState(baseGame);
+    const [gameID, setID] = useState(0)
 
     //getCurrentUser().then((response=>{setUser(response)}));
 
@@ -123,6 +132,8 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 }
                 
 
+                setNewGame(game);
+
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
                 //game.homeTeamName = userInfo.
@@ -132,26 +143,45 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     .then((response) => {
                         if(response.success)
                         {
-                            notification.success({
-                                message: "Game Added",
-                                description: "Game was successfully added"
-                            })
+                            let mess = response.message
+                            if(response.message != undefined && mess.includes("arning"))
+                            {
+                                console.log("Message: " + response.messsage)
+                                let splitter = mess.split(" ");
+                                setID(splitter[0])
+                                setConflict(true);
+                                console.log("HERE")
+                            }
+                            else{
+
+                                notification.success({
+                                    message: "Game Added",
+                                    description: response.message
+                                })
+                            }
                         }
                         else
                         {
+                            if(response.message != undefined && response.message.includes("onflict"))
+                            {
+                                notification.error({
+                                    message: "Game Not Added",
+                                    description: "There is a scheduling conflict, try chagning the date or time" 
+                                })
+                            }
                             notification.error({
                                 message: "Game was not added",
                                 description: response.message
                             })
                         }
-                         //grabEmail(game);
+                         grabEmail(game);
                          console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
                     .catch((error) => {
                         notification.error({
                             message: "Game Add Failed",
-                            description: error.essage || "Game was not added"
+                            description: error.message || "Game was not added"
                         })
                     })
 
@@ -232,6 +262,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
 
     return (
+        <>
         <Modal
             visible={visible}
             closable
@@ -244,6 +275,8 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
             {showEditGame && <GameForm ref={saveForm} />}
             {showViewGame && <EventDisplay event={clickedEvent} />}
         </Modal>
+        <Conflict showConflict={conflict} game={newGame} id={gameID} setConflict={setConflict} role={user.role}/>
+        </>
     );
 }
 

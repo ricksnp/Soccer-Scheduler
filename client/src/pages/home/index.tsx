@@ -23,7 +23,6 @@ const Home = ({ isAuthenticated, user }: any) => {
     if (counter == 0) {
 
         apiGetGames().then((response) => { setData(response) })
-        getBlockedDays().then((response) => {  setBlockedDays(response); setChange(change+ 1) })
 
         if (data != undefined) {
             getOnlyScheduledGames(data, setScheduled)
@@ -62,12 +61,12 @@ const Home = ({ isAuthenticated, user }: any) => {
         {
             if(blockedDays[i].name === "blocked day")
             {
-                temp.push({
-                    start: blockedDay[i].date + "T00:00:00",
-                    end: blockedDay[i].date + "T00:00:00",
-                    rendering: "background",
-                    backgroundColor: "#434343"
-                })
+                // temp.push({
+                //     start: blockedDay[i].date + "T00:00:00",
+                //     end: blockedDay[i].date + "T00:00:00",
+                //     rendering: "background",
+                //     backgroundColor: "#434343"
+                // })
             }
         }
 
@@ -76,9 +75,19 @@ const Home = ({ isAuthenticated, user }: any) => {
     }
 
     useEffect(()=>{
-        console.log("Blocked Days" + JSON.stringify(blockedDay))
+        getBlockedDays()
+        .then((response) => {  
+            setBlockedDays(response)
+            console.log("HERE")
+        })
+
         filterBlockedDays()
-    },[change])
+
+    }, [change])
+
+    useEffect(()=>{
+        filterBlockedDays()
+    },[blockedDays])
 
 
     return (
