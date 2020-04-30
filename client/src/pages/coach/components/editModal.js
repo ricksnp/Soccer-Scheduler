@@ -14,10 +14,13 @@ class EditModal extends React.Component {
 
     resetPassword = () =>{
 
+        console.log("USER: " + JSON.stringify(this.props.user))
+
         let userInfo = {
             id: this.props.user.id,
             password: "password1",
             name: this.props.user.name,
+            username: this.props.user.username,
             email: this.props.user.email,
             district: this.props.user.district,
             schoolname: this.props.user.schoolname
