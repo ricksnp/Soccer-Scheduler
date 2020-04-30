@@ -115,7 +115,7 @@ public class AuthController {
        
 
     	 User user = new User(resetPasswordRequest.getName(), resetPasswordRequest.getUsername(),
-                 resetPasswordRequest.getEmail(), resetPasswordRequest.getPassword(), resetPasswordRequest.getDistrict(), resetPasswordRequest.getSchoolname());
+                 delUser.getEmail(), resetPasswordRequest.getPassword(), resetPasswordRequest.getDistrict(), resetPasswordRequest.getSchoolname());
          
          user.setPassword(passwordEncoder.encode(user.getPassword()));
 
