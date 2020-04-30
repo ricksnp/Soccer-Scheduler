@@ -41,7 +41,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-
     console.log("CalendarModal Role" + JSON.stringify(user))
     console.log(clickedEvent)
 
@@ -123,11 +122,22 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 //send to backend
                 postGames(game)
                     .then((response) => {
-                        notification.success({
-                            message: "Game Added",
-                            description: "Game was successfully added"
-                        })
+                        if(response.success)
+                        {
+                            notification.success({
+                                message: "Game Added",
+                                description: "Game was successfully added"
+                            })
+                        }
+                        else
+                        {
+                            notification.error({
+                                message: "Game was not added",
+                                description: response.message
+                            })
+                        }
                         grabEmail(game);
+                        console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
                     .catch((error) => {

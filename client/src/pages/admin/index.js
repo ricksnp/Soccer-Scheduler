@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { Header } from '../../style/PageStyles';
 
 import StoreModal from './components/storeModal';
-import TableComp1 from './components/Table';
+import TableComp from './components/Table';
 
 import './style.css'
 
@@ -32,13 +32,13 @@ class Page extends Component {
     render() {
         return (
             <>
-                <StoreModal showModal={this.state.visible} closeModal={this.closeStoreModal} />
+                <StoreModal showModal={this.state.visible} closeModal={this.closeStoreModal} user={this.props.user}/>
                 <div className="assigner-top-bar">
                     <h2>Manage Assignors</h2>
                     <Button variant="contained" color="primary" className="assignor-add-button" onClick={this.openStoreModal}><i className="fas fa-plus"></i> assignor</Button>
                 </div>
                 <div class="assignor-table">
-                    <TableComp1 />
+                    <TableComp />
                 </div>
             </>
         );

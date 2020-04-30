@@ -142,7 +142,7 @@ const CreateEditGame = ( props: Props ) => {
         props.form.setFieldsValue({
             time: chosenTime
         });
-        console.log(chosenTime)
+        console.log("Chosen Time:" + chosenTime)
     }
 
     
