@@ -88,10 +88,12 @@ export function getAllUsers() {
 
 export function deleteUser(id){
 
-	let newId = parseInt(id, 10)
+	
 	return request({
 		url    : API_BASE_URL + '/auth/deleteuser',
 		method : 'POST',
-		body   : JSON.stringify('114')
+		body   : JSON.stringify(id)
+		
 	});
+	
 }
