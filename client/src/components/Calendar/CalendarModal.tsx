@@ -33,7 +33,7 @@ const grabEmail = (game: any) => {
 
 }
 
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) => {
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -128,6 +128,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
                             description: "Game was successfully added"
                         })
                         grabEmail(game);
+
                     })
                     .catch((error) => {
                         notification.error({
@@ -138,6 +139,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
 
 
                 setUpdate(!onUpdate);
+                setChange(change + 1)
 
                 // @ts-ignore
                 gameForm.resetFields();

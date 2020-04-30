@@ -26,6 +26,7 @@ const CalendarController = (user: any) => {
     const [thisUser, setThis] = useState(user.user)
     const [secondFilter, setSecond] = useState(secondObj)
     const [onUpdate, setUpdate] = useState(false)
+    const [change, setChange] = useState(0)
     const userRole = user.user.role
 
     if((userRole === "ROLE_ASSIGNOR" || userRole === "ROLE_ADMIN") && counter === 0)
@@ -104,8 +105,8 @@ const CalendarController = (user: any) => {
             <Provider>
                 <Filter setFilter={setFilter} userRole={userRole} />
                 <SecondFilter secondFilter={secondFilter} setSecond={setSecond} secondChange={secondChange}/>
-                <GameCalendar update={onUpdate} filter={filter} user={user} secondFilter={secondFilter}/>
-                <CalendarModal setUpdate={setUpdate} onUpdate={onUpdate} user={user.user} school={user.schoolname} />
+                <GameCalendar change={change} update={onUpdate} filter={filter} user={user} secondFilter={secondFilter}/>
+                <CalendarModal change={change} setChange={setChange} setUpdate={setUpdate} onUpdate={onUpdate} user={user.user} school={user.schoolname} />
 
 
             </Provider>

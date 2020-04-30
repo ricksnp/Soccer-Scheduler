@@ -41,7 +41,7 @@ const openPastDateNotif = () => {
 }
 
 
-const GameCalendar = ({ filter, secondFilter, update }: any) => {
+const GameCalendar = ({ filter, secondFilter, update, change }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
@@ -122,7 +122,7 @@ const GameCalendar = ({ filter, secondFilter, update }: any) => {
     console.log("inside use effect")
     setCounter(0)
   },
-    [secondFilter, update]
+    [secondFilter, update, change]
   )
   //apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
   return (
