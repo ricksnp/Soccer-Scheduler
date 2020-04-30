@@ -76,8 +76,7 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
             }
 
         }
-        sendAnEmail(desiredEmail2, contents + d);
-        sendAnEmail(assignorEmail, contents + d);
+
 
     })
 

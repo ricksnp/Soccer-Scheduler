@@ -11,6 +11,8 @@ import com.java.project.onlinematchsim.apiCalls.responseCalls.JwtAuthenticationR
 import com.java.project.onlinematchsim.apiCalls.responseCalls.ApiResponse;
 import com.java.project.onlinematchsim.repos.*;
 import com.java.project.onlinematchsim.security.JwtTokenProvider;
+import com.java.project.onlinematchsim.service.CalendarService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,9 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    CalendarService calendarService;
 
     @Autowired
     JwtTokenProvider tokenProvider;
@@ -102,24 +107,30 @@ public class AuthController {
     @PostMapping("/resetpassword")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
        
+    	User delUser = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
+    	userRepository.delete(delUser);
 
         // Creating user's account
-        User user = userRepository.findById(Long.parseLong(resetPasswordRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
-        
-        user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
+    	
+       
 
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
+    	 User user = new User(resetPasswordRequest.getName(), resetPasswordRequest.getUsername(),
+                 resetPasswordRequest.getEmail(), resetPasswordRequest.getPassword(), resetPasswordRequest.getDistrict(), resetPasswordRequest.getSchoolname());
+         
+         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        user.setRoles(Collections.singleton(userRole));
+         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                 .orElseThrow(() -> new AppException("User Role not set."));
 
-        User result = userRepository.save(user);
+         user.setRoles(Collections.singleton(userRole));
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+         User result = userRepository.save(user);
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+         URI location = ServletUriComponentsBuilder
+                 .fromCurrentContextPath().path("/users/{username}")
+                 .buildAndExpand(result.getUsername()).toUri();
+
+         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
     
     
@@ -128,7 +139,7 @@ public class AuthController {
     public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteUserRequest deleteUserRequest)
     {
     	User delUser = userRepository.findById(Long.parseLong(deleteUserRequest.getId())).orElseThrow(() -> new AppException("User can't be found"));
-    	userRepository.delete(delUser);;
+    	userRepository.delete(delUser);
     	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matchId}").buildAndExpand(deleteUserRequest.getId()).toUri();
     	return ResponseEntity.created(location).body(new ApiResponse(true, "User deleted successfully"));
