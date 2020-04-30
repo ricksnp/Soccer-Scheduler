@@ -44,10 +44,10 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
             if (response[i].schoolname == a) {
 
                 desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, contents + d);
 
             }
         }
+        sendAnEmail(desiredEmail, contents + d);
 
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
@@ -63,19 +63,25 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
 
             }
 
-            sendAnEmail(desiredEmail2, contents + d);
-            sendAnEmail(assignorEmail, contents + d);
         }
+        sendAnEmail(desiredEmail2, contents + d);
+        sendAnEmail(assignorEmail, contents + d);
 
     })
+    console.log('-=-=AWAYEMAIL' + desiredEmail)
+    console.log('-=-=HOMEEMAIL' + desiredEmail2)
+    console.log('-=-=ASSIGNOREMAIL' + assignorEmail)
+
+    sendAnEmail(desiredEmail, contents + d);
+    sendAnEmail(desiredEmail2, contents + d);
+    sendAnEmail(assignorEmail, contents + d);
 
 }
 
 const grabEmail = (h: any, a: any, d: any, contents: any) => {
     let desiredEmail = "";
     let desiredEmail2 = "";
-    let assignorEmail = "";
-    let assignorarray: any[] = [];
+
     getAllUsers().then((response) => {
 
 
@@ -91,8 +97,8 @@ const grabEmail = (h: any, a: any, d: any, contents: any) => {
         for (let i = 0; i < response.length; i++) {
             if (response[i].schoolname == h) {
 
-                desiredEmail = response[i].email;
-                sendAnEmail(desiredEmail, contents + d);
+                desiredEmail2 = response[i].email;
+                sendAnEmail(desiredEmail2, contents + d);
 
             }
         }
@@ -114,7 +120,7 @@ const GameCard = (props: Props) => {
     const handleEdit = (game: any) => {
 
         dispatch({ type: 'EDIT_GAME', payload: [game.title, game.start, game.location, game.teamLevel, game.gender, game.home, game.away, game.status, game.id] });
-        console.log("ID = " + game.id + " HomeTeam = " + game.home + ' start: ' +game.start);
+        console.log("ID = " + game.id + " HomeTeam = " + game.home + ' start: ' + game.start);
     }
 
     const handleConfirm = (game: any) => {
@@ -150,13 +156,9 @@ const GameCard = (props: Props) => {
             else {
                 update.status = "assignorPending";
                 addMessage = "Game Successfully sent to  Assignor";
-                console.log("--HOME--" + game.home + "--AWAY--" + game.away)
             }
 
-            console.log("days till season start from game: " + numofDays)
         }
-
-        console.log("UPDATE" + JSON.stringify(update))
 
         if (addMessage === ('Games successfully Scheduled')) {
             grabEmail(game.home, game.away, game.start, "Your game was approved and will take place on")
@@ -206,7 +208,11 @@ const GameCard = (props: Props) => {
                 })
             })
 
+<<<<<<< HEAD
             props.onUpdate(props.change + 1)
+=======
+        props.onUpdate(0)
+>>>>>>> 2cc55c1f9ad5274cceef3f9d89d241f3df4becb8
     }
 
     const handleCancel = (game: any) => {
@@ -217,6 +223,7 @@ const GameCard = (props: Props) => {
             level: game.teamLevel,
             gender: game.gender,
             date: game.start
+
 
         }
 
@@ -231,6 +238,7 @@ const GameCard = (props: Props) => {
                     description: "Game was successfully cancelled"
                 })
             })
+
             .catch((error) => {
                 notification.error({
                     message: "Game Was Not Cancelled",
