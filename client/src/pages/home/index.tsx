@@ -32,7 +32,7 @@ const Home = ({ isAuthenticated, user }: any) => {
     }
 
     function getBlock() {
-        getBlockedDays().then((response) => { setBlockedDays(response)})
+        getBlockedDays().then((response) => { setBlockedDays(response) })
     }
 
 
@@ -54,13 +54,11 @@ const Home = ({ isAuthenticated, user }: any) => {
     }
 
     const filterBlockedDays = () => {
-        
-        let temp:any = []
 
-        for(let i = 0; i < blockedDays.length; i++)
-        {
-            if(blockedDays[i].name === "blocked day")
-            {
+        let temp: any = []
+
+        for (let i = 0; i < blockedDays.length; i++) {
+            if (blockedDays[i].name === "blocked day") {
                 // temp.push({
                 //     start: blockedDay[i].date + "T00:00:00",
                 //     end: blockedDay[i].date + "T00:00:00",
@@ -74,20 +72,20 @@ const Home = ({ isAuthenticated, user }: any) => {
         console.log("Temp: " + temp)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getBlockedDays()
-        .then((response) => {  
-            setBlockedDays(response)
-            console.log("HERE")
-        })
+            .then((response) => {
+                setBlockedDays(response)
+                console.log("HERE")
+            })
 
         filterBlockedDays()
 
     }, [change])
 
-    useEffect(()=>{
+    useEffect(() => {
         filterBlockedDays()
-    },[blockedDays])
+    }, [blockedDays])
 
 
     return (
@@ -95,7 +93,7 @@ const Home = ({ isAuthenticated, user }: any) => {
 
         <>
             <div>You are signed in as {user.schoolname}</div>
-            <CalendarController user={user} filterBlocked={filterBlocked}/>
+            <CalendarController user={user} filterBlocked={filterBlocked} />
 
             {user.role != "ROLE_USER" && scheduledData != "" ?
                 <AssignorExport newData={scheduledData} />
