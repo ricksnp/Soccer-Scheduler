@@ -103,8 +103,8 @@ const AddGameController = (props: Props) => {
                     <TableCell>Location: </TableCell>
                     <TableCell>Date: </TableCell>
                     <TableCell>Time: </TableCell>
-                    <TableCell>Confirm: </TableCell>
-                    <TableCell>Remove: </TableCell>
+                    <TableCell>Send Request: </TableCell>
+                    <TableCell>Remove Row: </TableCell>
                 </TableHead>
                     {teamData.length == 1 ? 
                         <></>

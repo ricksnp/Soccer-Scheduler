@@ -44,11 +44,13 @@ function sortGames(games: any, role: string, homename: String) {
 
         var titleArray;
         var awayName;
+        var gameHome;
 
         if(games[i].title != undefined)
         {
             titleArray = games[i].title.split("vs");
             awayName = titleArray[1]
+            gameHome = titleArray[0]
         }
 
         if(role == "ROLE_USER")
@@ -62,7 +64,8 @@ function sortGames(games: any, role: string, homename: String) {
                 assignorPending.push(games[i])
             }
             else if (games[i].status != undefined) {
-                if (games[i].status.includes("Edit")) { edit.push(games[i]) }
+                if((games[i].status === "homeEdit" && games[i].awayName === homename) || (games[i].status === "awayEdit"  && games[i].gameHome === homename)) 
+                { edit.push(games[i]) }
 
             }
 

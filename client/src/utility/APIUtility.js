@@ -85,6 +85,15 @@ export function getAllUsers() {
 		method : 'GET'
 	});
 }
+export function resetPassword(user)
+{
+	return request({
+		url    : API_BASE_URL + '/auth/resetpassword',
+		method : 'POST',
+		body   : JSON.stringify(user)
+	});
+}
+
 
 export function deleteUser(id){
 

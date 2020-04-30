@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CalendarController } from '../../components'
 import { addMultipleGames, addBlockedDay, getBlockedDays, editBlockedDay, apiGetGames } from '../../utility/APIGameControl'
 import { getAllUsers } from '../../utility/APIUtility'
@@ -8,9 +8,17 @@ import { getOnlyScheduledGames } from '../../components/Games'
 
 const Home = ({ isAuthenticated, user }: any) => {
 
+    const blockedDay = [{
+        name: "null",
+        date: "2020-04-20",
+        id: "1"
+    }]
     const [data, setData] = useState("")
     const [counter, setCounter] = useState(1)
     const [scheduledData, setScheduled] = useState("")
+    const [blockedDays, setBlockedDays] = useState(blockedDay)
+    const [filterBlocked, setFilterBlocked] = useState("")
+    const [change, setChange] = useState(0)
 
     if (counter == 0) {
 
@@ -24,7 +32,7 @@ const Home = ({ isAuthenticated, user }: any) => {
     }
 
     function getBlock() {
-        getBlockedDays().then((response) => { console.log(response) })
+        getBlockedDays().then((response) => { setBlockedDays(response)})
     }
 
 
@@ -45,6 +53,41 @@ const Home = ({ isAuthenticated, user }: any) => {
         editBlockedDay(blockedDay)
     }
 
+    const filterBlockedDays = () => {
+        
+        let temp:any = []
+
+        for(let i = 0; i < blockedDays.length; i++)
+        {
+            if(blockedDays[i].name === "blocked day")
+            {
+                // temp.push({
+                //     start: blockedDay[i].date + "T00:00:00",
+                //     end: blockedDay[i].date + "T00:00:00",
+                //     rendering: "background",
+                //     backgroundColor: "#434343"
+                // })
+            }
+        }
+
+        setFilterBlocked(temp);
+        console.log("Temp: " + temp)
+    }
+
+    useEffect(()=>{
+        getBlockedDays()
+        .then((response) => {  
+            setBlockedDays(response)
+            console.log("HERE")
+        })
+
+        filterBlockedDays()
+
+    }, [change])
+
+    useEffect(()=>{
+        filterBlockedDays()
+    },[blockedDays])
 
 
     return (
@@ -52,7 +95,7 @@ const Home = ({ isAuthenticated, user }: any) => {
 
         <>
             <div>You are signed in as {user.schoolname}</div>
-            <CalendarController user={user} />
+            <CalendarController user={user} filterBlocked={filterBlocked}/>
 
             {user.role != "ROLE_USER" && scheduledData != "" ?
                 <AssignorExport newData={scheduledData} />

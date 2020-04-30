@@ -77,7 +77,6 @@ const grabEmail2 = (h: any, a: any, d: any, contents: any) => {
 
         }
 
-
     })
 
 
@@ -217,7 +216,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-        props.onUpdate(0)
+        props.onUpdate(props.change + 1)
     }
 
     const handleCancel = (game: any) => {
@@ -251,7 +250,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-        props.onUpdate(0)
+        props.onUpdate(props.change + 1)
     }
 
 
@@ -313,7 +312,7 @@ const GameCard = (props: Props) => {
                                 : game.status == "assignorPending" ?
                                     <></>
                                     :
-                                    <></>
+                                    <><Button style={{ background: "#f5222d" }} onClick={() => handleDelete(game)}><i className="fas fa-trash-alt"></i></Button></>
                         }
                     </Div>
                 </Card>
