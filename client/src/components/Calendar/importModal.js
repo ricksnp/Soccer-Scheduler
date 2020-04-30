@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import CSVReader1 from './importReader'
+import { red } from '@material-ui/core/colors';
 
 class MyModal1 extends React.Component {
     constructor(props) { super(props) }
@@ -38,9 +39,10 @@ class MyModal1 extends React.Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    footer={null}
                 >
-                    <p>Download our template first:  <a href={`${process.env.PUBLIC_URL}/gametemp.xlsx`} download="">Download</a></p>
-                    <CSVReader1 role={role} userHome={userHome} />
+                    <p style={{ color: 'red' }}>Download our template first:  <a href={`${process.env.PUBLIC_URL}/gametemp.xlsx`} download="">Download</a></p>
+                    <CSVReader1 role={role} userHome={userHome} handleOk={this.handleOk} />
                 </Modal>
             </>
         );

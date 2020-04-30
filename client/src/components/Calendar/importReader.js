@@ -133,11 +133,9 @@ export default class CSVReader1 extends Component {
 
 
         }
-        console.log("Above reader.read")
         reader.readAsArrayBuffer(csvfile);
-        console.log("Below reader.read")
 
-
+        this.props.handleOk();
 
     };
 
@@ -153,6 +151,7 @@ export default class CSVReader1 extends Component {
         return (
             <div className="App">
                 <h2>Import CSV File!</h2>
+                <br />
                 <input
                     className="csv-input"
                     type="file"
@@ -164,6 +163,7 @@ export default class CSVReader1 extends Component {
                     onChange={this.handleChange}
                 />
                 <p />
+                <br />
                 <button onClick={this.importCSV}> Upload now!</button>
             </div>
         );
