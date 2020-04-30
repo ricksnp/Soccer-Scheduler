@@ -314,7 +314,8 @@ const AddGames = (props:Props) => {
             <></>
             }
            <TableCell>
-                    <Select 
+                    <Select
+                        style={{width: "100%"}} 
                         defaultValue={gameData.oppTeam}
                         onChange={awayChange}
                         data-idx={props.index}

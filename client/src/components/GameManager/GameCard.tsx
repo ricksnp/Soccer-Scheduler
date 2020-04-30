@@ -20,7 +20,8 @@ interface Props {
     game: any,
     index: any,
     role: string,
-    onUpdate: any
+    onUpdate: any,
+    change: any
 }
 
 
@@ -168,7 +169,8 @@ const GameCard = (props: Props) => {
                     message: "Game Confirmed",
                     description: addMessage
                 })
-
+                props.onUpdate(props.change + 1)
+                console.log("YABBA DABBA")
             })
             .catch((error) => {
                 notification.error({
@@ -177,7 +179,7 @@ const GameCard = (props: Props) => {
                 })
             })
 
-            props.onUpdate(0)
+
     }
 
     const handleDelete = (game: any) => {

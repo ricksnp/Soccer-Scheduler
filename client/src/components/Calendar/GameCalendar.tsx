@@ -41,7 +41,7 @@ const openPastDateNotif = () => {
 }
 
 
-const GameCalendar = ({ filter,secondFilter, update }: any) => {
+const GameCalendar = ({ filter, secondFilter, update }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');

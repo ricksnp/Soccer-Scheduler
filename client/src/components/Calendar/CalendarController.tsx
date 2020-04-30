@@ -28,7 +28,7 @@ const CalendarController = (user: any) => {
     const [onUpdate, setUpdate] = useState(false)
     const userRole = user.user.role
 
-    if(userRole === "ROLE_ASSIGNOR" && counter === 0)
+    if((userRole === "ROLE_ASSIGNOR" || userRole === "ROLE_ADMIN") && counter === 0)
     {
         setFilter("Scheduled")
         setCounter(counter + 1)

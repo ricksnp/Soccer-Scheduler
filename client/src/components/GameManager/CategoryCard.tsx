@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
 import { Header } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGameController from './AddGameController'
-import { isMobile } from 'react-device-detect'
 import GMModal from './GMModals';
 import {GMProvider, useGlobalState } from './GMProvider';
+import { isBrowser, isMobile } from "react-device-detect";
 import BlockDays from '../Calendar/BlockDays';
 import DayBlocker from './DayBlocker';
 
@@ -38,7 +38,6 @@ function sortGames(games: any, role: string, homename: String) {
     let newGames: any = [];
     let assignorPending: any = [];
 
-    console.log("CategoryCard" + JSON.stringify(games))
     
     for (let i = 0; i < games.length; i++) {
 
@@ -111,16 +110,20 @@ interface Props {
     scheduledGames: any,
     role: string,
     homeName: String,
-    onUpdate: any
+    onUpdate: any,
+    change: any
 }
 
 const CategoryCard = (props: Props) => {
 
     let showEditGame = useGlobalState("showEditGame");
 
+    const [newGamesList, setGamesList] = useState(props.editGames)
+    const [newScheduledList, setNewScheduled] =useState(props.scheduledGames)
+
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = props.editGames === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
-    const scheduledList = props.scheduledGames === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
+    const gamesList = newGamesList === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
+    const scheduledList = newScheduledList === "" ? props.scheduledGames : sortScheduled(props.scheduledGames)
 
     //sortGames(props.editGames);
 
@@ -141,6 +144,18 @@ const CategoryCard = (props: Props) => {
             {
                 key: "add",
                 tab: "Add Games"
+            }
+        ]
+
+        const mobileTabList =
+        [
+            {
+                key: 'pending',
+                tab: 'Pending Approval',
+            },
+            {
+                key: "scheduled",
+                tab: "Scheduled/Cancelled/Moved Games",
             }
         ]
 
@@ -172,7 +187,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                  <GMProvider>
-                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+                    <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     <GMModal />
                   </GMProvider>
                 </div>
@@ -187,7 +202,7 @@ const CategoryCard = (props: Props) => {
             return (
                 <div>
                     <GMProvider>
-                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+                    <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     <GMModal />
                     </GMProvider>
                 </div>
@@ -201,7 +216,7 @@ const CategoryCard = (props: Props) => {
         scheduledList.scheduled.map((game: any, i: any) => {
             return (
                 <GMProvider>
-                    <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+                    <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
                     { showEditGame && <GMModal /> }
                 </GMProvider>
             );
@@ -212,7 +227,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.canceled.map((game: any, i: any) => {
             return (
-                <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+                <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
             );
         })
 
@@ -221,7 +236,7 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.moved.map((game: any, i: any) => {
             return (
-                <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+                <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
             );
         })
 
@@ -230,9 +245,18 @@ const CategoryCard = (props: Props) => {
     :
     gamesList.assignor.map((game: any, i: any) => {
         return (
-            <GameCard onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
+            <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
         );
     })
+
+    useEffect(()=>{
+        setGamesList(props.editGames)
+        setNewScheduled(props.scheduledGames)
+
+        console.log("IN Category Card Use Effect")
+    },
+        [props.change]
+    )
 
     return (
         <Card
@@ -240,7 +264,7 @@ const CategoryCard = (props: Props) => {
             //bodyStyle={{background: "#686868"}}
             headStyle={Headstyle}
             title={"Game Manager"}
-            tabList={props.role != "ROLE_USER" ? adminTabList : tabList}
+            tabList={props.role != "ROLE_USER" ? adminTabList : isMobile ? mobileTabList : tabList}
             activeTabKey={key}
             onTabChange={key => setKey(key)}
         >
@@ -275,7 +299,7 @@ const CategoryCard = (props: Props) => {
                     {canceledList}
                 </>
             }
-            {key === "add" && <AddGameController  role={props.role} userHome={props.homeName}/>}
+            {key === "add" && isBrowser && <AddGameController  role={props.role} userHome={props.homeName}/>}
             {key === "block" && props.role != "ROLE_USER" && <DayBlocker/>}
         </Card>
     );
