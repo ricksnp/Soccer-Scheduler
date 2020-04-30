@@ -6,18 +6,13 @@ public class ResetPasswordRequest {
 		@NotBlank
 		private String id;
 		
-	 @NotBlank
+		@NotBlank
 	    @Size(min = 4, max = 40)
 	    private String name;
 
 	    @NotBlank
 	    @Size(min = 3, max = 15)
 	    private String username;
-
-	    @NotBlank
-	    @Size(max = 40)
-	    @Email
-	    private String email;
 
 	    @NotBlank
 	    @Size(min = 6, max = 20)
@@ -53,14 +48,6 @@ public class ResetPasswordRequest {
 
 	    public void setUsername(String username) {
 	        this.username = username;
-	    }
-
-	    public String getEmail() {
-	        return email;
-	    }
-
-	    public void setEmail(String email) {
-	        this.email = email;
 	    }
 
 	    public String getPassword() {
