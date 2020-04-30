@@ -106,11 +106,6 @@ const NewAdmin = (userInfo: any) => {
 
     useEffect(()=>{
         setCounter(0)
-        apiGetGames().then(response => {
-            setNew(response);
-            console.log("Make Change")
-        })
-
         
     },
     [change]

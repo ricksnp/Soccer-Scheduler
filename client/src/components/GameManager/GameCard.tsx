@@ -191,7 +191,6 @@ const GameCard = (props: Props) => {
             level: game.teamLevel,
             gender: game.gender,
             date: game.start
-
         }
 
         apiUpdateGame(update)
