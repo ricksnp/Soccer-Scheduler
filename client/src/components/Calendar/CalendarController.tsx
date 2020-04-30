@@ -4,7 +4,10 @@ import CalendarModal from './CalendarModal';
 import Filter from './Filter';
 import { Provider } from './Provider';
 import SecondFilter from './SecondFilter'
-import SimpleMenu from '../../common/gear'
+import Button from "@material-ui/core/Button";
+import MyModal from './profileModal'
+
+
 
 const secondObj = {
     varsity: true,
@@ -16,6 +19,8 @@ const secondObj = {
     scheduled: true,
     pending: true
 }
+
+
 
 //CalendarController controls all aspects of the control,
 // it returns the Provider, GameCalendar, and Calendar Modal
@@ -91,8 +96,10 @@ const CalendarController = (user: any) => {
     }
 
     return (
-        <>  <SimpleMenu></SimpleMenu>
+        <>
+
             {console.log("Filter In Calendar Controller: " + JSON.stringify(secondFilter))}
+            <MyModal></MyModal>
             <Provider>
                 <Filter setFilter={setFilter} userRole={userRole} />
                 <SecondFilter secondFilter={secondFilter} setSecond={setSecond} secondChange={secondChange} />
