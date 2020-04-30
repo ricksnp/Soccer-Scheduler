@@ -4,7 +4,7 @@ import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
 import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
-import {getCurrentUser} from '../../utility/APIUtility'
+import { getCurrentUser } from '../../utility/APIUtility'
 import { userInfo } from 'os';
 import { sendAnEmail } from '../../common/email/email'
 import { getAllUsers } from '../../utility/APIUtility'
@@ -16,24 +16,30 @@ const openNotification = () => {
     })
 }
 
-// const grabEmail = (game: any) => {
-//     let desiredEmail = "";
-//     getAllUsers().then((response) => {
+const emailContents = (away: string, on: string) => {
+    return "<h2>PENDING GAME CONFIRMATION:</h2>" +
+        "You have a new game to confirm against " +
+        away + " on " + on
+}
 
-//         for (let i = 0; i < response.length; i++) {
-//             if (response[i].schoolname == game.awayTeamName) {
+const grabEmail = (game: any) => {
+    let desiredEmail = "";
+    getAllUsers().then((response) => {
 
-//                 desiredEmail = response[i].email;
-//                 sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == game.awayTeamName) {
 
-//             }
-//         }
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, emailContents(game.awayTeamName, game.date));
 
-//     })
+            }
+        }
 
-// }
+    })
 
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange:any) => {
+}
+
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -71,15 +77,15 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
     }
 
     //update game status based on who edited game
-    const updateStatusEdit = (  ) => {
+    const updateStatusEdit = () => {
         const role = user.role;
 
         //home team edited game
-        if( clickedEvent[5] === school ) {
+        if (clickedEvent[5] === school) {
             return "homeEdit"
-        } 
+        }
         //away team edited game
-        else if ( clickedEvent[6] === school ) {
+        else if (clickedEvent[6] === school) {
             return "awayEdit"
         }
 
@@ -121,7 +127,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + selectedTime,
                 }
-                
+
 
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
@@ -130,22 +136,20 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 //send to backend
                 postGames(game)
                     .then((response) => {
-                        if(response.success)
-                        {
+                        if (response.success) {
                             notification.success({
                                 message: "Game Added",
                                 description: "Game was successfully added"
                             })
                         }
-                        else
-                        {
+                        else {
                             notification.error({
                                 message: "Game was not added",
                                 description: response.message
                             })
                         }
-                         //grabEmail(game);
-                         console.log("RESPONSE: " + JSON.stringify(response))
+                        //grabEmail(game);
+                        console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
                     .catch((error) => {
@@ -198,7 +202,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
-                
+
                 // @ts-ignore
                 console.log(gameForm.getFieldValue("time")._i)
 
@@ -208,18 +212,18 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
                 //send to backend
                 apiUpdateGame(game)
-                .then((response)=>{
-                    notification.success({
-                        message: "Game Edited",
-                        description: "Game was successfully edited"
+                    .then((response) => {
+                        notification.success({
+                            message: "Game Edited",
+                            description: "Game was successfully edited"
+                        })
                     })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Edit Failed",
-                        description: "Game was not edited"
+                    .catch((error) => {
+                        notification.error({
+                            message: "Game Edit Failed",
+                            description: "Game was not edited"
+                        })
                     })
-                })
 
 
                 // @ts-ignore
