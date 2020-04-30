@@ -18,11 +18,6 @@ import java.util.TimeZone;
 
 public class MatchSim {
 
-	@PostConstruct
-	void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(MatchSim.class, args);
 	}
