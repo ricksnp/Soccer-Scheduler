@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
-import { Form, Select, Radio, Input } from 'antd';
+import { Form, Select, Radio, Input, DatePicker, TimePicker } from 'antd';
 import { useGlobalState } from './GMProvider';
-import {getAllUsers} from '../../utility/APIUtility';
+import {getAllUsers, getCurrentUser} from '../../utility/APIUtility';
+import moment from 'moment'
 
 interface Props {
     form: any
 }
+
+
 
 function updateOptions(setter:any)
 {
@@ -37,7 +40,65 @@ function updateOptions(setter:any)
     console.log("list" + list);
 }
 
+function getUserInfo(setter: any, roleSetter: any, setSchool: any, setStatus:any, title:any, school: any)
+{
+    let status = "coachPending";
+    let role = "";
+
+    getCurrentUser()
+        .then((response)=>{
+            setter(response);
+            roleSetter(response.role);
+            setSchool(response.schoolname)
+            role = response.role;
+
+            const homeAwayTeams = title.split(' vs ');
+            const home = homeAwayTeams[0];
+            const away = homeAwayTeams[1];
+    
+            //home team edited game
+            if( home === school ) {
+                console.log("homeEdit");
+                setStatus("homeEdit");
+                status = "homeEdit"
+            } 
+            //away team edited game
+            else if ( away === school ) {
+                console.log("awayEdot");
+                setStatus("awayEdit");
+                status = "awayEdit"
+            } 
+            else if ( role === "ROLE_ASSIGNOR" ) {
+                console.log("scheduled");
+                setStatus("scheduled");
+                status = "scheduled"
+            }
+            else {
+                setStatus("coachPending");
+                status="coachPending"
+            }
+        })
+
+    setStatus(status)
+
+}
+
 //if "other", school is not in disctrict, make new field appear to type in school
+
+
+const getTime = ( dateVar: any ) => {
+    const dateTime = dateVar.split(' ');
+    const time = dateTime[1];
+    return moment( time, "hh:mm" );
+
+}
+
+const getDate = ( dateVar: any ) => {
+    const dateTime = dateVar.split(' ');
+    const date = dateTime[0];
+    return ( moment( date, "YYYY/MM/DD" ) )
+}
+
 
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
@@ -49,6 +110,15 @@ const CreateEditGame = ( props: Props ) => {
 
     const [teamList, setTeamList] = useState(teams)
     const [counter, setCounter] = useState(0);
+    const [dateValue, setValue] = useState(new Date)
+
+    const [user, setUser] = useState(undefined)
+    const [role, setRole] = useState("");
+    const [school, setSchool] = useState("");
+    const [status, setStatus] = useState(clickedGame[7]);
+
+    const date = new Date;
+
 
 
     const teamOptions = teams.map((team, i) => {
@@ -77,8 +147,25 @@ const CreateEditGame = ( props: Props ) => {
     {
 
         updateOptions(setTeamList);
+        getUserInfo(setUser, setRole,setSchool, setStatus, clickedGame[0], school)
 
         setCounter(counter +1)
+
+        console.log("Clicked" + JSON.stringify(clickedGame))
+    }
+
+    const handleDate = (temp: any) => {
+        let split = temp.split("T");
+        setValue(split[0])
+
+        return split[0]
+    }
+
+    const timeChange = (chosenTime: any) => {
+        props.form.setFieldsValue({
+            time: chosenTime
+        });
+        console.log(chosenTime)
     }
 
     return (
@@ -146,22 +233,35 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Status" style={ {display: "none"} } >
                 {getFieldDecorator('status', {
                     rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: showEditGame === true? clickedGame[7] : "coachPending"
+                    initialValue: status,
                 })(
-                    <Input/>
+                    <Input />
                 )}
             </Form.Item>
 
 
             <Form.Item label="Date">
                 {getFieldDecorator('date', {
-                    rules: [{ required: true, message: 'Select Status' }],
-                    initialValue: clickedGame[1]
-                })(
-                    <Input disabled style={{width:"50%"}} />
+                    rules: [{ required: true, message: 'Select Date' }],
+                    initialValue: counter === 0 ? moment(getDate(clickedGame[1]), 'YYYY/MM/DD') : moment(dateValue,'YYYY/MM/DD')
+                })(  
+                    <DatePicker  style={{width:"50%"}} />
                 )}
             </Form.Item>
-                <Form.Item/>
+            
+            <Form.Item label="Time">
+                    { getFieldDecorator('time', { 
+                        rules: [{ required: true, message: 'Select Time' }],
+                        initialValue: showEditGame === true? moment(getTime(clickedGame[1]), "hh:mm") : moment( '00:00', 'HH:mm a' )
+                     })(
+                         <TimePicker 
+                            use12Hours 
+                            format="hh:mm"
+                            minuteStep={15}
+                            onChange={time => timeChange(time) }
+                            />
+                     ) }
+            </Form.Item>
         </Form>
       );
 };

@@ -1,5 +1,5 @@
-import React, {useState}from 'react';
-import {apiGetGames} from '../utility/APIGameControl';
+import React, { useState } from 'react';
+import { apiGetGames } from '../utility/APIGameControl';
 
 
 /*
@@ -7,61 +7,57 @@ getScheduledGames reads through the JSON data in the "getgames" API call
     and creates an array compatabile with full calendar
 @param setEvents is a hook function to be set to the array
 */
-export const getScheduledGames = (apiCall:any , setEvents: any) =>{
-
-const res = apiCall;
-
-let games:any = [];
-
-for(let i = 0; i < res.length; i++)
-{
-    if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
-    {
-
-        let color;
-        if(res[i].status === "scheduled")
-            color = '#78e388';
-        else if (res[i].status === "moved")
-            color = '#adadad';
-        else if (res[i].status === 'cancelled')
-            color = '#ff5757';
-
-        games.push({
-            title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
-            id: res[i].id,
-            home: res[i].homeTeamName,
-            away: res[i].awayTeamName,
-            start: res[i].date.replace(" ", "T"),
-            location: res[i].location,
-            teamLevel: res[i].teamLevel,
-            gender: res[i].gender,
-            status: res[i].status,
-            color: color,
-            textColor: 'black'
-        })
-    }
-}
-
-setEvents(games);
-
-}
-
-export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
+export const getScheduledGames = (apiCall: any, setEvents: any) => {
 
     const res = apiCall;
-    
-    let games:any = [];
-    
-    for(let i = 0; i < res.length; i++)
-    {
-        if(res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled")
-        {
+
+    let games: any = [];
+
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") {
+
+            let color;
+            if (res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+
+            games.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
+            })
+        }
+    }
+
+    setEvents(games);
+
+}
+
+export const getCSVSchedule = (apiCall: any, setEvents: any) => {
+
+    const res = apiCall;
+
+    let games: any = [];
+
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") {
             let resDate = res[i].date.split(" ")
             let newDate = resDate[0];
             let newTime = resDate[1]
 
             games.push({
-                HomeTeam: res[i].homeTeamName, 
+                HomeTeam: res[i].homeTeamName,
                 AwayTeam: res[i].awayTeamName,
                 Date: newDate,
                 Time: newTime,
@@ -72,24 +68,20 @@ export const getCSVSchedule = (apiCall:any , setEvents: any) =>{
             })
         }
     }
-    
+
     setEvents(games);
-    
-    }
+
+}
 
 
-export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
+export const getOnlyScheduledGames = (apiCall: any, setEvents: any) => {
 
     const res = apiCall;
-    console.log("onlyscheduled res: " + JSON.stringify(res))
-    
-    let games:any = [];
-    
-    for(let i = 0; i < res.length; i++)
-    {
-        if(res[i].status == "scheduled")
-        {
-            console.log("IN IF STATEMENT")
+
+    let games: any = [];
+
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].status == "scheduled") {
             games.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -103,12 +95,11 @@ export const getOnlyScheduledGames = (apiCall:any , setEvents: any) =>{
             })
         }
     }
-    
-    console.log("Get scheduled games" + JSON.stringify(games))
+
     setEvents(games);
-    
+
 }
-    
+
 /*
 getCoachSchedule reads through the JSON data in the "getgames" API call
     and creates an array of objects to be used by the CalendarFilter or 
@@ -116,20 +107,18 @@ getCoachSchedule reads through the JSON data in the "getgames" API call
 @param setSchedule hook function to be set to the array
 @param name the coaches school name
 */
-export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
+export const getCoachSchedule = (apiCall: any, setSchedule: any, name: any) => {
 
     const res = apiCall;
-    
-    let games:any = [];
-    
-    for(let i = 0; i < res.length; i++)
-    {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending" || res[i].status === "assignorPending") && 
-            (res[i].homeTeamName === name || res[i].awayTeamName === name))
-        {
+
+    let games: any = [];
+
+    for (let i = 0; i < res.length; i++) {
+        if ((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled" || res[i].status === "coachPending" || res[i].status === "assignorPending") &&
+            (res[i].homeTeamName === name || res[i].awayTeamName === name)) {
 
             let color;
-            if(res[i].status === "scheduled")
+            if (res[i].status === "scheduled")
                 color = '#78e388';
             else if (res[i].status === "moved")
                 color = '#adadad';
@@ -153,9 +142,8 @@ export const getCoachSchedule = (apiCall: any, setSchedule: any,name:any) =>{
             })
         }
     }
-    console.log("GETCOACHSCHEDULE: " + games)
     setSchedule(games);
-    
+
 }
 
 
@@ -168,19 +156,17 @@ getTeamSchedule reads through the JSON data in the API call
 @param setSchedule hook function to be set to the array
 @param name the coaches school name
 */
-export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
+export const getTeamSchedule = (apiCall: any, setSchedule: any, name: any) => {
 
     const res = apiCall;
-    
-    let games:any = [];
-    
-    for(let i = 0; i < res.length; i++)
-    {
-        if((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") && 
-            (res[i].homeTeamName === name || res[i].awayTeamName === name))
-        {
+
+    let games: any = [];
+
+    for (let i = 0; i < res.length; i++) {
+        if ((res[i].status === "scheduled" || res[i].status === "moved" || res[i].status === "cancelled") &&
+            (res[i].homeTeamName === name || res[i].awayTeamName === name)) {
             let color;
-            if(res[i].status === "scheduled")
+            if (res[i].status === "scheduled")
                 color = '#78e388';
             else if (res[i].status === "moved")
                 color = '#adadad';
@@ -202,9 +188,9 @@ export const getTeamSchedule = (apiCall: any, setSchedule: any,name:any) =>{
             })
         }
     }
-    
+
     setSchedule(games);
-    
+
 }
 
 /*
@@ -215,19 +201,16 @@ getCoachPending reads through the JSON data in the "getgames" API call
 @param setPending hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getCoachPending = (apiCall: any, setPending:any, name: String) =>{
-    
+export const getCoachPending = (apiCall: any, setPending: any, name: String) => {
+
     const res = apiCall;
-    console.log("RES" + JSON.stringify(res))
 
     let pending = [];
 
-    for(let i = 0; i < res.length; i++)
-    {
+    for (let i = 0; i < res.length; i++) {
 
-        if(res[i].status === "coachPending" || res[i].status === "assignorPedning" && res[i].awayTeamName === name || res[i].awayTeamName == name)
-        {
-            console.log("IN IF")
+        if (res[i].status === "coachPending" || res[i].status === "assignorPending" && res[i].awayTeamName === name || res[i].homeTeamName == name) {
+        
             pending.push({
                 title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
                 id: res[i].id,
@@ -253,16 +236,14 @@ getAdminPending reads through the JSON data in the "getgames" API call
     pages to show all the games that need their approval
 @param setAssignorPending hook function to be set to the array
 */
-export const getAdminPending = (apiCall: any,setAssignorPending:any) =>{
+export const getAdminPending = (apiCall: any, setAssignorPending: any) => {
 
     const res = apiCall;
 
     let pending = [];
 
-    for(let i = 0; i < res.length; i++)
-    {
-        if(res[i].status === "assignorPending")
-        {
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].status === "assignorPending") {
             pending.push({
                 id: res[i].id,
                 home: res[i].homeTeamName,
@@ -275,8 +256,7 @@ export const getAdminPending = (apiCall: any,setAssignorPending:any) =>{
             })
         }
     }
-    
-    console.log("In Assignor Pending, Games = " + JSON.stringify(pending))
+
     setAssignorPending(pending);
 
 }
@@ -289,16 +269,14 @@ getEdit reads through the JSON data in the "getgames" API call
 @param setEdit hook function to be set to the array
 @param name the name of the coaches team
 */
-export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
+export const getEdit = (apiCall: any, setEdit: any, name: any) => {
 
     const res = apiCall;
 
     let edited = [];
 
-    for(let i = 0; i < res.length; i++)
-    {
-        if(res[i].status === "awayEdit" && res[i].homeTeamName.equals(name))
-        {
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].status === "awayEdit" && res[i].homeTeamName.equals(name)) {
             edited.push({
                 id: res[i].matchid,
                 home: res[i].homeTeamName,
@@ -309,8 +287,7 @@ export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
                 gender: res[i].gender
             })
         }
-        else if(res[i].status === "awayEdit" && res[i].awayTeamName.equals(name))
-        {
+        else if (res[i].status === "awayEdit" && res[i].awayTeamName.equals(name)) {
             edited.push({
                 id: res[i].matchid,
                 home: res[i].homeTeamName,
@@ -322,12 +299,161 @@ export const getEdit = (apiCall: any,setEdit:any, name:any) =>{
             })
         }
     }
-    
+
     setEdit(edited);
 
 }
 
+export const getUserSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) =>
+{
+    const res = apiCall;
+
+    let second: any = []
+
+    for(let i = 0; i < res.length;i++)
+    {
+        const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
+        const moved = secondFilter.moved ? res[i].status === "moved" : false;
+        const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
+        const pending = secondFilter.pending ? res[i].status === "coachPending" : false;
+        const varsity = secondFilter.varsity ? res[i].teamLevel === "v" : false;
+        const jv = secondFilter.jv ? res[i].teamLevel === "jv" : false;
+        const boys = secondFilter.boys ? res[i].gender === "b" : false;
+        const girls = secondFilter.girls ? res[i].gender === "g" : false;
 
 
+        if((scheduled || moved || canceled || pending ) && (varsity || jv) && (boys || girls ) && (res[i].awayTeamName === name || res[i].homeTeamName == name))
+        {
 
-export {}; 
+            let color;
+            if (res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
+                color = '#fdff87';
+
+            second.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
+            })
+        }
+    }
+
+    setSecond(second)
+
+}
+
+export const getCoachSecondFilter = (apiCall: any, setSecond: any, name: String, secondFilter: any) =>
+{
+    const res = apiCall;
+
+    let second: any = []
+
+    for(let i = 0; i < res.length;i++)
+    {
+        const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
+        const moved = secondFilter.moved ? res[i].status === "moved" : false;
+        const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
+        const varsity = secondFilter.varsity ? res[i].teamLevel === "v" : false;
+        const jv = secondFilter.jv ? res[i].teamLevel === "jv" : false;
+        const boys = secondFilter.boys ? res[i].gender === "b" : false;
+        const girls = secondFilter.girls ? res[i].gender === "g" : false;
+
+
+        if((scheduled || moved || canceled ) && (varsity || jv) && (boys || girls ) && (res[i].awayTeamName === name || res[i].homeTeamName == name))
+        {
+
+            let color;
+            if (res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
+                color = '#fdff87';
+
+            second.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
+            })
+        }
+    }
+
+    setSecond(second)
+
+}
+
+export const getScheudSecondFilter = (apiCall: any, setSecond: any, secondFilter: any) =>
+{
+    const res = apiCall;
+
+    let second: any = []
+
+    for(let i = 0; i < res.length;i++)
+    {
+        const scheduled = secondFilter.scheduled ? res[i].status == "scheduled" : false;
+        const moved = secondFilter.moved ? res[i].status === "moved" : false;
+        const canceled = secondFilter.canceled ? res[i].status === "cancelled" : false;
+        const varsity = secondFilter.varsity ? res[i].teamLevel === "v" : false;
+        const jv = secondFilter.jv ? res[i].teamLevel === "jv" : false;
+        const boys = secondFilter.boys ? res[i].gender === "b" : false;
+        const girls = secondFilter.girls ? res[i].gender === "g" : false;
+
+
+        if((scheduled || moved || canceled ) && (varsity || jv) && (boys || girls ))
+        {
+
+            let color;
+            if (res[i].status === "scheduled")
+                color = '#78e388';
+            else if (res[i].status === "moved")
+                color = '#adadad';
+            else if (res[i].status === 'cancelled')
+                color = '#ff5757';
+            else if (res[i].status === 'coachPending' || res[i].status === "assignorPending")
+                color = '#fdff87';
+
+            second.push({
+                title: res[i].homeTeamName + " vs " + res[i].awayTeamName,
+                id: res[i].id,
+                home: res[i].homeTeamName,
+                away: res[i].awayTeamName,
+                start: res[i].date.replace(" ", "T"),
+                location: res[i].location,
+                teamLevel: res[i].teamLevel,
+                gender: res[i].gender,
+                status: res[i].status,
+                color: color,
+                textColor: 'black'
+            })
+        }
+    }
+
+    setSecond(second)
+
+}
+
+
+export { }; 

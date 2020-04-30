@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Form, Input, Select, TimePicker, DatePicker, Radio, Card, Button, notification} from 'antd';
+import {postGames}from '../../utility/APIGameControl'
 import { isMobile } from "react-device-detect";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import styled from 'styled-components';
-
+import moment from 'moment';
 
 const Wrapper = styled.div`
     @media only screen and (max-width: 768px){
@@ -27,18 +28,18 @@ const layout =
       {labelCol: { span: 4 },
       wrapperCol: { span: 5 }}
 
-
-  const teams: Array<string> = [ "Neville", "West Monroe", "Ouachita" ]
-  const Option = Select.Option
-  const teamOptions = teams.map((team, i) => {
-      return (
-          <Option value={team} key={i}>
-              {team}
-          </Option>
-      );
-  });
-
 const baseGame = {
+    homeTeam: undefined,
+    oppTeam: undefined,
+    level: undefined,
+    gender: undefined,
+    location: undefined,
+    date: undefined,
+    time: undefined
+}
+
+const assignorBase = {
+    homeTeam: undefined,
     oppTeam: undefined,
     level: undefined,
     gender: undefined,
@@ -50,31 +51,28 @@ const baseGame = {
 interface Props{
     remove: any,
     index: any,
-    persistance: any,
-    control: any
+    control: any,
+    handleChange: any,
+    teamData: any,
+    role: any
 }
+
+
 const AddGames = (props:Props) => {
 
     const [gameData, setData] = useState(baseGame);
     const [counter, setCounter] = useState(0);
-    const [oppTeam, setOpp] = useState("");
-    const [level, setLevel] = useState("");
-    const [gender, setGender] = useState("");
-    const [location, setLocation] = useState("");
-    const [date, setDate] = useState("");
-    const [time, setTime] = useState("");
+    const [bgColor, setbgColor] = useState("white")
+    const [input, setInput] = useState("")
+    const [outsideFlag, setOutsideflag] = useState(false)
+
+    
 
     function deleteRow(index:any){
 
         props.remove(index);
         
     }
-
-    function opChange(value: any)
-    {
-        props.persistance(value, props.index,"opp" )
-    }
-
     if(counter === 0)
     {
         for(let i = 0; i < props.control.length; i++)
@@ -88,53 +86,284 @@ const AddGames = (props:Props) => {
         setCounter(counter+1)
     }
 
+    const Option = Select.Option
+    const options = props.teamData
+    const teamOptions = options.map((team:any, i:any) => {
+        return (
+            <Option value={team} key={i}>
+                {team}
+            </Option>
+        );
+    });
+
+    const levelOpt = [{label: "Varsity",value: "v"},{label: "Junior Varsity", value: "jv"}]
+    const genderOpt = [{label: "Boys",value: "b"},{label: "Girls", value: "g"}]
+    
+    const inputChange = (newE: any) => {
+
+        let e = {
+            target: {
+                value: newE.target.value,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "input"
+            }
+        }
+
+        setOutsideflag(true)
+        props.handleChange(e)
+    }
+    
+    const homeChange =(newE: any) =>
+    {
+        console.log("value: " + newE)
+        let e = {
+            target: {
+                value: newE,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "homeTeam"
+            }
+        }
+
+        props.handleChange(e)
+    }
+    const awayChange =(newE: any) =>
+    {
+        console.log("value: " + newE)
+        let e = {
+            target: {
+                value: newE,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "awayTeam"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const levelChange =(newE: any) =>
+    {
+        console.log("value: " + newE.target.value)
+        let e = {
+            target: {
+                value: newE.target.value,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "level"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const genderChange =(newE: any) =>
+    {
+        console.log("value: " + newE.target.value)
+        let e = {
+            target: {
+                value: newE.target.value,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "gender"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const locationChange =(newE: any) =>
+    {
+        console.log("value: " + newE.target.value)
+        let e = {
+            target: {
+                value: newE.target.value,
+                dataset:{
+                    idx: props.index,
+                },
+                class: "location"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const dateChange =(newE: any) =>
+    {
+        console.log("value: " + JSON.stringify(newE))
+
+        let split = JSON.stringify(newE).split("T")
+
+        let split1 = split[0].split("/")
+        let split2 = split1[0].split("\"");
+
+        console.log(split2[0])
+        let e = {
+            target: {
+                value: split2[1],
+                dataset:{
+                    idx: props.index,
+                },
+                class: "date"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const timeChange =(newE: any) =>
+    {
+        console.log("value: " + JSON.stringify(newE))
+        let split = JSON.stringify(newE).split("T")
+
+        let split1 = split[1].split("/")
+        let split2 = split1[0].split("\"");
+        let split3 = split2[0].split(".")
+        let e = {
+            target: {
+                value: split3[0],
+                dataset:{
+                    idx: props.index,
+                },
+                class: "time"
+            }
+        }
+
+        props.handleChange(e)
+    }
+
+    const confirmGame = () =>{
+
+        let status = "coachPending"
+        let home = props.control.homeTeam;
+        let away = props.control.awayTeam;
+
+        if(props.role != "ROLE_USER")
+        {
+            status="scheduled";
+        }
+        else if(outsideFlag)
+        {
+            status = "assignorPending"
+
+            if(home === "Outside of District")
+            {
+                home = props.control.input
+            }
+            else if(away === "Outside of District")
+            {
+                away = props.control.input
+            }
+        }
+
+        let addGame = {
+            homeTeamName: home,
+            awayTeamName: away,
+            date: props.control.date + "T" + props.control.time,
+            location: props.control.location,
+            teamLevel: props.control.level,
+            gender: props.control.gender,
+            status: status
+        }
+
+        console.log(addGame)
+
+        postGames(addGame)
+            .then((response)=>{
+                notification.success({
+                    message: "Game Added successfully",
+                    description: "Game on " + props.control.date + " was added"
+                    
+                })
+                console.log("RESPONSE" + JSON.stringify(response))
+                setbgColor("#73d13d")
+            })
+            .catch((error)=>{
+                notification.error({
+                    message: "Game was not added",
+                    description: error.essage
+                })
+
+                setbgColor("#ff4d4f")
+            })
+    }
+
     //Oppossing Team, Level, Gender, Location, Date, Time
     return(
-       <TableRow style={{marginBottom: "2%"}}>
+        <>
+       <TableRow style={{background: bgColor}}>
+
+           {props.role != "ROLE_USER" ? 
+               <TableCell>
+                    <Select 
+                        defaultValue={gameData.homeTeam}
+                        onChange={homeChange}
+                        data-idx={props.index}
+                        value={props.control.homeTeam === "Assignor" ? "" : props.control.homeTeam}
+                    >
+                        {teamOptions}
+                    </Select>
+                </TableCell>
+                :
+            <></>
+            }
            <TableCell>
-                <Select 
-                    defaultValue={gameData.oppTeam}
-                    onChange={opChange}
-                >
-                   {teamOptions}
-                </Select>
+                    <Select 
+                        defaultValue={gameData.oppTeam}
+                        onChange={awayChange}
+                        data-idx={props.index}
+                        value={props.control.awayTeam}
+                    >
+                        {teamOptions}
+                    </Select>
             </TableCell>
 
             <TableCell>
-                <Radio.Group defaultValue={gameData.level}>
-                    <Radio.Button value={"v"}>Varsity</Radio.Button>
-                    <Radio.Button value={"jv"}>Junior Varsity</Radio.Button>
-                </Radio.Group>
+                <Radio.Group value={props.control.level} options={levelOpt} onChange={levelChange} />
             </TableCell>
 
             <TableCell>
-                <Radio.Group defaultValue={gameData.gender}>
-                    <Radio.Button value={"b"}>Boys</Radio.Button>
-                    <Radio.Button value={"g"}>Girls</Radio.Button>
-                </Radio.Group>
+                <Radio.Group value={props.control.gender} options={genderOpt} onChange={genderChange}/>
             </TableCell>
 
             <TableCell>
-                <Input defaultValue={gameData.location}/>
+                <Input value={props.control.location} onChange={locationChange} defaultValue={gameData.location}/>
             </TableCell>
 
             <TableCell>
-                <DatePicker/>
+                <DatePicker value={props.control.date == '' ? null : moment(props.control.date, 'YYYY-MM-DD')} onChange={dateChange}/>
             </TableCell>
 
             <TableCell>
-                <TimePicker/>
+                <TimePicker onChange={timeChange}/>
             </TableCell>
 
             <TableCell>
-                <Button type="primary" ><i className="fas fa-check"></i></Button>
+                <Button type="primary" onClick={confirmGame}><i className="fas fa-check"></i></Button>
             </TableCell>
 
             <TableCell>
                 <Button type="danger" onClick={()=>deleteRow(props.index)}><i className="fas fa-times"></i></Button>
             </TableCell>
-
        </TableRow>
+
+            {props.control.homeTeam === "Outside of District" ? 
+                 <>Type in home team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{margin: "10% 0%"}} /><br/></>
+                 :
+                 <></>
+                }
+            {props.control.awayTeam === "Outside of District" ? 
+                <>Type in away team name:<Input defaultValue={props.control.input} onChange={inputChange} style={{marginTop: "10%"}} /><br/></>
+                :
+                <></>
+            }
+       </>
     );
 }
 

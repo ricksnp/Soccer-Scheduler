@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from './Provider';
 import '../../style/gameCalendar.css';
 import Cal from '@fullcalendar/react';
@@ -7,13 +7,10 @@ import '../../style/gameCalendar.scss';
 import { CSVLink } from 'react-csv';
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getScheduledGames, getTeamSchedule, getCoachSchedule, getCSVSchedule } from '../Games';
+import { getCSVSchedule, getUserSecondFilter, getCoachSecondFilter, getScheudSecondFilter } from '../Games';
 import { isBrowser, isMobile } from "react-device-detect";
-import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { getCurrentUser } from '../../utility/APIUtility'
-import { setupMaster } from 'cluster';
-import MyModal1 from './importModal';
 import { notification } from 'antd';
 
 
@@ -44,7 +41,7 @@ const openPastDateNotif = () => {
 }
 
 
-const GameCalendar = ({ filter }: any) => {
+const GameCalendar = ({ filter,secondFilter, update }: any) => {
 
   const dispatch = useDispatch();
   const [events, setEvents] = useState('null');
@@ -99,20 +96,20 @@ const GameCalendar = ({ filter }: any) => {
     if (api !== "null") {
 
       if (filter === "Scheduled") {
-        getScheduledGames(api, setEvents)
+        getScheudSecondFilter(api, setEvents, secondFilter)
       }
       else if (filter === "Your Games" || filter === currentUser.schoolname) {
         if (currentUser.role.includes("USER")) {
-          getCoachSchedule(api, setEvents, currentUser.schoolname)
+          getUserSecondFilter(api, setEvents, currentUser.schoolname, secondFilter)
           //console.log("getCoachSchedule")
         }
         else {
           //TODO ADMIN STUFF
         }
       }
-      else //for games of specific teams that is not the user
+      else //for games of specific teams that are not the user
       {
-        getTeamSchedule(api, setEvents, filter)
+        getCoachSecondFilter(api, setEvents, filter, secondFilter)
       }
 
 
@@ -120,6 +117,13 @@ const GameCalendar = ({ filter }: any) => {
       setCounter(counter + 1);
     }
   }
+
+  useEffect(()=>{
+    console.log("inside use effect")
+    setCounter(0)
+  },
+    [secondFilter, update]
+  )
   //apiGetGames().then((response) => { getScheduledGames(response, setCsvData); console.log(csvData) })
   return (
     <>

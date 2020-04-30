@@ -3,9 +3,11 @@ import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
 import EventDisplay from './EventDisplay';
-import { postGames } from '../../utility/APIGameControl';
+import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
 import {getCurrentUser} from '../../utility/APIUtility'
 import { userInfo } from 'os';
+import { sendAnEmail } from '../../common/email/email'
+import { getAllUsers } from '../../utility/APIUtility'
 
 const openNotification = () => {
     notification.open({
@@ -14,7 +16,24 @@ const openNotification = () => {
     })
 }
 
-const CalendarModal = (user: any) => {
+const grabEmail = (game: any) => {
+    let desiredEmail = "";
+    getAllUsers().then((response) => {
+
+        for (let i = 0; i < response.length; i++) {
+            if (response[i].schoolname == game.awayTeamName) {
+
+                desiredEmail = response[i].email;
+                sendAnEmail(desiredEmail, "You have a game request scheduled for " + game.date);
+
+            }
+        }
+
+    })
+
+}
+
+const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) => {
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
@@ -22,10 +41,9 @@ const CalendarModal = (user: any) => {
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-    const [thisUser, setUser] = useState(user.user)
-    const [school, setSchool] = useState(user.schoolname)
 
-    console.log("CalendarModal Role" + JSON.stringify(thisUser))
+    console.log("CalendarModal Role" + JSON.stringify(user))
+    console.log(clickedEvent)
 
     //getCurrentUser().then((response=>{setUser(response)}));
 
@@ -53,6 +71,22 @@ const CalendarModal = (user: any) => {
 
     }
 
+    //update game status based on who edited game
+    const updateStatusEdit = (  ) => {
+        const role = user.role;
+
+        //home team edited game
+        if( clickedEvent[5] === school ) {
+            return "homeEdit"
+        } 
+        //away team edited game
+        else if ( clickedEvent[6] === school ) {
+            return "awayEdit"
+        }
+
+        //how to know if team approved edit?
+    }
+
     const handleOk = () => {
         if (showAddGame) {
             // @ts-ignore
@@ -60,6 +94,7 @@ const CalendarModal = (user: any) => {
                 if (err) {
                     return;
                 }
+
 
                 const game = {
                     // @ts-ignore
@@ -77,6 +112,9 @@ const CalendarModal = (user: any) => {
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
                 }
+                
+                // @ts-ignore
+                console.log(gameForm.getFieldValue("time")._i)
 
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
@@ -84,23 +122,22 @@ const CalendarModal = (user: any) => {
 
                 //send to backend
                 postGames(game)
-                .then((response)=>{
-                    console.log(JSON.stringify(response))
-                    notification.success({
-                        message: "Game Added",
-                        description: "Game was successfully added"
+                    .then((response) => {
+                        notification.success({
+                            message: "Game Added",
+                            description: "Game was successfully added"
+                        })
+                        grabEmail(game);
                     })
-                })
-                .catch((error)=>{
-                    notification.error({
-                        message: "Game Add Failed",
-
-                        description: error.message||"Game was not added"
+                    .catch((error) => {
+                        notification.error({
+                            message: "Game Add Failed",
+                            description: error.essage || "Game was not added"
+                        })
                     })
-                })
-                console.log("VALUES" + JSON.stringify(values));
-                //console.log("GAMES: " + getGames())
 
+
+                setUpdate(!onUpdate);
 
                 // @ts-ignore
                 gameForm.resetFields();
@@ -110,11 +147,11 @@ const CalendarModal = (user: any) => {
 
         if (showViewGame) {
             //opens edit modal if user is participant in game
-            if(school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER" ){
-                console.log( school + " " + user.role)
+            if (school === clickedEvent[5] || school === clickedEvent[6] || user.role !== "ROLE_USER") {
+                console.log(school + " " + user.role)
                 //save edits
                 dispatch({ type: 'EDIT_GAME', payload: clickedEvent });
-            } 
+            }
             //opens notification if user attempts to edit a game in which they are not participant
             else {
                 openNotification();
@@ -122,13 +159,61 @@ const CalendarModal = (user: any) => {
         }
 
         if (showEditGame) {
-            //Save edits
-            dispatch({ type: 'CLOSE_EDIT_GAME' });
+            // @ts-ignore
+            gameForm.validateFields((err: any, values: any) => {
+                if (err) {
+                    return;
+                }
+
+
+                const game = {
+                    // @ts-ignore
+                    homeTeamName: gameForm.getFieldValue("homeTeamName"),
+                    // @ts-ignore
+                    awayTeamName: gameForm.getFieldValue("awayTeamName"),
+                    // @ts-ignore
+                    teamLevel: gameForm.getFieldValue("teamLevel"),
+                    // @ts-ignore
+                    gender: gameForm.getFieldValue("gender"),
+                    // @ts-ignore
+                    location: gameForm.getFieldValue("location"),
+                    // @ts-ignore
+                    status: updateStatusEdit(),
+                    // @ts-ignore
+                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                }
+                
+                // @ts-ignore
+                console.log(gameForm.getFieldValue("time")._i)
+
+                console.log("Calendar modal game information" + JSON.stringify(game))
+
+                //game.homeTeamName = userInfo.
+
+                //send to backend
+                apiUpdateGame(game)
+                .then((response)=>{
+                    notification.success({
+                        message: "Game Edited",
+                        description: "Game was successfully edited"
+                    })
+                })
+                .catch((error)=>{
+                    notification.error({
+                        message: "Game Edit Failed",
+                        description: "Game was not edited"
+                    })
+                })
+
+
+                // @ts-ignore
+                gameForm.resetFields();
+                dispatch({ type: 'CLOSE_EDIT_GAME' })
+            });
         }
 
     }
 
-    const allowEdit = showViewGame && (user !== clickedEvent[5] || user!== clickedEvent[6]);
 
     return (
         <Modal
@@ -139,9 +224,9 @@ const CalendarModal = (user: any) => {
             okText={showViewGame ? 'Edit' : 'Submit'}
             cancelButtonProps={{ style: { display: 'none' } }}
         >
-            { showAddGame && <GameForm ref={saveForm}/> }
-            { showEditGame && <GameForm ref={saveForm} /> }
-            { showViewGame && <EventDisplay event={clickedEvent} /> }
+            {showAddGame && <GameForm ref={saveForm} />}
+            {showEditGame && <GameForm ref={saveForm} />}
+            {showViewGame && <EventDisplay event={clickedEvent} />}
         </Modal>
     );
 }

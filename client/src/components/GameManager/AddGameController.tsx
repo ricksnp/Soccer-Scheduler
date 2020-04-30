@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Button} from 'antd';
+import { Button, Form} from 'antd';
 import AddGames from './AddGames'
 import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import {getAllUsers} from '../../utility/APIUtility'
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
 import MyModal1 from '../Calendar/importModal'
 
 interface Props{
@@ -14,128 +13,83 @@ interface Props{
     userHome: String
 }
 
-const AddGameController = (props: Props) => {
-    const initialArray = [{
-        id:0,
-        gameData: {
-            oppTeam: undefined,
-            level: undefined,
-            gender: undefined,
-            location: undefined,
-            date: undefined,
-            time: undefined
-        }
-    }]
+const getUsers = (setter: any, userHome: any) =>{
 
-    const [controlArray, setArray] = useState(initialArray);
-    const [cardCount, setCount] = useState(0)
+    let temp: any = [];
+    let set = new Set();
 
-
-    function addCard( ) {
-
-        let tempArray: any =[]
-
-        for(let i = 0; i < controlArray.length; i++)
+    getAllUsers().then((response)=>{
+        for(let i = 0; i < response.length; i++)
         {
-            tempArray.push({
-                id: controlArray[i].id,
-                gameData: controlArray[i].gameData
-            })
+            if(!set.has(response[i].schoolname) && response[i].schoolname != "Assignor" && response[i].schoolname != "admin"
+                && response[i].schoolname != userHome)
+            {
+                temp[i] = response[i].schoolname
+                set.add(response[i].schoolname)
+            }
         }
 
-        tempArray.push({
-            id: controlArray.length,
-            gameData: initialArray[0].gameData
-            })
+        temp[temp.length] = "Outside of District"
+        setter(temp);
+    })
+}
 
-        setCount(cardCount + 1)
 
-        setArray(tempArray);
+const AddGameController = (props: Props) => {
+
+    const [homeName, setHomeName] = useState(props.userHome)
+    const [counter, setCounter] = useState(0);
+    const teams: Array<string> = [ "Neville"]
+    const [teamData,setTeams] = useState(teams)
+    const [outsideFlag, setOutsideflag] = useState(false)
+
+    if(counter == 0)
+    {
+        getUsers(setTeams, props.userHome)
+
+        if(props.role != "ROLE_USER")
+        {
+            setHomeName("");
+        }
+
+        setCounter(counter + 1)
+    }
+    const game = {homeTeam: homeName, awayTeam: "", level: '', gender: '', location: '', date: '', time: '', input: ''}
+
+    const [controlArray, setArray] = useState([
+        {...game}
+    ]);
+
+    const addCard = ()=> {
+        setArray([...controlArray, {...game}])
+        console.log("Control Array" + JSON.stringify(controlArray))
     }
 
 
     function removeCard(index: any) {
-
-        let tempArray:any = [];
-
-        //removing the selected card 
-        for (let i = 0; i < controlArray.length; i++) {
-            if (controlArray[i].id !== index) {
-                tempArray.push({
-                    id: controlArray[i].id,
-                    gamedata: controlArray[i].gameData
-                })
-
-                console.log("the control is " + JSON.stringify(controlArray[i]))
-            }
-        }
-        setArray(tempArray)
-        console.log("The temp array is: " + JSON.stringify(tempArray))
-
-
+        const updateArray: any = [...controlArray];
+        const values = updateArray.splice(index, 1)
+        setArray(updateArray)
+        
     }
 
-    function persistance(data:any, id: any, selector: string){
+    const handleChange = (e:any)=>{
+        const updateArray: any = [...controlArray];
 
-        let tempObj:any = [];
-        let newControl: any = [];
-
-        for(let i = 0; i < controlArray.length; i++)
-        {
-            if(controlArray[i].id === id)
-            {
-                tempObj.push(controlArray[i].gameData)
-            }
-        }
-
-        if(selector === "opp")
-        {
-            tempObj.oppTeam = data;
-        }
-        else if(selector === "gen")
-        {
-            tempObj.gender = data;
-        }
-        else if(selector === "loc")
-        {
-            tempObj.location = data;
-        }
-        else if(selector === "date")
-        {
-            tempObj.date = data;
-        }
-        else if(selector === "time")
-        {
-            tempObj.time = data
-        }
-
-        for(let i = 0; i < controlArray.length; i++)
-        {
-            if(controlArray[i].id != id)
-            {
-                newControl.push(controlArray[i]);
-            }
-        }
-
-        newControl.push(tempObj)
-        setArray(newControl);
-
+        updateArray[e.target.dataset.idx][e.target.class] = e.target.value
+        setArray(updateArray)
     }
-
-    const baseGame = [{
-        oppTeam: undefined,
-        level: undefined,
-        gender: undefined,
-        location: undefined,
-        date: undefined,
-        time: undefined
-    }]
-
-
     return (
+        
         <>
+        {console.log("Control render: " + JSON.stringify(controlArray))}
             <Table style={{marginBottom: "2%"}}>
                 <TableHead >
+                    {props.role != "ROLE_USER" ? 
+                        <TableCell>Home Team: </TableCell>
+                        :
+                        <></>
+                    }
                     <TableCell>Opposing Team: </TableCell>
                     <TableCell>Level: </TableCell>
                     <TableCell>Gender: </TableCell>
@@ -145,30 +99,29 @@ const AddGameController = (props: Props) => {
                     <TableCell>Confirm: </TableCell>
                     <TableCell>Remove: </TableCell>
                 </TableHead>
-                    <TableBody>
-
-                    {cardCount === 0 ?
-
-                        <AddGames remove={removeCard} index={0} control={controlArray} persistance={persistance}/>
+                    {teamData.length == 1 ? 
+                        <></>
                         :
 
-                        controlArray.map((controlArray, i) => {
-                            console.log(controlArray + "in map")
+                        <TableBody>
+                        {controlArray.map((controlArray, i) => {
                             return (
                                 <>
-                                    <AddGames control={controlArray} key={i} remove={removeCard} index={i} persistance={persistance}/>
+                                    <AddGames role={props.role} teamData={teamData} handleChange={handleChange} control={controlArray} key={i} remove={removeCard} index={i} />
                                 </>
                             )
-                        })
-
-                    }
+                        })}
                     <div>
-                        <Button type="primary" onClick={() => addCard()}>Add Another Game</Button>
+                        <Button type="primary" style={{marginTop: "10%"}}onClick={() => addCard()}>Add Another Game</Button>
                     </div>
                 </TableBody>
+                
+                }
             </Table>
             <MyModal1 role={props.role} userHome={props.userHome}/>
+            
         </>
+        
     )
 }
 

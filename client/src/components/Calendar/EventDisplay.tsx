@@ -16,8 +16,10 @@ const EventDisplay = ( props: Props ) => {
             return "Moved";
         else if ( props.event[7] === "cancelled" )
             return "Cancelled";
+        else if(props.event[7] === "assignorPending")
+            return "Assignor Pending"
         else
-            return "not covered"
+            return "Not Covered"
     }
 
     const status: string = setStatus();

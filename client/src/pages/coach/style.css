@@ -67,12 +67,11 @@
 }
 
 @media (max-width: 768px) {
-    .MuiTableRow-root .MuiTableCell-root:nth-child(1),
-    .MuiTableRow-head .MuiTableCell-head:nth-child(1),
-    .MuiTableRow-root .MuiTableCell-root:nth-child(5),
-    .MuiTableRow-head .MuiTableCell-head:nth-child(5) {
-        display: none;
+    .MuiTableRow-root .MuiTableCell-root,
+    .MuiTableRow-head .MuiTableCell-head {
+        display: table-cell;
     }
+
 
     .assigner-top-bar h2 {
         font-size: 4vw !important;
@@ -85,3 +84,5 @@
         display: none;
     }
 }
+
+

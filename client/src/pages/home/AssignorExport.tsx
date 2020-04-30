@@ -129,7 +129,6 @@ const AssignorExport = (newData:any) => {
                         if(newObj.level == newLevel && newObj.gender == newgender)
                         {
                             let ourKey = scheduled[j].home + "" + scheduled[j].gender + "" + scheduled[j].teamLevel
-                            console.log("OurKey" + ourKey)
                             newMap.set(ourKey , newObj.arbiter)
                         }
                     }
@@ -160,7 +159,6 @@ const AssignorExport = (newData:any) => {
 
                            
                             let ourKey = scheduled[j].away + "" + scheduled[j].gender + "" + scheduled[j].teamLevel
-                            console.log("OurKey" + ourKey)
                             newMap.set(ourKey , newObj.arbiter)
                         }
 
@@ -214,7 +212,6 @@ const AssignorExport = (newData:any) => {
                 var awayKey = scheduled[i].away + "" + scheduled[i].gender + "" + scheduled[i].teamLevel
 
 
-                console.log("Home Map" + newMap.get(homeKey))
                 arbiterInfo.push({
                     date: month +"/"+day+"/"+year.slice(-2),
                     time: h + ":" + m + " " + modifier,

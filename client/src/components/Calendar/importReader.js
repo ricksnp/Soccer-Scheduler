@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import XLSX from 'xlsx';
 import { addMultipleGames } from '../../utility/APIGameControl'
 import { notification } from 'antd'
+import { sendAnEmail } from '../../common/email/email'
+import { getAllUsers } from '../../utility/APIUtility'
 
 export default class CSVReader1 extends Component {
     constructor(props) {
@@ -16,13 +18,33 @@ export default class CSVReader1 extends Component {
         this.updateData = this.updateData.bind(this);
     }
 
+
     handleChange = event => {
         this.setState({
             csvfile: event.target.files[0]
         });
     };
 
+
     importCSV = () => {
+
+        const grabEmail = (passedAway, gamedate) => {
+            let desiredEmail = "";
+            getAllUsers().then((response) => {
+
+                for (let i = 0; i < response.length; i++) {
+                    if (response[i].schoolname == passedAway) {
+
+                        desiredEmail = response[i].email;
+                        sendAnEmail(desiredEmail, "You have a game request scheduled for " + gamedate);
+
+                    }
+                }
+
+            })
+
+        }
+
         const { csvfile } = this.state;
         const { userRole } = this.state;
         const { userHome } = this.state;
@@ -88,7 +110,7 @@ export default class CSVReader1 extends Component {
 
 
                     }
-
+                    grabEmail(dataParse[i][3], dataParse[i][0] + "T" + convertTime12to24(time12h))
                 }
                 console.log(addGamesArray);
                 addMultipleGames(addGamesArray)
@@ -101,7 +123,7 @@ export default class CSVReader1 extends Component {
                     .catch((error) => {
                         notification.error({
                             message: "Could not add games",
-                            description: error
+                            description: error.message
                         })
                     })
 

@@ -62,7 +62,7 @@ class AppHeader extends Component{
 									<i class="far fa-calendar-alt"></i>
 								</NavLink>
 							</li>
-							{this.props.currentUser =="ROLE_ADMIN" && 
+							{this.props.currentUser.role =="ROLE_ADMIN" && 
 								<li>
 									<NavLink exact={true} activeClassName='is-active' to="/admin">
 										<i className="fas fa-user-shield"></i>
