@@ -138,13 +138,6 @@ const CreateEditGame = ( props: Props ) => {
     const { form } = props;
     const { getFieldDecorator } = form;
 
-    const timeChange = (chosenTime: any) => {
-        props.form.setFieldsValue({
-            time: chosenTime
-        });
-        console.log(chosenTime)
-    }
-
     
     if(counter === 0)
     {
@@ -279,7 +272,6 @@ const CreateEditGame = ( props: Props ) => {
                             use12Hours 
                             format="hh:mm"
                             minuteStep={15}
-                            onChange={time => timeChange(time) }
                             />
                      ) }
             </Form.Item>

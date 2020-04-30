@@ -96,6 +96,16 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
                 }
 
 
+                //@ts-ignore
+                const dateObj = gameForm.getFieldValue("time")._d;
+                const dateObjSplit = JSON.stringify(dateObj).split('T');
+                const timeArraySplit = dateObjSplit[1].split('.')
+                const timeArray = timeArraySplit[0].split(':')
+                const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
+                const selectedTime = correctedHour + ":" + timeArray[1];
+                console.log("selectedTime" + selectedTime);
+
+
                 const game = {
                     // @ts-ignore
                     homeTeamName: gameForm.getFieldValue("homeTeamName"),
@@ -110,11 +120,9 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
                     // @ts-ignore
                     status: gameForm.getFieldValue("status"),
                     // @ts-ignore
-                    date: gameForm.getFieldValue("date") + 'T' + gameForm.getFieldValue("time")._i,
+                    date: gameForm.getFieldValue("date") + 'T' + selectedTime,
                 }
                 
-                // @ts-ignore
-                console.log(gameForm.getFieldValue("time")._i)
 
                 console.log("Calendar modal game information" + JSON.stringify(game))
 
@@ -135,9 +143,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any) =>
                             description: error.essage || "Game was not added"
                         })
                     })
-
-
-                setUpdate(!onUpdate);
 
                 // @ts-ignore
                 gameForm.resetFields();

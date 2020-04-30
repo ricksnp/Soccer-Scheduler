@@ -13,7 +13,7 @@ type State = typeof initialState;
 
 type Action =
   | { type: 'EDIT_GAME', payload: any }
-  | { type: 'CLOSE_EDIT_GAME' }
+  | { type: 'CLOSE_EDIT_GAME', payload: any }
 
 const reducer = (state: State, action: Action) => {
 
@@ -25,7 +25,7 @@ const reducer = (state: State, action: Action) => {
     }
     case 'CLOSE_EDIT_GAME': return {
       showEditGame: false,
-      clickedGame: []
+      clickedGame: action.payload
     }
     default: return state;
   }
