@@ -22,13 +22,15 @@ class TableComp extends React.Component {
         this.state = {
             showRemoveModal: false,
             showEditModal: false,
-            tableData: []
+            tableData: [],
+            user: ''
         };
     }
 
-    openRemoveModal = () => {
+    openRemoveModal = (item) => {
         this.setState({
             showRemoveModal: true,
+            user: item
         });
     }
 
@@ -77,7 +79,7 @@ class TableComp extends React.Component {
         return (
 
             <>
-                <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} />
+                <RemoveModal showModal={this.state.showRemoveModal} closeModal={this.closeRemoveModal} user={this.state.user}/>
                 <EditModal showModal={this.state.showEditModal} closeModal={this.closeEditModal} />
                 <Table aria-label="simple table">
                     <TableHead>
@@ -109,7 +111,7 @@ class TableComp extends React.Component {
                                     <Button variant="contained" className="btn-edit" onClick={this.openEditModal} color="primary">
                                         <i class="fas fa-edit"></i>
                                     </Button>
-                                    <Button variant="contained" className="btn-delete" onClick={this.openRemoveModal} color="secondary">
+                                    <Button variant="contained" className="btn-delete" onClick={()=>this.openRemoveModal(item)} color="secondary">
                                         <i class="fas fa-trash-alt"></i>
                                     </Button>
                                 </TableCell>

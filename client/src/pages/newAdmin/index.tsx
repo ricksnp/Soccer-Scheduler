@@ -39,13 +39,6 @@ const NewAdmin = (userInfo: any) => {
     const [userHome, setHome] = useState("null")
     const [change, setChange] = useState(1)
 
-    if (counter === 0) {
-        getNewGames(setNew);
-        setCounter(counter + 1);
-        setUser(userInfo.user.role)
-        setHome(userInfo.user.schoolname)
-    }
-
 
     //list of categories to display
     const categories = ['Pending Approval', 'Scheduled Games'];
@@ -104,11 +97,21 @@ const NewAdmin = (userInfo: any) => {
         return newSchedulued
     }
 
+    if (counter === 0) {
+        getNewGames(setNew);
+        setCounter(counter + 1);
+        setUser(userInfo.user.role)
+        setHome(userInfo.user.schoolname)
+        
+    }
+
+
     useEffect(()=>{
         setCounter(0)
-        
+        pendingGames()
+        scheduledGames()
     },
-    [change]
+    [change, newResponse]
     
     )
 
@@ -126,8 +129,8 @@ const NewAdmin = (userInfo: any) => {
                             <CategoryCard 
                                 role={userInfo.user.role}
                                 category={categoryName} 
-                                editGames={pendingGames()} 
-                                scheduledGames={scheduledGames()}
+                                editGames={newPending} 
+                                scheduledGames={newSchedulued}
                                 homeName={userHome}
                                 change={change}
                                 onUpdate={setChange}
@@ -141,6 +144,7 @@ const NewAdmin = (userInfo: any) => {
 
     return (
         <div>
+            {console.log("RENDER")}
              <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>
