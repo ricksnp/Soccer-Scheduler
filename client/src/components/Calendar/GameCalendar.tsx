@@ -92,12 +92,10 @@ const GameCalendar = ({ filter, secondFilter, update, change, filteredBlocked }:
     getGames(setApi)
     getCurrentUser().then((response => { setUser(response) }))
     apiGetGames().then((response) => { getCSVSchedule(response, setCsvData); console.log(csvData) })
-
-
     if (api !== "null") {
 
-      if (filter === "Scheduled") {
-        getScheudSecondFilter(api, setEvents, secondFilter)
+      if (filter === "Scheduled" || filter === "All") {
+        getScheudSecondFilter(api, setEvents, secondFilter, currentUser.role )
       }
       else if (filter === "Your Games" || filter === currentUser.schoolname) {
         if (currentUser.role.includes("USER")) {

@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React from 'react';
 import { Modal } from 'antd';
 
 class EditModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     onClose = () => {
         this.props.closeModal();

@@ -1,12 +1,8 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
 import {resetPassword} from '../../../utility/APIUtility'
 import { Modal, Button, notification } from 'antd';
 
 class EditModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     onClose = () => {
         this.props.closeModal();

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
-import { Layout, Menu, Dropdown, Icon } from 'antd';
 import footballLogo from '../../assets/stadium.svg';
-import styled from 'styled-components';
 import './index.css';
 
 
-const Header = Layout.Header;
 
 class AppHeader extends Component{
 	constructor(props) {
@@ -62,14 +59,14 @@ class AppHeader extends Component{
 									<i class="far fa-calendar-alt"></i>
 								</NavLink>
 							</li>
-							{this.props.currentUser.role =="ROLE_ADMIN" && 
+							{this.props.currentUser.role ==="ROLE_ADMIN" && 
 								<li>
 									<NavLink exact={true} activeClassName='is-active' to="/admin">
 										<i className="fas fa-user-shield"></i>
 									</NavLink>
 								</li>
 							}
-							{this.props.currentUser.role !='ROLE_USER' && 
+							{this.props.currentUser.role !=='ROLE_USER' && 
 								<li>
 									<NavLink exact={true} activeClassName='is-active' to="/coach">
 										<i class="far fa-edit"></i>

@@ -1,12 +1,8 @@
 import React from 'react';
 import {deleteUser} from '../../../utility/APIUtility'
 import { Modal, notification } from 'antd';
-import { format } from 'url';
 
 class RemoveModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     onClose = () => {
         this.props.closeModal();

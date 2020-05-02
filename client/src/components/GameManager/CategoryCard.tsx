@@ -37,7 +37,6 @@ function sortGames(games: any, role: string, homename: String) {
     let edit: any = [];
     let newGames: any = [];
     let assignorPending: any = [];
-
     
     for (let i = 0; i < games.length; i++) {
 
@@ -53,20 +52,17 @@ function sortGames(games: any, role: string, homename: String) {
             gameHome = titleArray[0]
         }
 
-        if(role == "ROLE_USER")
+        if(role === "ROLE_USER")
         {
-            if (games[i].status === "coachPending" && homename != undefined && awayName.includes(homename)) {
+            if (games[i].status === "coachPending" && homename !== undefined) {
                 newGames.push(games[i]);
-
             }
-            else if(games[i].status == "assignorPending")
+            else if(games[i].status === "assignorPending")
             {
                 assignorPending.push(games[i])
             }
-            else if (games[i].status != undefined) {
-                if((games[i].status === "homeEdit" && games[i].awayName === homename) || (games[i].status === "awayEdit"  && games[i].gameHome === homename)) 
-                { edit.push(games[i]) }
-
+            else if (games[i].status !== undefined && games[i].status.includes('Edit')) { 
+                edit.push(games[i]) 
             }
 
         }
@@ -74,7 +70,6 @@ function sortGames(games: any, role: string, homename: String) {
         {
             if (games[i].status === "assignorPending") {
                 newGames.push(games[i]);
-
             }
         }
 
@@ -109,7 +104,7 @@ function sortScheduled(games: any) {
 
 interface Props {
     category: string,
-    editGames: any,
+    pendingGames: any,
     scheduledGames: any,
     role: string,
     homeName: String,
@@ -121,12 +116,12 @@ const CategoryCard = (props: Props) => {
 
     let showEditGame = useGlobalState("showEditGame");
 
-    const [newGamesList, setGamesList] = useState(props.editGames)
+    const [newGamesList, setGamesList] = useState(props.pendingGames)
     const [newScheduledList, setNewScheduled] =useState(props.scheduledGames)
     const role = props.role;
 
     //depending on category of curret card, gamesList is assigned list(s) of games
-    const gamesList = newGamesList === "" ? props.editGames : sortGames(props.editGames, props.role, props.homeName)
+    const gamesList = newGamesList === "" ? props.pendingGames : sortGames(props.pendingGames, props.role, props.homeName)
     const scheduledList = newScheduledList === "" ? props.scheduledGames : sortScheduled(props.scheduledGames);
 
     const [key, setKey] = useState("pending");
@@ -251,7 +246,7 @@ const CategoryCard = (props: Props) => {
     })
 
     useEffect(()=>{
-        setGamesList(props.editGames)
+        setGamesList(props.pendingGames)
         setNewScheduled(props.scheduledGames)
     },
         [props.change]

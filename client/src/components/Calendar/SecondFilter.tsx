@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Radio} from 'antd'
 import styled from 'styled-components'
 import { isBrowser, isMobile } from "react-device-detect";
+import './SecondFilter.css';
 
 interface Props {
     secondFilter: any,
@@ -29,7 +30,6 @@ const SecondFilter = (props: Props) =>{
     const [primePend, setPen] = useState(true)
     const [primeCanc, setCanc] = useState(true)
     const [primeMove, setMove] = useState(true)
-
 
     const Scheduled = styled.span`background: #78e388`;
     const Pending = styled.span`background: #fdff87`;

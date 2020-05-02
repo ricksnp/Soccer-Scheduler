@@ -64,9 +64,6 @@ class Profile extends Component {
 			return <ServerError />;
 		}
 
-		const tabBarStyle = {
-			textAlign: 'center'
-		};
 
 		return (
 			<div className="profile">

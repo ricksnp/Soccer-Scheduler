@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import { Route, withRouter, Switch, Router } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 
 import { getCurrentUser } from '../utility/APIUtility';
 import { ACCESS_TOKEN } from '../constants';
@@ -9,10 +9,7 @@ import { Login, Signup, Profile } from '../user';
 import { LoadingIndicator, Navbar } from '../common';
 
 import { Layout, notification } from 'antd';
-import { apiGetGames } from '../utility/APIGameControl';
-import { Home, Assignor, Admin, Coach, NewAdmin } from '../pages';
-
-import { MyModal } from '../components';
+import { Home, Admin, Coach, NewAdmin } from '../pages';
 
 const { Content } = Layout;
 
@@ -130,8 +127,8 @@ class App extends Component {
 							</Switch>
 							:
 							<Switch>
-								{this.state.currentUser.role != "ROLE_USER" && <Route path="/coach" render={() => <Coach user={this.state.currentUser} />} />}
-								{this.state.currentUser.role == "ROLE_ADMIN" && <Route path="/admin" render={() => <Admin />} />}
+								{this.state.currentUser.role !== "ROLE_USER" && <Route path="/coach" render={() => <Coach user={this.state.currentUser} />} />}
+								{this.state.currentUser.role === "ROLE_ADMIN" && <Route path="/admin" render={() => <Admin />} />}
 								<Route path="/GameManager" render={() => <NewAdmin user={this.state.currentUser} />} />
 								<Route path="/" render={() => <Home isAuthenticated={this.state.isAuthenticated} user={this.state.currentUser} />} />
 							</Switch>

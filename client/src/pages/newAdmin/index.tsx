@@ -15,7 +15,6 @@ function getNewGames(setNew: any) {
             setNew(response);
 
         }
-        console.log("CHANGE LOADING")
     })
 }
 
@@ -49,7 +48,7 @@ const NewAdmin = (userInfo: any) => {
 
     //store list of pending games based on user role
     const pendingGames = () => {
-        //if user is coach, get games where (status == coachpending || away edit) AND where "my" team is a part of game
+        //if user is coach, get games where (status == coachpending || away edit || home edit) AND where "my" team is a part of game
         if (user === "ROLE_USER") {
 
 
@@ -125,7 +124,7 @@ const NewAdmin = (userInfo: any) => {
                             <CategoryCard
                                 role={userInfo.user.role}
                                 category={categoryName}
-                                editGames={newPending}
+                                pendingGames={newPending}
                                 scheduledGames={newSchedulued}
                                 homeName={userHome}
                                 change={change}
@@ -140,7 +139,6 @@ const NewAdmin = (userInfo: any) => {
 
     return (
         <div>
-            {console.log("RENDER")}
             <div>You are signed in as {userInfo.user.schoolname}</div>
             {displayCards}
         </div>

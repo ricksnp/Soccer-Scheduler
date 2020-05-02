@@ -21,7 +21,7 @@ function updateOptions(setter:any, userRole: string)
         list[1] = "Scheduled";
     }
     else{
-        list[0] = "Scheduled";
+        list[0] = "All";
         count = 1;
     }
 
@@ -94,7 +94,6 @@ const Filter = ({setFilter, userRole}: any) =>
     }
 
 
-
     return(
         <>
 
@@ -109,7 +108,7 @@ const Filter = ({setFilter, userRole}: any) =>
                     </Select>
                         :
                     <Select showSearch onChange={handleChange} 
-                        placeholder={"Scheduled"}>
+                        placeholder={"All"}>
                             {teamOptions}
                     </Select>
                 }        
@@ -126,7 +125,7 @@ const Filter = ({setFilter, userRole}: any) =>
                     </Select>
                         :
                     <Select showSearch onChange={handleChange} 
-                        placeholder={"Scheduled"}>
+                        placeholder={"All"}>
                             {apiTeamOptions}
                     </Select>
                 }        

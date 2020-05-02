@@ -81,3 +81,11 @@ export function editBlockedDay(blockedDay){
 	});
 }
 
+export function deleteGame(id) {
+	return request({
+		url : API_BASE_URL + '/calendar/deletegame',
+		method : 'DELTE',
+		body : JSON.stringify(id)
+	});
+}
+

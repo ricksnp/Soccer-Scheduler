@@ -1,0 +1,20 @@
+.info {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    text-align: left;
+}
+
+.label {
+    margin-top: 4px;
+    font-weight: bolder;
+    font-size: 16px;
+    text-align: left;
+}
+
+.title {
+    margin-top: 0px !important; 
+}
+
+.status {
+    margin-bottom: 0px !important;
+}

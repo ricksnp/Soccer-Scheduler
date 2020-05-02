@@ -85,6 +85,21 @@ const userTemplate = {
 
 }
 
+const teamLevels = ['v', 'jv'];
+const teamGender = ['g', 'b'];
+
+const levelOptions = teamLevels.map((level, i) => {
+    return(
+        <Radio.Button value={level} key={i}>{ level === 'v' ? 'Varsity' : 'Junior Varsity'  }</Radio.Button>
+    );
+})
+
+const genderOptions = teamGender.map((gender, i) => {
+    return(
+        <Radio.Button value={gender} key={i}>{ gender === 'g' ? 'Girls' : 'Boys'  }</Radio.Button>
+    );
+})
+
 
 
 const CreateEditGame = ( props: Props ) => {
@@ -100,14 +115,9 @@ const CreateEditGame = ( props: Props ) => {
     const [status, setStatus] = useState("coachPending");
     const [required, setRequired] = useState(false);
     const [time, setTime] = useState(undefined)
-    const [ level, setLevel ] = useState(clickedGame[3]);
-
-    const updateLevel = (e: any) => {
-        console.log(e.target.value)
-        return e.target.value;
-    }
-
-    
+    const level = clickedGame[3];
+    const gender = clickedGame[4];
+   
 
     //for home/away team Select element
     const teams: Array<string> = [ "Outside of District"]
@@ -182,28 +192,22 @@ const CreateEditGame = ( props: Props ) => {
         <Form layout="vertical">
 
             {/*showAddGame && addGameDate*/} 
-            <Form.Item label={role == "ROLE_USER" ? "" : "Select Home Team:"}>
+            { role === 'ROLE_ASSIGNOR' && 
+            <Form.Item label={"Select Home Team:"}>
                 {getFieldDecorator('homeTeamName', {
                     rules: [{ required: required, message: 'Select Home Team' }],
-                    initialValue: showEditGame === true? clickedGame[5] : school
+                    initialValue: showEditGame === true? clickedGame[5] : ""
                 })(
-                    <>
-                    {user.role != "ROLE_USER" ? 
-                    
-                        <Select showSearch onChange={setHomeName}>
-                            {teamList.length === 1 ? 
-                            teamOptions
-                            :
-                                apiTeamOptions
-                            }
-                            </Select>
-                        : 
-                        <></>
-                    }
-                    </>
+                    <Select showSearch onChange={setHomeName}>
+                        {teamList.length === 1 ? 
+                        teamOptions
+                        :
+                            apiTeamOptions
+                        }
+                    </Select>
                 )}
-            </Form.Item>
-            <Form.Item label={role == "ROLE_USER" ? "Select Opposing Team" : "Select Away Team:"}>
+            </Form.Item>}
+            <Form.Item label={role === "ROLE_USER" ? "Select Opposing Team" : "Select Away Team:"}>
                 {getFieldDecorator('awayTeamName', { 
                     rules: [{ required: true, message: 'Select Opposing Team' }],
                     initialValue: showEditGame === true? clickedGame[6] : ""
@@ -220,26 +224,20 @@ const CreateEditGame = ( props: Props ) => {
             <Form.Item label="Level">
                 { getFieldDecorator('teamLevel', {
                     rules: [{ required: true }],
-                    initialValue: showEditGame === true? clickedGame[3] : "",
-                    getValueFromEvent: updateLevel,
+                    initialValue: showEditGame === true? level : ""
                 })(
-                    <Radio.Group 
-                        buttonStyle="solid"
-                        onChange={(e) => updateLevel(e)}
-                        >
-                        <Radio.Button value="v">Varsity</Radio.Button>
-                        <Radio.Button value="jv">Junior Varsity</Radio.Button>
+                    <Radio.Group  buttonStyle="solid">
+                            {levelOptions}
                     </Radio.Group>
                 ) }
             </Form.Item>
             <Form.Item label="Team">
                     { getFieldDecorator( 'gender', {
                         rules: [{ required: true }],
-                        initialValue: showEditGame === true? clickedGame[4] : "",
+                        initialValue: showEditGame === true? gender : "",
                     } )(
                         <Radio.Group buttonStyle="solid">
-                            <Radio.Button value="b" >Boys</Radio.Button>
-                            <Radio.Button value="g">Girls</Radio.Button>
+                            {genderOptions}
                         </Radio.Group>
                     ) }
             </Form.Item>

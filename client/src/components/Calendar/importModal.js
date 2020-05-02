@@ -1,10 +1,8 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import CSVReader1 from './importReader'
-import { red } from '@material-ui/core/colors';
 
 class MyModal1 extends React.Component {
-    constructor(props) { super(props) }
     state = { visible: false };
 
     showModal = () => {

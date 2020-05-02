@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Button, notification } from 'antd';
 import {
 	NAME_MIN_LENGTH,
 	NAME_MAX_LENGTH,
@@ -16,7 +16,6 @@ import { signup, checkUsernameAvailability, checkEmailAvailability } from '../..
 import './index.css';
 import footballLogo from '../../assets/stadium.svg';
 
-const FormItem = Form.Item;
 
 class Signup extends Component {
 	constructor(props) {

@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React from 'react';
 import {deleteUser} from '../../../utility/APIUtility'
 import { Modal, notification } from 'antd';
 
 class RemoveModal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     onClose = () => {
         this.props.closeModal();

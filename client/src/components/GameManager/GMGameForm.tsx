@@ -71,6 +71,7 @@ const getDate = ( dateVar: any ) => {
 }
 
 
+
 const CreateEditGame = ( props: Props ) => {
     const Option = Select.Option
     const clickedGame = useGlobalState('clickedGame');
@@ -90,7 +91,10 @@ const CreateEditGame = ( props: Props ) => {
 
     const date = new Date;
 
-
+    function setHomeName(value: any)
+    {
+        setSchool(value)
+    }
 
     const teamOptions = teams.map((team, i) => {
         return (
@@ -134,23 +138,30 @@ const CreateEditGame = ( props: Props ) => {
 
         <Form layout="vertical">
             {/*showAddGame && addGameDate*/} 
-            <Form.Item label="Home Team">
+            <Form.Item label={role === "ROLE_USER" ? "" : "Select Home Team:"}>
                 {getFieldDecorator('homeTeamName', {
                     rules: [{ required: true, message: 'Select Home Team' }],
-                    initialValue: showEditGame === true? clickedGame[5] : ""
+                    initialValue: showEditGame === true? clickedGame[5] : school
                 })(
-                    <Select showSearch >
-                        {teamList.length === 1 ? 
-                           teamOptions
-                        :
-                            apiTeamOptions
-                        }
-                    </Select>
+                    <>
+                    {role != "ROLE_USER" ? 
+                    
+                        <Select showSearch onChange={setHomeName}>
+                            {teamList.length === 1 ? 
+                            teamOptions
+                            :
+                                apiTeamOptions
+                            }
+                            </Select>
+                        : 
+                        <></>
+                    }
+                    </>
                 )}
             </Form.Item>
-            <Form.Item label="Away Team">
+            <Form.Item label={role === "ROLE_USER" ? "Select Opposing Team" : "Select Away Team:"}>
                 {getFieldDecorator('awayTeamName', { 
-                    rules: [{ required: true, message: 'Select Away Team' }],
+                    rules: [{ required: true, message: 'Select Opposing Team' }],
                     initialValue: showEditGame === true? clickedGame[6] : ""
                 })(
                     <Select showSearch >

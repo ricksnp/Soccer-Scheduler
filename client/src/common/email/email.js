@@ -1,8 +1,6 @@
 require('dotenv').config()
 const AWS = require('aws-sdk');
 
-const AWS_SES_REGION = "us-east-1"
-
 // Amazon SES configuration
 const SESConfig = {
 

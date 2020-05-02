@@ -1,7 +1,7 @@
-import React, { useState, Component } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { sendAnEmail } from '../../../common/email/email'
-import { Button, notification } from 'antd';
+import { notification } from 'antd';
 import { Modal } from 'antd';
 import {
     NAME_MIN_LENGTH,
@@ -13,10 +13,7 @@ import {
     PASSWORD_MAX_LENGTH
 } from '../../../constants';
 
-import { signup, checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
-import { sign } from 'crypto';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { schoolNames } from '../../coach/components/autofill';
+import { checkUsernameAvailability, checkEmailAvailability, AssignorSignup } from '../../../utility/APIUtility';
 
 let emailContents = (username, password) => {
     return "<h2>Your Login Information:</h2>" +

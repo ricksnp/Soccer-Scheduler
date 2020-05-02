@@ -33,7 +33,7 @@ export default class CSVReader1 extends Component {
             getAllUsers().then((response) => {
 
                 for (let i = 0; i < response.length; i++) {
-                    if (response[i].schoolname == passedAway) {
+                    if (response[i].schoolname === passedAway) {
 
                         desiredEmail = response[i].email;
                         sendAnEmail(desiredEmail, "You have a game request scheduled for " + gamedate);
@@ -66,7 +66,7 @@ export default class CSVReader1 extends Component {
             console.log('---------------');
 
             const convertTime12to24 = (time12h) => {
-                if (time12h != undefined) {
+                if (time12h !== undefined) {
                     var [time, modifier] = time12h.split(' ');
 
                     let [hours, minutes] = time.split(':');
@@ -85,18 +85,18 @@ export default class CSVReader1 extends Component {
 
             }
 
-            if (userRole != "ROLE_USER") {
+            if (userRole !== "ROLE_USER") {
                 myStatus = "Scheduled";
             }
 
             console.log(dataParse.length)
-            if (dataParse != undefined) {
+            if (dataParse !== undefined) {
                 let addGamesArray = []
                 var counter = 0;
 
                 for (let i = 1; i < dataParse.length; i++) {
                     var time12h = dataParse[i][1];
-                    if (dataParse[i].length == 6) {
+                    if (dataParse[i].length === 6) {
                         counter++;
                         addGamesArray.push({
                             homeTeamName: userHome,

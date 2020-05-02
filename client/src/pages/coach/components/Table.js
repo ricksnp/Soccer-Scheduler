@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { getAllUsers } from '../../../utility/APIUtility';
-import { apiGetGames } from '../../../utility/APIGameControl';
 
 
 // Handlers
@@ -59,13 +57,13 @@ class TableComp extends React.Component {
             let userList = []
 
             for (let i = 0; i < response.length; i++) {
-                if (this.props.role == "ROLE_ASSIGNOR") {
-                    if (response[i].schoolname != "Assignor" && response[i].schoolname != "assignor" && response[i].schoolname != "admin" && this.props.userDistrict == response[i].district) {
+                if (this.props.role === "ROLE_ASSIGNOR") {
+                    if (response[i].schoolname !== "Assignor" && response[i].schoolname !== "assignor" && response[i].schoolname !== "admin" && this.props.userDistrict === response[i].district) {
                         userList.push(response[i])
                     }
                 }
-                else if (this.props.role == "ROLE_ADMIN") {
-                    if (response[i].schoolname != "Assignor" && response[i].schoolname != "assignor" && response[i].schoolname != "admin") {
+                else if (this.props.role === "ROLE_ADMIN") {
+                    if (response[i].schoolname !== "Assignor" && response[i].schoolname !== "assignor" && response[i].schoolname !== "admin") {
                         userList.push(response[i])
                     }
                 }

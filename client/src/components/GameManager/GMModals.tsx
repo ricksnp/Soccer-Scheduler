@@ -24,8 +24,6 @@ const GMModals = (home: any) => {
 
     const currentTeam = home.home;
     const currentRole = home.role;
-    
-    console.log(clickedGame)
 
     const saveForm = (form: any) => {
         setGameForm(form);
@@ -87,7 +85,7 @@ const GMModals = (home: any) => {
                 const selectedDate = dateObjSplit[0].substring(1);
 
                 // @ts-ignore
-                console.log(gameForm.getFieldValue('date'));
+                console.log(gameForm.getFieldValue('date')._i);
 
 
                 const game = {
@@ -104,9 +102,9 @@ const GMModals = (home: any) => {
                     // @ts-ignore
                     status: status,
                     // @ts-ignore
-                    date: gameForm.getFieldValue('date') + 'T' + selectedTime,
+                    date: gameForm.getFieldValue('date')._i + 'T' + selectedTime,
                     // @ts-ignore
-                    id: clickedGame[8]
+                    id: JSON.stringify(clickedGame[8])
                 }
                 
                 console.log("Calendar modal game information" + JSON.stringify(game))
@@ -124,7 +122,7 @@ const GMModals = (home: any) => {
                 .catch((error)=>{
                     notification.error({
                         message: "Game Edit Failed",
-                        description: "Game was not edited"
+                        description: error.message
                     })
                 })
 

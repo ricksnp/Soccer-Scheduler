@@ -36,7 +36,7 @@ const CalendarController = (user: any, filteredBlocked: any) => {
     const userRole = user.user.role
 
     if ((userRole === "ROLE_ASSIGNOR" || userRole === "ROLE_ADMIN") && counter === 0) {
-        setFilter("Scheduled")
+        setFilter("All")
         setCounter(counter + 1)
     }
 
