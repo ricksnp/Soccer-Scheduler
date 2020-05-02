@@ -273,6 +273,9 @@ public class CalendarService {
 		gamesCal.setStatus(updateGameRequest.getStatus());
 		gamesCal.setDate(updateGameRequest.getDate());
 		gamesCal.setLocation(updateGameRequest.getLocation());
+		gamesCal.setGender(updateGameRequest.getGender());
+		gamesCal.setTeamLevel(updateGameRequest.getTeamLevel());
+
 
 		gamesRepository.save(gamesCal);
 		game.setId(updateGameRequest.getId());
