@@ -13,6 +13,7 @@ interface Props {
 function updateOptions(setter:any)
 {
     console.log("here");
+    
 
     let list:any = []
 

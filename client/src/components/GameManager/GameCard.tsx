@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, notification, Tooltip } from 'antd';
 import styled from 'styled-components';
 import { apiUpdateGame } from '../../utility/APIGameControl'
-import { useDispatch } from './GMProvider';
+import { useDispatch } from '../Provider';
 import { sendAnEmail } from '../../common/email/email'
 import { getAllUsers } from '../../utility/APIUtility'
 
@@ -215,6 +215,8 @@ const GameCard = (props: Props) => {
 
         }
 
+        console.log(update)
+
         apiUpdateGame(update)
             .then((response) => {
                 notification.success({
@@ -226,7 +228,7 @@ const GameCard = (props: Props) => {
             .catch((error) => {
                 notification.error({
                     message: "Game Was Not Confirmed",
-                    description: error
+                    description: error.message
                 })
             })
 

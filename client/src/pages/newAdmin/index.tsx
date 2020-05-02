@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CategoryCard } from '../../components/GameManager';
 import { Header, SubHeader } from '../../style/PageStyles';
 import { apiGetGames } from '../../utility/APIGameControl';
-import { getGames } from '../../components/Calendar/Provider';
+import { getGames } from '../../components/Provider';
 import { getCoachPending, getCoachSchedule, getTeamSchedule, getAdminPending, getScheduledGames } from '../../components/Games';
 import { LoadingIndicator } from '../../common'
 import { Form, Select } from 'antd';
@@ -129,6 +129,7 @@ const NewAdmin = (userInfo: any) => {
                                 homeName={userHome}
                                 change={change}
                                 onUpdate={setChange}
+                                user={userInfo}
                             />}
                     </>
                 }

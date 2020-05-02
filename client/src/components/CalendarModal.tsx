@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select, notification } from 'antd';
 import { useGlobalState, useDispatch } from './Provider';
 import GameForm from './GameForm';
-import EventDisplay from './EventDisplay';
-import { postGames, apiUpdateGame } from '../../utility/APIGameControl';
-import { getCurrentUser } from '../../utility/APIUtility'
+import EventDisplay from './Calendar/EventDisplay';
+import { postGames, apiUpdateGame } from '../utility/APIGameControl';
+import { getCurrentUser } from '../utility/APIUtility'
 import { userInfo } from 'os';
-import { sendAnEmail } from '../../common/email/email'
-import { getAllUsers } from '../../utility/APIUtility'
-import Conflict from './Conflict';
+import { sendAnEmail } from '../common/email/email'
+import { getAllUsers } from '../utility/APIUtility'
+import Conflict from './Calendar/Conflict';
 
 const openNotification = () => {
     notification.open({
@@ -18,13 +18,16 @@ const openNotification = () => {
 }
 
 const baseGame = {homeTeamName: "null", awayTeamName: "null", teamLevel: "null", gender: "null", location: "null", status: "null", date: "null"}
-const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, change: any, setChange: any) => {
+const CalendarModal = (user: any) => {
+    
     const showAddGame = useGlobalState('showAddGame');
     const showViewGame = useGlobalState('showViewGame');
     const showEditGame = useGlobalState('showEditGame');
     const clickedEvent = useGlobalState('clickedGame');
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
+
+    console.log(clickedEvent)
 
     const [conflict, setConflict] = useState(false);
     const [newGame, setNewGame] = useState(baseGame);
@@ -35,8 +38,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
 
     const schoolName = user.user.schoolname;
     const role = user.user.role;
-
-    console.log( clickedEvent )
 
 
     const saveForm = (form: any) => {
@@ -127,8 +128,10 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
                 const selectedTime = correctedHour + ":" + timeArray[1];
 
+                
                 //@ts-ignore
-                const homeName = role === 'ROLE_USER' ? schoolName : gameForm.getFieldValue("homeTeamName");
+                const homeName = role === 'ROLE_USER'? schoolName : gameForm.getFieldValue("homeTeamName");
+                let status = setStatus( schoolName, clickedEvent[5], clickedEvent[6], role );
 
                 const game = {
                     // @ts-ignore
@@ -146,7 +149,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                     // @ts-ignore
                     date: gameForm.getFieldValue("date") + 'T' + selectedTime,
                 }
-                console.log(game)
 
 
                 setNewGame(game);
@@ -183,7 +185,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                             }
                             notification.error({
                                 message: "Game was not added",
-                                description: response.message
+                                description: 'Game added, sent to opponent for approval'
                             })
                         }
                         
@@ -219,13 +221,11 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 const correctedHour = JSON.stringify(parseInt(timeArray[0], 10) - 5);
                 const selectedTime = correctedHour + ":" + timeArray[1];
 
-
+                //@ts-ignore
+                const homeName = role === 'ROLE_USER'? schoolName : gameForm.getFieldValue("homeTeamName");
                 let status = setStatus( schoolName, clickedEvent[5], clickedEvent[6], role );
 
-                console.log(clickedEvent);
-
-                //@ts-ignore
-                const homeName = role === 'ROLE_USER' ? schoolName : gameForm.getFieldValue("homeTeamName");
+                console.log(selectedTime)
 
                 const game = {
                     // @ts-ignore
@@ -247,7 +247,6 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 }
 
                 //@ts-ignore
-                    console.log("level: " + gameForm.getFieldValue("teamLevel") + "gender: " + gameForm.getFieldValue("gender"))
                     console.log(game)
 
                 //send to backend
@@ -255,7 +254,7 @@ const CalendarModal = (user: any, school: any, setUpdate: any, onUpdate: any, ch
                 .then((response)=>{
                     notification.success({
                         message: "Game Edited",
-                        description: response.message
+                        description: 'Game edited succefully edited'
                     })
                 })
                 .catch((error)=>{
@@ -464,10 +463,11 @@ const editHidden = ( school: string, home: string, away: string, role: string, s
     } else if ( role === 'ROLE_USER' ) {
         cancelled = status !== 'cancelled' ? false : true;
         let participant = school === home || school === away ? false : true;
+        console.log(JSON.stringify(participant))
 
         return ( cancelled || participant );
 
-    } else {
+    } else if ( role !== 'ROLE_USER' ) {
         cancelled = status !== 'cancelled' ? false : true;
         let assignorEdit = status === 'scheduled' || status === 'assignorPending' ? false : true;
 
@@ -504,6 +504,9 @@ const setStatus = ( mySchool: string, home: string, away: string, role: string )
     }
     else if ( role !== 'ROLE_USER' ) {
         status = "scheduled"
+    }
+    else{
+        status = 'coachPending'
     }
     
     return status;

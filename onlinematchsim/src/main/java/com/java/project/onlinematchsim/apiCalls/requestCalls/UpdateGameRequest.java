@@ -8,10 +8,10 @@ public class UpdateGameRequest {
 
 	private String date;
 
+
 	private String teamLevel;
 	
 	private String gender;
-
 	private String location;
 	
 	private Long id;
@@ -23,6 +23,7 @@ public class UpdateGameRequest {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 
 	public String getTeamLevel() {
 		return teamLevel;
@@ -39,7 +40,6 @@ public class UpdateGameRequest {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-
 	public Long getId() {
 		return id;
 	}

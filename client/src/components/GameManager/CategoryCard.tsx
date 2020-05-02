@@ -5,7 +5,8 @@ import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGameController from './AddGameController'
 import GMModal from './GMModals';
-import {GMProvider, useGlobalState } from './GMProvider';
+import Modal from '../CalendarModal'
+import {Provider, useGlobalState } from '../Provider';
 import { isBrowser, isMobile } from "react-device-detect";
 import BlockDays from '../Calendar/BlockDays';
 import DayBlocker from './DayBlocker';
@@ -110,6 +111,7 @@ interface Props {
     homeName: String,
     onUpdate: any,
     change: any
+    user: any
 }
 
 const CategoryCard = (props: Props) => {
@@ -119,7 +121,6 @@ const CategoryCard = (props: Props) => {
     const [newGamesList, setGamesList] = useState(props.pendingGames)
     const [newScheduledList, setNewScheduled] =useState(props.scheduledGames)
     const role = props.role;
-
     //depending on category of curret card, gamesList is assigned list(s) of games
     const gamesList = newGamesList === "" ? props.pendingGames : sortGames(props.pendingGames, props.role, props.homeName)
     const scheduledList = newScheduledList === "" ? props.scheduledGames : sortScheduled(props.scheduledGames);
@@ -182,10 +183,10 @@ const CategoryCard = (props: Props) => {
 
             return (
                 <div>
-                 <GMProvider>
+                 <Provider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    <GMModal home={props.homeName} />
-                  </GMProvider>
+                    <Modal user={props.user.user} />
+                  </Provider>
                 </div>
             );
         })
@@ -197,10 +198,10 @@ const CategoryCard = (props: Props) => {
         gamesList.edited.map((game: any, i: any) => {
             return (
                 <div>
-                    <GMProvider>
+                    <Provider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    <GMModal home={props.homeName} />
-                    </GMProvider>
+                    <Modal user={props.user.user} />
+                    </Provider>
                 </div>
             );
         })
@@ -211,10 +212,10 @@ const CategoryCard = (props: Props) => {
         :
         scheduledList.scheduled.map((game: any, i: any) => {
             return (
-                <GMProvider>
+                <Provider>
                     <GameCard change={props.change} onUpdate={props.onUpdate} game={game} index={i} role={props.role}/>
-                    { showEditGame && <GMModal home={props.homeName} /> }
-                </GMProvider>
+                    <Modal user={props.user.user} />
+                </Provider>
             );
         })
 
