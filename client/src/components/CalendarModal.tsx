@@ -27,8 +27,6 @@ const CalendarModal = (user: any) => {
     const visible = showAddGame || showViewGame || showEditGame ? true : false;
     const dispatch = useDispatch();
 
-    console.log(clickedEvent)
-
     const [conflict, setConflict] = useState(false);
     const [newGame, setNewGame] = useState(baseGame);
     const [gameID, setID] = useState(0)
@@ -57,16 +55,16 @@ const CalendarModal = (user: any) => {
             id: game[8],
             status: "cancelled",
             location: game[2],
-            level: game[3],
+            teamLevel: game[3],
             gender: game[4],
             date: dateTime
         }
 
         //is this game w/in a week? if yes, display modal saying to contact assignor
 
-        // ** */
-        // grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
-        // ** */
+        
+        grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
+        
 
         apiUpdateGame(update)
             .then((response) => {
@@ -189,7 +187,7 @@ const CalendarModal = (user: any) => {
                             })
                         }
                         
-                        //  grabEmail(game);
+                         grabEmail(game);
                         //  console.log("RESPONSE: " + JSON.stringify(response))
 
                     })
@@ -225,8 +223,6 @@ const CalendarModal = (user: any) => {
                 const homeName = role === 'ROLE_USER'? schoolName : gameForm.getFieldValue("homeTeamName");
                 let status = setStatus( schoolName, clickedEvent[5], clickedEvent[6], role );
 
-                console.log(selectedTime)
-
                 const game = {
                     // @ts-ignore
                     homeTeamName: homeName,
@@ -245,9 +241,6 @@ const CalendarModal = (user: any) => {
                     // @ts-ignore
                     id: clickedEvent[8]
                 }
-
-                //@ts-ignore
-                    console.log(game)
 
                 //send to backend
                 apiUpdateGame(game)
@@ -286,12 +279,10 @@ const CalendarModal = (user: any) => {
                 id: game[8],
                 status: "assignorPending",
                 location: game[2],
-                level: game[3],
+                teamLevel: game[3],
                 gender: game[4],
                 date: dateTime
             }
-
-            console.log(update);
 
             apiUpdateGame(update)
             .then((response) => {
@@ -308,9 +299,8 @@ const CalendarModal = (user: any) => {
                 })
             })
 
-            // ** */
-            // grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
-            // ** */
+            grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
+            
 
         } else if ( role !== 'ROLE_USER' ) {
             const dateTime = getDate(game[1]) + 'T' + getTime(game[1])
@@ -319,12 +309,10 @@ const CalendarModal = (user: any) => {
                 id: game[8],
                 status: "scheduled",
                 location: game[2],
-                level: game[3],
+                teamLevel: game[3],
                 gender: game[4],
                 date: dateTime
             }
-            console.log(update)
-
             apiUpdateGame(update)
             .then((response) => {
                 notification.success({
@@ -340,9 +328,7 @@ const CalendarModal = (user: any) => {
                 })
             })
 
-            // ** */
-            // grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
-            // ** */
+            grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
         }
 
         dispatch({ type: 'CLOSE_VIEW_GAME' })

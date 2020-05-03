@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import GameCalendar from './GameCalendar';
-import CalendarModal from './CalendarModal';
+import CalendarModal from '../CalendarModal';
 import Filter from './Filter';
-import { Provider } from './Provider';
+import { Provider } from '../Provider';
 import SecondFilter from './SecondFilter'
 import Button from "@material-ui/core/Button";
 import MyModal from './profileModal'

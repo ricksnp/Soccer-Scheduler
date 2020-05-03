@@ -47,8 +47,6 @@ class App extends Component {
 					isAuthenticated: true,
 					isLoading: false
 				});
-
-				console.log("USER = " + JSON.stringify(this.state.currentUser))
 			})
 			.catch((error) => {
 				this.setState({
@@ -60,8 +58,6 @@ class App extends Component {
 
 	async componentDidMount() {
 		this.loadCurrentUser();
-
-		console.log("CURRENT USER + " + JSON.stringify(this.state.currentUser))
 	}
 
 

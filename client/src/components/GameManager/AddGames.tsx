@@ -323,7 +323,6 @@ const AddGames = (props: Props) => {
                         let splitter = mess.split(" ");
                         setID(splitter[0])
                         setConflict(true);
-                        console.log("HERE")
                     }
                     else{
 
@@ -350,24 +349,22 @@ const AddGames = (props: Props) => {
 
                     setbgColor("#ff4d4f")
                 }
-            //     notification.success({
-            //         message: "Game Added successfully",
-            //         description: "Game on " + props.control.date + " was added"
+                notification.success({
+                    message: "Game Added successfully",
+                    description: "Game on " + props.control.date + " was added"
 
-            //     })
-            //     grabEmail(addGame.awayTeamName, addGame.homeTeamName, addGame.date)
-            //     console.log("RESPONSE" + JSON.stringify(response))
-            //     setbgColor("#73d13d")
-            //     props.updateAbove()
-            // })
-            // .catch((error) => {
-            //     notification.error({
-            //         message: "Game was not added",
-            //         description: error.essage
-            //     })
+                })
+                grabEmail(addGame.awayTeamName, addGame.homeTeamName, addGame.date)
+                setbgColor("#73d13d")
+                props.updateAbove()
+            })
+            .catch((error) => {
+                notification.error({
+                    message: "Game was not added",
+                    description: error.essage
+                })
 
-            //     setbgColor("#ff4d4f")
-            // })
+                setbgColor("#ff4d4f")
             })
     }
 

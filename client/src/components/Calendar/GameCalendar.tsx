@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from './Provider';
+import { useDispatch } from '../Provider';
 import '../../style/gameCalendar.css';
 import Cal from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';

@@ -108,7 +108,6 @@ export const Provider: React.ComponentType = ({ children }) => {
     }
     else{
       apiGetGames().then(games=>{
-        console.log("HERE" + games);
 
         const newGame = []
         
@@ -120,8 +119,7 @@ export const Provider: React.ComponentType = ({ children }) => {
       } 
 
         // console.log("NewGame: " +newGame.title);
-        // console.log("NewGame Date: " + newGame.start);
-        console.log(JSON.stringify(newGame));
+        // console.log("NewGame Date: " + newGame.start)
         return newGame;
       })
     }

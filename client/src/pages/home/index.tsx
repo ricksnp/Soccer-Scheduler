@@ -69,14 +69,12 @@ const Home = ({ isAuthenticated, user }: any) => {
         }
 
         setFilterBlocked(temp);
-        console.log("Temp: " + temp)
     }
 
     useEffect(() => {
         getBlockedDays()
             .then((response) => {
                 setBlockedDays(response)
-                console.log("HERE")
             })
 
         filterBlockedDays()

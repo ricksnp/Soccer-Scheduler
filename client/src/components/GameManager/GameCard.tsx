@@ -183,7 +183,7 @@ const GameCard = (props: Props) => {
             id: game.id,
             status: "assignorPending",
             location: game.location,
-            level: game.teamLevel,
+            teamLevel: game.teamLevel,
             gender: game.gender,
             date: game.start
 
@@ -211,7 +211,7 @@ const GameCard = (props: Props) => {
 
         }
         if (addMessage === ('Games successfully Scheduled')) {
-            //grabEmail(game.home, game.away, game.start, emailContents2(game.away, game.start))
+            grabEmail(game.home, game.away, game.start, emailContents2(game.away, game.start))
 
         }
 
@@ -241,7 +241,7 @@ const GameCard = (props: Props) => {
             id: game.id,
             status: "deleted",
             location: game.location,
-            level: game.teamLevel,
+            teamLevel: game.teamLevel,
             gender: game.gender,
             date: game.start
         }
@@ -268,14 +268,14 @@ const GameCard = (props: Props) => {
             id: game.id,
             status: "cancelled",
             location: game.location,
-            level: game.teamLevel,
+            teamLevel: game.teamLevel,
             gender: game.gender,
             date: game.start
 
 
         }
 
-        //grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
+        grabEmail2(game.home, game.away, game.start, "An existing game has now been cancelled.  It was scheduled for ")
 
 
 
@@ -290,7 +290,7 @@ const GameCard = (props: Props) => {
             .catch((error) => {
                 notification.error({
                     message: "Game Was Not Cancelled",
-                    description: error
+                    description: error.message
                 })
             })
 

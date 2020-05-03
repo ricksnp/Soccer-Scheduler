@@ -93,7 +93,6 @@ class LoginForm extends Component {
 				</FormItem>
 				<FormItem>
 					<Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-					<p class="option-auth">Or <Link to="/signup">register now!</Link></p>
 				</FormItem>
 			</Form>
 		);

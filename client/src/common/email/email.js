@@ -35,7 +35,6 @@ export const sendAnEmail = (to, data) => {
     };
 
     new AWS.SES(SESConfig).sendEmail(params).promise().then((res) => {
-        console.log(res);
     });
 
 }

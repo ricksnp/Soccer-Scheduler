@@ -4,7 +4,6 @@ import { Header } from '../../style/PageStyles';
 import GameCard from './GameCard';
 import styled from 'styled-components';
 import AddGameController from './AddGameController'
-import GMModal from './GMModals';
 import Modal from '../CalendarModal'
 import {Provider, useGlobalState } from '../Provider';
 import { isBrowser, isMobile } from "react-device-detect";
